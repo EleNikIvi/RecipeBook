@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Книга Рецептів</string>
+    <string name="app_title">Книга Рецептів</string>
+    <string name="message_wait">Будь ласка очікуйте</string>
+    <string name="message_error">От халепа!</string>
+    <string name="search_hint">Пошук рецепту</string>
+    <string name="add_new_recipe">Додавання рецепту</string>
+    <string name="recipe_image">Зображення рецепту</string>
+    <string name="navigate_back">Навігація назад</string>
+    <string name="recipe_name_placeholder">Введіть назву рецепту</string>
+    <string name="recipe_description_placeholder">Введіть опис рецепту</string>
+    <string name="title_new_recipe">Новий рецепт</string>
+    <string name="button_save">Зберегти</string>
+    <string name="button_clear_description">Очистити пошук</string>
+</resources>

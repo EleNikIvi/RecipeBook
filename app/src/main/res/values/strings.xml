@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Recipe Book</string>
+    <string name="app_title">Recipe Book</string>
+    <string name="message_wait">Please wait</string>
+    <string name="message_error">Oops, something happened</string>
+    <string name="search_hint">Search for a recipe</string>
+    <string name="add_new_recipe">Add new recipe</string>
+    <string name="recipe_image">Recipe image</string>
+    <string name="navigate_back">Navigate back</string>
+    <string name="recipe_name_placeholder">Enter recipe name</string>
+    <string name="recipe_description_placeholder">Enter recipe description</string>
+    <string name="title_new_recipe">New Recipe</string>
+    <string name="button_save">Save</string>
+    <string name="button_clear_description">Clear search</string>
+</resources>
