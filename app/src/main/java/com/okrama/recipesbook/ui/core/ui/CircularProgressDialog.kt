@@ -1,4 +1,4 @@
-package com.okrama.recipesbook.core.ui
+package com.okrama.recipesbook.ui.core.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -18,7 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.okrama.recipesbook.R
-import com.okrama.recipesbook.core.ui.theme.RecipesBookTheme
+import com.okrama.recipesbook.ui.core.ui.theme.RecipesBookTheme
 
 @Composable
 fun CircularProgressDialog(

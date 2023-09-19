@@ -1,4 +1,4 @@
-package com.okrama.recipesbook.core.ui.navigation
+package com.okrama.recipesbook.ui.core.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable

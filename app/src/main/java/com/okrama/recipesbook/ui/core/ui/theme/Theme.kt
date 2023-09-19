@@ -1,4 +1,4 @@
-package com.okrama.recipesbook.core.ui.theme
+package com.okrama.recipesbook.ui.core.ui.theme
 
 import android.app.Activity
 import android.os.Build

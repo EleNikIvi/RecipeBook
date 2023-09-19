@@ -27,9 +27,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.okrama.recipesbook.core.ui.ImageComponent
-import com.okrama.recipesbook.core.ui.theme.RecipesBookTheme
-import com.okrama.recipesbook.core.ui.theme.Grey0
+import com.okrama.recipesbook.ui.core.ui.Const.LOREM_IPSUM
+import com.okrama.recipesbook.ui.core.ui.ImageComponent
+import com.okrama.recipesbook.ui.core.ui.theme.RecipesBookTheme
+import com.okrama.recipesbook.ui.core.ui.theme.Grey0
 import com.okrama.recipesbook.model.Recipe
 import com.okrama.recipesbook.ui.recipes.RecipesScreenState
 
@@ -114,7 +115,6 @@ private fun RecipeItemPreview() {
                 title = LOREM_IPSUM,
                 description = LOREM_IPSUM,
                 imageUrl = "https://avatars.githubusercontent.com/u/1428207?v=4",
-                linkUrl = "https://www.facebook.com/reel/1310238029858604?mibextid=9drbnH",
             ),
             onRecipeSelected = {},
         )

@@ -30,14 +30,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.okrama.recipesbook.R
-import com.okrama.recipesbook.core.ui.ImageComponent
-import com.okrama.recipesbook.core.ui.theme.Yellow1
-import com.okrama.recipesbook.core.ui.theme.Yellow0
-import com.okrama.recipesbook.core.ui.theme.Grey0
+import com.okrama.recipesbook.ui.core.ui.DevicePreviews
+import com.okrama.recipesbook.ui.core.ui.ImageComponent
+import com.okrama.recipesbook.ui.core.ui.theme.Yellow1
+import com.okrama.recipesbook.ui.core.ui.theme.Yellow0
+import com.okrama.recipesbook.ui.core.ui.theme.Grey0
+import com.okrama.recipesbook.ui.core.ui.theme.RecipesBookTheme
+import com.okrama.recipesbook.ui.addrecipe.AddRecipeScreenState
+import com.okrama.recipesbook.ui.addrecipe.screen.AddRecipeScreen
+import com.okrama.recipesbook.ui.addrecipe.screen.AddRecipeScreenStateProvider
 import com.okrama.recipesbook.ui.details.RecipeDetailsScreenState
 import com.okrama.recipesbook.ui.details.RecipeDetailsViewModel
 
@@ -127,5 +133,19 @@ private fun RecipeDetailsScreen(
                 }
             }
         }
+    }
+}
+
+@DevicePreviews
+@Composable
+private fun HomeScreenPreview(
+    @PreviewParameter(RecipeDetailsScreenStateProvider::class)
+    screenState: RecipeDetailsScreenState
+) {
+    RecipesBookTheme {
+        RecipeDetailsScreen(
+            recipeDetailsState = screenState,
+            upPress = {},
+        )
     }
 }

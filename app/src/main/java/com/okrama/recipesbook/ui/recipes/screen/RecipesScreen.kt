@@ -34,14 +34,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.okrama.recipesbook.R
-import com.okrama.recipesbook.core.ui.CircularProgressDialog
-import com.okrama.recipesbook.core.ui.DevicePreviews
-import com.okrama.recipesbook.core.ui.SearchFieldComponent
-import com.okrama.recipesbook.core.ui.theme.Green3
-import com.okrama.recipesbook.core.ui.theme.Yellow1
-import com.okrama.recipesbook.core.ui.theme.Green0
-import com.okrama.recipesbook.core.ui.theme.RecipesBookTheme
-import com.okrama.recipesbook.core.ui.theme.Grey1
+import com.okrama.recipesbook.ui.core.ui.CircularProgressDialog
+import com.okrama.recipesbook.ui.core.ui.DevicePreviews
+import com.okrama.recipesbook.ui.core.ui.SearchFieldComponent
+import com.okrama.recipesbook.ui.core.ui.theme.Green3
+import com.okrama.recipesbook.ui.core.ui.theme.Yellow1
+import com.okrama.recipesbook.ui.core.ui.theme.Green0
+import com.okrama.recipesbook.ui.core.ui.theme.RecipesBookTheme
+import com.okrama.recipesbook.ui.core.ui.theme.Grey1
 import com.okrama.recipesbook.ui.recipes.RecipesScreenState
 import com.okrama.recipesbook.ui.recipes.RecipesViewModel
 
@@ -176,7 +176,7 @@ private fun RecipesToolbar(
 
 @DevicePreviews
 @Composable
-private fun HomeScreenPreview(
+private fun RecipesScreenPreview(
     @PreviewParameter(RecipeScreenStateProvider::class)
     screenState: RecipesScreenState
 ) {

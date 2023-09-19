@@ -3,8 +3,8 @@ package com.okrama.recipesbook.ui.details
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.okrama.recipesbook.core.flow.SaveableStateFlow
-import com.okrama.recipesbook.core.flow.SaveableStateFlow.Companion.saveableStateFlow
+import com.okrama.recipesbook.ui.core.flow.SaveableStateFlow
+import com.okrama.recipesbook.ui.core.flow.SaveableStateFlow.Companion.saveableStateFlow
 import com.okrama.recipesbook.domain.recipe.RecipeInteractor
 import com.okrama.recipesbook.model.Recipe
 import dagger.hilt.android.lifecycle.HiltViewModel

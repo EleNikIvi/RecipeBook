@@ -1,4 +1,4 @@
-package com.okrama.recipesbook.core.flow
+package com.okrama.recipesbook.ui.core.flow
 
 import androidx.lifecycle.SavedStateHandle
 import kotlinx.coroutines.flow.MutableStateFlow
