@@ -8,14 +8,13 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.okrama.recipesbook.ui.addrecipe.AddRecipeViewModel
+import com.okrama.recipesbook.ui.addrecipe.screen.AddRecipeScreen
 import com.okrama.recipesbook.ui.core.ui.navigation.MainDestinations.ADD_RECIPE_ROUTE
 import com.okrama.recipesbook.ui.core.ui.navigation.MainDestinations.RECIPES_DETAIL_ROUTE
 import com.okrama.recipesbook.ui.core.ui.navigation.MainDestinations.RECIPES_ROUTE
 import com.okrama.recipesbook.ui.core.ui.navigation.MainDestinations.RECIPE_ID_KEY
 import com.okrama.recipesbook.ui.core.ui.navigation.rememberRecipesBookNavController
-import com.okrama.recipesbook.ui.core.ui.theme.RecipesBookTheme
-import com.okrama.recipesbook.ui.addrecipe.screen.AddRecipeScreen
-import com.okrama.recipesbook.ui.addrecipe.AddRecipeViewModel
 import com.okrama.recipesbook.ui.details.RecipeDetailsViewModel
 import com.okrama.recipesbook.ui.details.screen.RecipeDetailsScreen
 import com.okrama.recipesbook.ui.recipes.RecipesViewModel
@@ -23,18 +22,16 @@ import com.okrama.recipesbook.ui.recipes.screen.RecipesScreen
 
 @Composable
 fun RecipesBookApp() {
-    RecipesBookTheme {
-        val recipesBookNavController = rememberRecipesBookNavController()
-        NavHost(
-            navController = recipesBookNavController.navController,
-            startDestination = RECIPES_ROUTE
-        ) {
-            recipesBookNavGraph(
-                onAddNewRecipeSelected = recipesBookNavController::navigateToAddNewRecipe,
-                onRecipeSelected = recipesBookNavController::navigateToRecipeDetails,
-                upPress = recipesBookNavController::upPress,
-            )
-        }
+    val recipesBookNavController = rememberRecipesBookNavController()
+    NavHost(
+        navController = recipesBookNavController.navController,
+        startDestination = RECIPES_ROUTE
+    ) {
+        recipesBookNavGraph(
+            onAddNewRecipeSelected = recipesBookNavController::navigateToAddNewRecipe,
+            onRecipeSelected = recipesBookNavController::navigateToRecipeDetails,
+            upPress = recipesBookNavController::upPress,
+        )
     }
 }
 
@@ -71,16 +68,4 @@ private fun NavGraphBuilder.recipesBookNavGraph(
             viewModel = addRecipeViewModel,
         )
     }
-    /*
-    composable("profile") {
-        ProfileScreen { navController.popBackStack("home", false) }
-    }*/
-    /*composable(
-        "${MainDestinations.SNACK_DETAIL_ROUTE}/{${MainDestinations.SNACK_ID_KEY}}",
-        arguments = listOf(navArgument(MainDestinations.SNACK_ID_KEY) { type = NavType.LongType })
-    ) { backStackEntry ->
-        val arguments = requireNotNull(backStackEntry.arguments)
-        val snackId = arguments.getLong(MainDestinations.SNACK_ID_KEY)
-        SnackDetail(snackId, upPress)
-    }*/
 }

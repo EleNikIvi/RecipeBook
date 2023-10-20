@@ -29,7 +29,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.okrama.recipesbook.R
-import com.okrama.recipesbook.ui.core.ui.ImageComponent
 import com.okrama.recipesbook.ui.core.ui.theme.Grey3
 import com.okrama.recipesbook.ui.core.ui.theme.Grey0
 

@@ -1,4 +1,4 @@
-package com.okrama.recipesbook.ui.core.ui
+package com.okrama.recipesbook.ui.core.ui.components
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image

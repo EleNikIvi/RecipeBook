@@ -4,6 +4,7 @@ plugins {
     id ("kotlin-kapt")
     id("com.google.dagger.hilt.android")
     id("kotlin-parcelize")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -70,7 +71,7 @@ dependencies {
 
     implementation ("androidx.room:room-runtime:2.5.2")
     // To use Kotlin annotation processing tool (kapt)
-    kapt("androidx.room:room-compiler:2.5.2")
+    ksp("androidx.room:room-compiler:2.5.2")
     implementation ("androidx.room:room-ktx:2.5.2")
 
     implementation ("io.coil-kt:coil-compose:2.2.2")

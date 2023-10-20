@@ -34,9 +34,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.okrama.recipesbook.R
-import com.okrama.recipesbook.ui.core.ui.CircularProgressDialog
+import com.okrama.recipesbook.ui.core.ui.components.CircularProgressDialog
 import com.okrama.recipesbook.ui.core.ui.DevicePreviews
-import com.okrama.recipesbook.ui.core.ui.SearchFieldComponent
+import com.okrama.recipesbook.ui.core.ui.components.SearchFieldComponent
 import com.okrama.recipesbook.ui.core.ui.theme.Green3
 import com.okrama.recipesbook.ui.core.ui.theme.Yellow1
 import com.okrama.recipesbook.ui.core.ui.theme.Green0
@@ -45,6 +45,7 @@ import com.okrama.recipesbook.ui.core.ui.theme.Grey1
 import com.okrama.recipesbook.ui.recipes.RecipesScreenState
 import com.okrama.recipesbook.ui.recipes.RecipesViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RecipesScreen(
     onAddNewRecipe: () -> Unit,

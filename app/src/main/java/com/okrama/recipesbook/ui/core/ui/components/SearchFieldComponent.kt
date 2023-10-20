@@ -1,4 +1,4 @@
-package com.okrama.recipesbook.ui.core.ui
+package com.okrama.recipesbook.ui.core.ui.components
 
 import android.util.Log
 import androidx.compose.foundation.hoverable

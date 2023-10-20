@@ -28,7 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.okrama.recipesbook.ui.core.ui.Const.LOREM_IPSUM
-import com.okrama.recipesbook.ui.core.ui.ImageComponent
+import com.okrama.recipesbook.ui.core.ui.components.ImageComponent
 import com.okrama.recipesbook.ui.core.ui.theme.RecipesBookTheme
 import com.okrama.recipesbook.ui.core.ui.theme.Grey0
 import com.okrama.recipesbook.model.Recipe
