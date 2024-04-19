@@ -50,28 +50,29 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.okrama.recipesbook.R
-import com.okrama.recipesbook.ui.core.ui.DevicePreviews
-import com.okrama.recipesbook.ui.core.ui.components.RecipeGalleryImage
-import com.okrama.recipesbook.ui.core.ui.theme.Green0
-import com.okrama.recipesbook.ui.core.ui.theme.Green3
-import com.okrama.recipesbook.ui.core.ui.theme.Grey0
-import com.okrama.recipesbook.ui.core.ui.theme.RecipesBookTheme
-import com.okrama.recipesbook.ui.core.ui.theme.Yellow1
-import com.okrama.recipesbook.ui.core.ui.theme.Yellow4
 import com.okrama.recipesbook.ui.addrecipe.AddRecipeScreenState
 import com.okrama.recipesbook.ui.addrecipe.AddRecipeViewModel
+import com.okrama.recipesbook.ui.core.DevicePreviews
+import com.okrama.recipesbook.ui.core.components.RecipeGalleryImage
+import com.okrama.recipesbook.ui.core.theme.Green0
+import com.okrama.recipesbook.ui.core.theme.Green3
+import com.okrama.recipesbook.ui.core.theme.Grey0
+import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
+import com.okrama.recipesbook.ui.core.theme.Yellow1
+import com.okrama.recipesbook.ui.core.theme.Yellow4
 
 @Composable
 fun AddRecipeScreen(
     upPress: () -> Unit,
-    viewModel: AddRecipeViewModel,
+    viewModel: AddRecipeViewModel = hiltViewModel(),
 ) {
     val onImageAdded: (String) -> Unit = viewModel::onImageAdded
     val onRecipeNameChange: (String) -> Unit = viewModel::onRecipeNameChange
     val onRecipeDescriptionChange: (String) -> Unit = viewModel::onRecipeDescriptionChange
-    val onSaveRecipe: () -> Unit = viewModel::createRecipe
+    val onSaveRecipe: () -> Unit = viewModel::saveRecipe
     val state by viewModel.screenState.collectAsStateWithLifecycle()
 
     AddRecipeScreen(

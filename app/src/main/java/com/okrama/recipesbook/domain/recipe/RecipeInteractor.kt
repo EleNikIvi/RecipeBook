@@ -9,7 +9,7 @@ class RecipeInteractor @Inject constructor(
 ) {
     fun getRecipes(): Flow<Recipes> = recipeRepository.getRecipes()
 
-    suspend fun getRecipe(id: Long): Recipe = recipeRepository.getRecipe(id = id)
+    fun getRecipe(id: Long): Flow<Recipe> = recipeRepository.getRecipe(id = id)
 
     suspend fun addRecipe(
         imageUrl: String,
@@ -23,7 +23,19 @@ class RecipeInteractor @Inject constructor(
         )
     )
 
-    suspend fun updateRecipe(recipe: Recipe) = recipeRepository.updateRecipe(recipe = recipe)
+    suspend fun updateRecipe(
+        id: Long,
+        imageUrl: String,
+        title: String,
+        description: String
+    ) = recipeRepository.updateRecipe(
+        recipe = Recipe(
+            id = id,
+            title = title,
+            description = description,
+            imageUrl = imageUrl,
+        )
+    )
 
     suspend fun deleteRecipe(recipe: Recipe) = recipeRepository.deleteRecipe(recipe = recipe)
 }

@@ -1,4 +1,4 @@
-package com.okrama.recipesbook.ui.core.ui.theme
+package com.okrama.recipesbook.ui.core.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

@@ -3,9 +3,8 @@ package com.okrama.recipesbook.data.local.recipe
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
-import androidx.room.OnConflictStrategy.Companion.IGNORE
+import androidx.room.OnConflictStrategy.Companion.REPLACE
 import androidx.room.Query
-import androidx.room.Update
 import com.okrama.recipesbook.domain.recipe.Recipes
 import com.okrama.recipesbook.model.Recipe
 import kotlinx.coroutines.flow.Flow
@@ -16,13 +15,10 @@ interface RecipeDao {
     fun getAllRecipes(): Flow<Recipes>
 
     @Query("SELECT * FROM recipe WHERE id = :id")
-    suspend fun getRecipe(id: Long): Recipe
+    fun getRecipe(id: Long): Flow<Recipe>
 
-    @Insert(onConflict = IGNORE)
-    suspend fun addRecipe(recipe: Recipe): Long
-
-    @Update
-    suspend fun updateRecipe(recipe: Recipe)
+    @Insert(onConflict = REPLACE)
+    suspend fun insertOrUpdateRecipe(recipe: Recipe): Long
 
     @Delete
     suspend fun deleteRecipe(recipe: Recipe)

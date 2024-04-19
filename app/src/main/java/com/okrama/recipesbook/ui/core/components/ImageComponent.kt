@@ -1,4 +1,4 @@
-package com.okrama.recipesbook.ui.core.ui.components
+package com.okrama.recipesbook.ui.core.components
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
@@ -18,8 +18,8 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.okrama.recipesbook.R
-import com.okrama.recipesbook.ui.core.ui.theme.Green0
-import com.okrama.recipesbook.ui.core.ui.theme.RecipesBookTheme
+import com.okrama.recipesbook.ui.core.theme.Green0
+import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
 
 @Composable
 fun ImageComponent(

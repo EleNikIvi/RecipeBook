@@ -1,7 +1,7 @@
 package com.okrama.recipesbook.ui.recipes.screen
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import com.okrama.recipesbook.ui.core.ui.Const.LOREM_IPSUM
+import com.okrama.recipesbook.ui.core.Const.LOREM_IPSUM
 import com.okrama.recipesbook.model.Recipe
 import com.okrama.recipesbook.ui.recipes.RecipesScreenState
 

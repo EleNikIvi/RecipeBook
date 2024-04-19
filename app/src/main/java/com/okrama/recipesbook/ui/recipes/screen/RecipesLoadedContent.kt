@@ -27,10 +27,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.okrama.recipesbook.ui.core.ui.Const.LOREM_IPSUM
-import com.okrama.recipesbook.ui.core.ui.components.ImageComponent
-import com.okrama.recipesbook.ui.core.ui.theme.RecipesBookTheme
-import com.okrama.recipesbook.ui.core.ui.theme.Grey0
+import com.okrama.recipesbook.ui.core.Const.LOREM_IPSUM
+import com.okrama.recipesbook.ui.core.components.ImageComponent
+import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
+import com.okrama.recipesbook.ui.core.theme.Grey0
 import com.okrama.recipesbook.model.Recipe
 import com.okrama.recipesbook.ui.recipes.RecipesScreenState
 

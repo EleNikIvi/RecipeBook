@@ -1,7 +1,7 @@
 package com.okrama.recipesbook.ui.details.screen
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import com.okrama.recipesbook.ui.core.ui.Const
+import com.okrama.recipesbook.ui.core.Const
 import com.okrama.recipesbook.ui.details.RecipeDetailsScreenState
 
 class RecipeDetailsScreenStateProvider : PreviewParameterProvider<RecipeDetailsScreenState> {

@@ -1,4 +1,4 @@
-package com.okrama.recipesbook.ui.core.ui.components
+package com.okrama.recipesbook.ui.core.components
 
 import android.content.Intent
 import android.net.Uri
@@ -29,8 +29,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.okrama.recipesbook.R
-import com.okrama.recipesbook.ui.core.ui.theme.Grey3
-import com.okrama.recipesbook.ui.core.ui.theme.Grey0
+import com.okrama.recipesbook.ui.core.theme.Grey3
+import com.okrama.recipesbook.ui.core.theme.Grey0
 
 @Composable
 fun RecipeGalleryImage(

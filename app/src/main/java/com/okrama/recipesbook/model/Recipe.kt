@@ -5,6 +5,8 @@ import kotlinx.parcelize.Parcelize
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+const val EMPTY_RECIPE_ID = -1L
+
 @Parcelize
 @Entity(tableName = "recipe")
 data class Recipe(

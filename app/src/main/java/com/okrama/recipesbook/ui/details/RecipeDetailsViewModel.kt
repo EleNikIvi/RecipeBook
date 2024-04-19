@@ -3,10 +3,11 @@ package com.okrama.recipesbook.ui.details
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.okrama.recipesbook.domain.recipe.RecipeInteractor
+import com.okrama.recipesbook.model.EMPTY_RECIPE_ID
 import com.okrama.recipesbook.ui.core.flow.SaveableStateFlow
 import com.okrama.recipesbook.ui.core.flow.SaveableStateFlow.Companion.saveableStateFlow
-import com.okrama.recipesbook.domain.recipe.RecipeInteractor
-import com.okrama.recipesbook.model.Recipe
+import com.okrama.recipesbook.ui.core.navigation.MainDestinations
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -20,7 +21,9 @@ class RecipeDetailsViewModel @Inject constructor(
     private val recipeInteractor: RecipeInteractor,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
-    private lateinit var _recipe: Recipe
+
+    private val _recipeId =
+        savedStateHandle.get<Long>(MainDestinations.RECIPE_ID_KEY) ?: EMPTY_RECIPE_ID
     private val _recipeImageUri: SaveableStateFlow<String> = savedStateHandle.saveableStateFlow(
         key = "recipe-details-view-model-image-key",
         initialValue = "",
@@ -41,6 +44,7 @@ class RecipeDetailsViewModel @Inject constructor(
     ) { recipeImageUri, recipeName, recipeDescription ->
 
         RecipeDetailsScreenState.Initial(
+            id = _recipeId,
             imageUrl = recipeImageUri,
             title = recipeName,
             description = recipeDescription,
@@ -52,12 +56,14 @@ class RecipeDetailsViewModel @Inject constructor(
         initialValue = RecipeDetailsScreenState.Initial()
     )
 
-    fun loadRecipe(recipeId: Long) {
+    init {
         viewModelScope.launch {
-            _recipe = recipeInteractor.getRecipe(recipeId)
-            _recipeImageUri.value = _recipe.imageUrl
-            _recipeName.value = _recipe.title
-            _recipeDescription.value = _recipe.description
+            recipeInteractor.getRecipe(_recipeId)
+                .collect { recipe ->
+                    _recipeImageUri.value = recipe.imageUrl
+                    _recipeName.value = recipe.title
+                    _recipeDescription.value = recipe.description
+                }
         }
     }
 }

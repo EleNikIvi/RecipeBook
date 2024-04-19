@@ -1,4 +1,4 @@
-package com.okrama.recipesbook.ui.core.ui
+package com.okrama.recipesbook.ui.core
 
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview

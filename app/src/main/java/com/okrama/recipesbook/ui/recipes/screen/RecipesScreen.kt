@@ -32,25 +32,26 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.okrama.recipesbook.R
-import com.okrama.recipesbook.ui.core.ui.components.CircularProgressDialog
-import com.okrama.recipesbook.ui.core.ui.DevicePreviews
-import com.okrama.recipesbook.ui.core.ui.components.SearchFieldComponent
-import com.okrama.recipesbook.ui.core.ui.theme.Green3
-import com.okrama.recipesbook.ui.core.ui.theme.Yellow1
-import com.okrama.recipesbook.ui.core.ui.theme.Green0
-import com.okrama.recipesbook.ui.core.ui.theme.RecipesBookTheme
-import com.okrama.recipesbook.ui.core.ui.theme.Grey1
+import com.okrama.recipesbook.ui.core.components.CircularProgressDialog
+import com.okrama.recipesbook.ui.core.DevicePreviews
+import com.okrama.recipesbook.ui.core.components.SearchFieldComponent
+import com.okrama.recipesbook.ui.core.theme.Green3
+import com.okrama.recipesbook.ui.core.theme.Yellow1
+import com.okrama.recipesbook.ui.core.theme.Green0
+import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
+import com.okrama.recipesbook.ui.core.theme.Grey1
 import com.okrama.recipesbook.ui.recipes.RecipesScreenState
 import com.okrama.recipesbook.ui.recipes.RecipesViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
 fun RecipesScreen(
     onAddNewRecipe: () -> Unit,
     onRecipeSelected: (Long) -> Unit,
-    viewModel: RecipesViewModel,
+    viewModel: RecipesViewModel = hiltViewModel(),
 ) {
     val screenState by viewModel.screenState.collectAsStateWithLifecycle()
     val onSearchTermChange: (String) -> Unit = viewModel::onSearchTermChange

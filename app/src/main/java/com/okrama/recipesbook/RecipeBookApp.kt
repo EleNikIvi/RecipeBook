@@ -1,23 +1,22 @@
 package com.okrama.recipesbook
 
+import android.util.Log
 import androidx.compose.runtime.Composable
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.okrama.recipesbook.ui.addrecipe.AddRecipeViewModel
 import com.okrama.recipesbook.ui.addrecipe.screen.AddRecipeScreen
-import com.okrama.recipesbook.ui.core.ui.navigation.MainDestinations.ADD_RECIPE_ROUTE
-import com.okrama.recipesbook.ui.core.ui.navigation.MainDestinations.RECIPES_DETAIL_ROUTE
-import com.okrama.recipesbook.ui.core.ui.navigation.MainDestinations.RECIPES_ROUTE
-import com.okrama.recipesbook.ui.core.ui.navigation.MainDestinations.RECIPE_ID_KEY
-import com.okrama.recipesbook.ui.core.ui.navigation.rememberRecipesBookNavController
-import com.okrama.recipesbook.ui.details.RecipeDetailsViewModel
+import com.okrama.recipesbook.ui.core.navigation.MainDestinations.ADD_RECIPE_ROUTE
+import com.okrama.recipesbook.ui.core.navigation.MainDestinations.EDIT_RECIPE_ROUTE
+import com.okrama.recipesbook.ui.core.navigation.MainDestinations.RECIPES_DETAIL_ROUTE
+import com.okrama.recipesbook.ui.core.navigation.MainDestinations.RECIPES_ROUTE
+import com.okrama.recipesbook.ui.core.navigation.MainDestinations.RECIPE_ID_KEY
+import com.okrama.recipesbook.ui.core.navigation.rememberRecipesBookNavController
 import com.okrama.recipesbook.ui.details.screen.RecipeDetailsScreen
-import com.okrama.recipesbook.ui.recipes.RecipesViewModel
 import com.okrama.recipesbook.ui.recipes.screen.RecipesScreen
 
 @Composable
@@ -30,6 +29,7 @@ fun RecipesBookApp() {
         recipesBookNavGraph(
             onAddNewRecipeSelected = recipesBookNavController::navigateToAddNewRecipe,
             onRecipeSelected = recipesBookNavController::navigateToRecipeDetails,
+            onEditRecipe = recipesBookNavController::navigateToEditRecipe,
             upPress = recipesBookNavController::upPress,
         )
     }
@@ -38,34 +38,47 @@ fun RecipesBookApp() {
 private fun NavGraphBuilder.recipesBookNavGraph(
     onAddNewRecipeSelected: (NavBackStackEntry) -> Unit,
     onRecipeSelected: (Long, NavBackStackEntry) -> Unit,
+    onEditRecipe: (Long, NavBackStackEntry) -> Unit,
     upPress: () -> Unit,
 ) {
     composable(RECIPES_ROUTE) { backStackEntry ->
-        val recipesViewModel = hiltViewModel<RecipesViewModel>()
+        LaunchedEffect(key1 = true) {
+            Log.d("RecipesBookApp", "RECIPES_ROUTE")
+        }
         RecipesScreen(
             onAddNewRecipe = { onAddNewRecipeSelected(backStackEntry) },
             onRecipeSelected = { recipeId -> onRecipeSelected(recipeId, backStackEntry) },
-            viewModel = recipesViewModel,
         )
     }
     composable(
         "${RECIPES_DETAIL_ROUTE}/{${RECIPE_ID_KEY}}",
         arguments = listOf(navArgument(RECIPE_ID_KEY) { type = NavType.LongType })
     ) { backStackEntry ->
-        val arguments = requireNotNull(backStackEntry.arguments)
-        val recipeId = arguments.getLong(RECIPE_ID_KEY)
-        val recipeDetailsViewModel = hiltViewModel<RecipeDetailsViewModel>()
+        LaunchedEffect(key1 = true) {
+            Log.d("RecipesBookApp", "RECIPES_DETAIL_ROUTE")
+        }
         RecipeDetailsScreen(
-            recipeId = recipeId,
             upPress = { upPress() },
-            viewModel = recipeDetailsViewModel,
+            onEditRecipe = { recipeId -> onEditRecipe(recipeId, backStackEntry) }
+        )
+    }
+    composable(
+        "${EDIT_RECIPE_ROUTE}/{${RECIPE_ID_KEY}}",
+        arguments = listOf(navArgument(RECIPE_ID_KEY) { type = NavType.LongType })
+    ) {
+        LaunchedEffect(key1 = true) {
+            Log.d("RecipesBookApp", "EDIT_RECIPE_ROUTE}/{RECIPE_ID_KEY")
+        }
+        AddRecipeScreen(
+            upPress = { upPress() },
         )
     }
     composable(ADD_RECIPE_ROUTE) {
-        val addRecipeViewModel = hiltViewModel<AddRecipeViewModel>()
+        LaunchedEffect(key1 = true) {
+            Log.d("RecipesBookApp", "ADD_RECIPE_ROUTE")
+        }
         AddRecipeScreen(
             upPress = { upPress() },
-            viewModel = addRecipeViewModel,
         )
     }
 }

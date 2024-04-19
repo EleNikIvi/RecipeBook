@@ -1,4 +1,4 @@
-package com.okrama.recipesbook.ui.core.ui.components
+package com.okrama.recipesbook.ui.core.components
 
 import android.util.Log
 import androidx.compose.foundation.hoverable
@@ -33,8 +33,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.okrama.recipesbook.R
-import com.okrama.recipesbook.ui.core.ui.theme.RecipesBookTheme
-import com.okrama.recipesbook.ui.core.ui.theme.Grey0
+import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
+import com.okrama.recipesbook.ui.core.theme.Grey0
 
 private val ICON_SIZE = 24.dp
 

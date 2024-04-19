@@ -1,4 +1,4 @@
-package com.okrama.recipesbook.ui.core.ui.navigation
+package com.okrama.recipesbook.ui.core.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
@@ -16,6 +16,7 @@ import androidx.navigation.compose.rememberNavController
 object MainDestinations {
     const val RECIPES_ROUTE = "recipes"
     const val ADD_RECIPE_ROUTE = "addRecipe"
+    const val EDIT_RECIPE_ROUTE = "editRecipe"
     const val RECIPES_DETAIL_ROUTE = "recipeDetail"
     const val RECIPE_ID_KEY = "recipeId"
 }
@@ -53,6 +54,13 @@ class RecipesBookNavController(
         // In order to discard duplicated navigation events, we check the Lifecycle
         if (from.lifecycleIsResumed()) {
             navController.navigate(MainDestinations.ADD_RECIPE_ROUTE)
+        }
+    }
+
+    fun navigateToEditRecipe(recipeId: Long, from: NavBackStackEntry) {
+        // In order to discard duplicated navigation events, we check the Lifecycle
+        if (from.lifecycleIsResumed()) {
+            navController.navigate("${MainDestinations.EDIT_RECIPE_ROUTE}/$recipeId")
         }
     }
 

@@ -7,8 +7,8 @@ typealias Recipes = List<Recipe>
 
 interface RecipeRepository {
     fun getRecipes(): Flow<Recipes>
-    suspend fun getRecipe(id: Long): Recipe
+    fun getRecipe(id: Long): Flow<Recipe>
     suspend fun addRecipe(recipe: Recipe): Long
-    suspend fun updateRecipe(recipe: Recipe)
+    suspend fun updateRecipe(recipe: Recipe): Long
     suspend fun deleteRecipe(recipe: Recipe)
 }
