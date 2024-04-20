@@ -1,19 +1,13 @@
 package com.okrama.recipesbook.ui.recipes.screen
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
@@ -27,40 +21,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.okrama.recipesbook.model.Recipe
 import com.okrama.recipesbook.ui.core.Const.LOREM_IPSUM
 import com.okrama.recipesbook.ui.core.components.ImageComponent
-import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
 import com.okrama.recipesbook.ui.core.theme.Grey0
-import com.okrama.recipesbook.model.Recipe
-import com.okrama.recipesbook.ui.recipes.RecipesScreenState
+import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
 
 @Composable
-fun RecipesLoadedContent(
-    loadedState: RecipesScreenState.Loaded,
-    onRecipeSelected: (Long) -> Unit,
-) {
-    val listState = rememberLazyGridState()
-
-    LazyVerticalGrid(
-        columns = GridCells.Adaptive(minSize = 130.dp),
-        state = listState,
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        contentPadding = PaddingValues(all = 8.dp),
-    ) {
-        items(
-            items = loadedState.recipes,
-            key = { it.id },
-        ) { recipe ->
-            Column {
-                RecipeItem(recipe, onRecipeSelected)
-            }
-        }
-    }
-}
-
-@Composable
-private fun RecipeItem(
+fun RecipeItem(
     recipe: Recipe,
     onRecipeSelected: (Long) -> Unit,
 ) {

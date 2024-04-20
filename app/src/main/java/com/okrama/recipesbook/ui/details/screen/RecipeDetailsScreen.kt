@@ -71,92 +71,90 @@ private fun RecipeDetailsScreen(
     upPress: () -> Unit,
     onEditRecipe: (Long) -> Unit,
 ) {
-    if (recipeDetailsState is RecipeDetailsScreenState.Initial) {
-        Scaffold(
+    Scaffold(
+        modifier = Modifier
+            .fillMaxSize(),
+    ) { paddingValues ->
+        Box(
             modifier = Modifier
-                .fillMaxSize(),
-        ) { paddingValues ->
-            Box(
+                .padding(paddingValues)
+                .fillMaxSize()
+                .background(Yellow1)
+        ) {
+            Column(
                 modifier = Modifier
-                    .padding(paddingValues)
+                    .systemBarsPadding()
+                    .imePadding()
                     .fillMaxSize()
                     .background(Yellow1)
+                    .verticalScroll(rememberScrollState()),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Column(
+                ImageComponent(
+                    imageUri = recipeDetailsState.imageUrl,
+                    modifier = Modifier.aspectRatio(1f),
+                    contentDescription = stringResource(id = R.string.recipe_image),
+                    cornerRadius = 0.dp,
+                    padding = 0.dp,
+                )
+
+                Text(
                     modifier = Modifier
-                        .systemBarsPadding()
-                        .imePadding()
-                        .fillMaxSize()
-                        .background(Yellow1)
-                        .verticalScroll(rememberScrollState()),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                        .fillMaxWidth()
+                        .padding(8.dp),
+                    text = recipeDetailsState.title,
+                    textAlign = TextAlign.Center,
+                    fontSize = 36.sp,
+                    fontFamily = FontFamily.Cursive,
+                    fontWeight = FontWeight.Bold,
+                )
+
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp),
+                    text = recipeDetailsState.description,
+                    fontSize = 24.sp,
+                )
+            }
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Box(modifier = Modifier.padding(8.dp)) {
+                IconButton(
+                    onClick = upPress,
+                    enabled = true,
+                    modifier = Modifier
+                        .clip(shape = RoundedCornerShape(size = 25.dp))
+                        .size(35.dp)
+                        .background(Yellow0),
                 ) {
-                    ImageComponent(
-                        imageUri = recipeDetailsState.imageUrl,
-                        modifier = Modifier.aspectRatio(1f),
-                        contentDescription = stringResource(id = R.string.recipe_image),
-                        cornerRadius = 0.dp,
-                        padding = 0.dp,
-                    )
-
-                    Text(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(8.dp),
-                        text = recipeDetailsState.title,
-                        textAlign = TextAlign.Center,
-                        fontSize = 36.sp,
-                        fontFamily = FontFamily.Cursive,
-                        fontWeight = FontWeight.Bold,
-                    )
-
-                    Text(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(8.dp),
-                        text = recipeDetailsState.description,
-                        fontSize = 24.sp,
+                    Icon(
+                        painter = rememberVectorPainter(image = Icons.Rounded.ArrowBack),
+                        tint = Grey0,
+                        contentDescription = stringResource(id = R.string.navigate_back)
                     )
                 }
             }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Box(modifier = Modifier.padding(8.dp)) {
-                    IconButton(
-                        onClick = upPress,
-                        enabled = true,
-                        modifier = Modifier
-                            .clip(shape = RoundedCornerShape(size = 25.dp))
-                            .size(35.dp)
-                            .background(Yellow0),
-                    ) {
-                        Icon(
-                            painter = rememberVectorPainter(image = Icons.Rounded.ArrowBack),
-                            tint = Grey0,
-                            contentDescription = stringResource(id = R.string.navigate_back)
-                        )
-                    }
-                }
-                Spacer(modifier = Modifier.weight(1f))
-                Box(modifier = Modifier.padding(8.dp)) {
-                    IconButton(
-                        onClick = { onEditRecipe(recipeDetailsState.id) },
-                        enabled = true,
-                        modifier = Modifier
-                            .clip(shape = RoundedCornerShape(size = 25.dp))
-                            .size(35.dp)
-                            .background(Yellow0),
-                    ) {
-                        Icon(
-                            painter = rememberVectorPainter(image = Icons.Rounded.Edit),
-                            tint = Grey0,
-                            contentDescription = stringResource(id = R.string.navigate_back)
-                        )
-                    }
+            Spacer(modifier = Modifier.weight(1f))
+            Box(modifier = Modifier.padding(8.dp)) {
+                IconButton(
+                    onClick = { onEditRecipe(recipeDetailsState.id) },
+                    enabled = true,
+                    modifier = Modifier
+                        .clip(shape = RoundedCornerShape(size = 25.dp))
+                        .size(35.dp)
+                        .background(Yellow0),
+                ) {
+                    Icon(
+                        painter = rememberVectorPainter(image = Icons.Rounded.Edit),
+                        tint = Grey0,
+                        contentDescription = stringResource(id = R.string.navigate_back)
+                    )
                 }
             }
         }

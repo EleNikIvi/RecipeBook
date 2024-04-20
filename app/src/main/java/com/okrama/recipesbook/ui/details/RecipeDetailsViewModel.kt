@@ -43,7 +43,7 @@ class RecipeDetailsViewModel @Inject constructor(
         _recipeDescription.asStateFlow(),
     ) { recipeImageUri, recipeName, recipeDescription ->
 
-        RecipeDetailsScreenState.Initial(
+        RecipeDetailsScreenState(
             id = _recipeId,
             imageUrl = recipeImageUri,
             title = recipeName,
@@ -53,7 +53,7 @@ class RecipeDetailsViewModel @Inject constructor(
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = RecipeDetailsScreenState.Initial()
+        initialValue = RecipeDetailsScreenState()
     )
 
     init {
