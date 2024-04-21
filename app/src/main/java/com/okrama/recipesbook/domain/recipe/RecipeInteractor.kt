@@ -37,5 +37,5 @@ class RecipeInteractor @Inject constructor(
         )
     )
 
-    suspend fun deleteRecipe(recipe: Recipe) = recipeRepository.deleteRecipe(recipe = recipe)
+    suspend fun deleteRecipe(recipeId: Long) = recipeRepository.deleteRecipe(recipeId = recipeId)
 }

@@ -1,7 +1,6 @@
 package com.okrama.recipesbook.data.local.recipe
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.Companion.REPLACE
 import androidx.room.Query
@@ -20,6 +19,6 @@ interface RecipeDao {
     @Insert(onConflict = REPLACE)
     suspend fun insertOrUpdateRecipe(recipe: Recipe): Long
 
-    @Delete
-    suspend fun deleteRecipe(recipe: Recipe)
+    @Query("DELETE FROM recipe WHERE id = :recipeId")
+    suspend fun deleteRecipe(recipeId: Long)
 }

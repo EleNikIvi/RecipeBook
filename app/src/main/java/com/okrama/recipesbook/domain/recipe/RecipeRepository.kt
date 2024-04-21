@@ -10,5 +10,5 @@ interface RecipeRepository {
     fun getRecipe(id: Long): Flow<Recipe>
     suspend fun addRecipe(recipe: Recipe): Long
     suspend fun updateRecipe(recipe: Recipe): Long
-    suspend fun deleteRecipe(recipe: Recipe)
+    suspend fun deleteRecipe(recipeId: Long)
 }

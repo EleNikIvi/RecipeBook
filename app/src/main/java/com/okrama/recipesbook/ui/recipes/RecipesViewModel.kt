@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.okrama.recipesbook.ui.core.flow.SaveableStateFlow.Companion.saveableStateFlow
 import com.okrama.recipesbook.domain.recipe.RecipeInteractor
+import com.okrama.recipesbook.model.EMPTY_RECIPE_ID
 import com.okrama.recipesbook.model.Recipe
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
@@ -43,7 +44,8 @@ class RecipesViewModel @Inject constructor(
         _searchTerm.asStateFlow(),
     ) { recipes, searchTerm ->
 
-        val filteredRecipes = recipes.filter { it.title.contains(other = searchTerm, ignoreCase = true) }
+        val filteredRecipes =
+            recipes.filter { it.title.contains(other = searchTerm, ignoreCase = true) }
 
         RecipesScreenState.Loaded(
             recipes = filteredRecipes,
@@ -64,6 +66,10 @@ class RecipesViewModel @Inject constructor(
     }
 
     fun onDeleteRecipe(recipeId: Long) {
-
+        viewModelScope.launch {
+            recipeInteractor.deleteRecipe(
+                recipeId = recipeId,
+            )
+        }
     }
 }

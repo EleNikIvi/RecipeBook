@@ -14,9 +14,11 @@ class RecipeRepositoryImpl @Inject constructor(
 
     override fun getRecipe(id: Long): Flow<Recipe> = recipeDao.getRecipe(id = id)
 
-    override suspend fun addRecipe(recipe: Recipe): Long = recipeDao.insertOrUpdateRecipe(recipe = recipe)
+    override suspend fun addRecipe(recipe: Recipe): Long =
+        recipeDao.insertOrUpdateRecipe(recipe = recipe)
 
-    override suspend fun updateRecipe(recipe: Recipe): Long = recipeDao.insertOrUpdateRecipe(recipe = recipe)
+    override suspend fun updateRecipe(recipe: Recipe): Long =
+        recipeDao.insertOrUpdateRecipe(recipe = recipe)
 
-    override suspend fun deleteRecipe(recipe: Recipe) = recipeDao.deleteRecipe(recipe = recipe)
+    override suspend fun deleteRecipe(recipeId: Long) = recipeDao.deleteRecipe(recipeId = recipeId)
 }
