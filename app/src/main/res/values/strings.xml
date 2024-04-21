@@ -12,4 +12,6 @@
     <string name="title_new_recipe">New Recipe</string>
     <string name="button_save">Save</string>
     <string name="button_clear_description">Clear search</string>
+    <string name="button_delete">Delete</string>
+    <string name="button_edit">Edit</string>
 </resources>

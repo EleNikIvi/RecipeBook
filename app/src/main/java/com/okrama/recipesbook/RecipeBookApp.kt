@@ -47,6 +47,7 @@ private fun NavGraphBuilder.recipesBookNavGraph(
         }
         RecipesScreen(
             onAddNewRecipe = { onAddNewRecipeSelected(backStackEntry) },
+            onEditRecipe = { recipeId -> onEditRecipe(recipeId, backStackEntry) },
             onRecipeSelected = { recipeId -> onRecipeSelected(recipeId, backStackEntry) },
         )
     }

@@ -78,8 +78,8 @@ fun RecipesToolbar(
         )
         AnimatedVisibility(
             visible = !isCollapsed,
-            enter = fadeIn(animationSpec = tween(300)),
-            exit = fadeOut(animationSpec = tween(300)),
+            enter = fadeIn(animationSpec = tween(100)),
+            exit = fadeOut(animationSpec = tween(100)),
         ) {
             Row(
                 modifier = Modifier

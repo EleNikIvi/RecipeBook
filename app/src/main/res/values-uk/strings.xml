@@ -12,4 +12,6 @@
     <string name="title_new_recipe">Новий рецепт</string>
     <string name="button_save">Зберегти</string>
     <string name="button_clear_description">Очистити пошук</string>
+    <string name="button_delete">Видалити</string>
+    <string name="button_edit">Змінити</string>
 </resources>

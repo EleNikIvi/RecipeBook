@@ -36,18 +36,22 @@ import com.okrama.recipesbook.ui.recipes.RecipesViewModel
 @Composable
 fun RecipesScreen(
     onAddNewRecipe: () -> Unit,
+    onEditRecipe: (Long) -> Unit,
     onRecipeSelected: (Long) -> Unit,
     viewModel: RecipesViewModel = hiltViewModel(),
 ) {
     val screenState by viewModel.screenState.collectAsStateWithLifecycle()
     val onSearchTermChange: (String) -> Unit = viewModel::onSearchTermChange
     val onSearchFieldClear: () -> Unit = viewModel::onSearchFieldClear
+    val onDeleteRecipe: (Long) -> Unit = viewModel::onDeleteRecipe
     RecipesScreen(
         screenState,
         onAddNewRecipe,
         onRecipeSelected,
         onSearchTermChange,
         onSearchFieldClear,
+        onDeleteRecipe,
+        onEditRecipe,
     )
 }
 
@@ -58,6 +62,8 @@ private fun RecipesScreen(
     onRecipeSelected: (Long) -> Unit,
     onSearchTermChange: (String) -> Unit,
     onSearchFieldClear: () -> Unit,
+    onDeleteRecipe: (Long) -> Unit,
+    onEditRecipe: (Long) -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -102,7 +108,12 @@ private fun RecipesScreen(
                             modifier = Modifier
                                 .padding(PaddingValues(all = 8.dp))
                         ) {
-                            RecipeItem(recipe, onRecipeSelected)
+                            RecipeItem(
+                                recipe = recipe,
+                                onRecipeSelected = onRecipeSelected,
+                                onDeleteRecipe = onDeleteRecipe,
+                                onEditRecipe = onEditRecipe,
+                            )
                         }
                     }
                 }
@@ -144,6 +155,8 @@ private fun RecipesScreenPreview(
             onRecipeSelected = {},
             onSearchTermChange = {},
             onSearchFieldClear = {},
+            onDeleteRecipe = {},
+            onEditRecipe = {},
         )
     }
 }

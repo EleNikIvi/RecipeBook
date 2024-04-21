@@ -62,4 +62,8 @@ class RecipesViewModel @Inject constructor(
     fun onSearchFieldClear() {
         _searchTerm.value = ""
     }
+
+    fun onDeleteRecipe(recipeId: Long) {
+
+    }
 }
