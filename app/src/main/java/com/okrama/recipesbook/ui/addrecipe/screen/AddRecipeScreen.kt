@@ -58,6 +58,7 @@ import com.okrama.recipesbook.ui.addrecipe.AddRecipeViewModel
 import com.okrama.recipesbook.ui.core.DevicePreviews
 import com.okrama.recipesbook.ui.core.components.RecipeGalleryImage
 import com.okrama.recipesbook.ui.core.theme.Green0
+import com.okrama.recipesbook.ui.core.theme.Green1
 import com.okrama.recipesbook.ui.core.theme.Green3
 import com.okrama.recipesbook.ui.core.theme.Grey0
 import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
@@ -238,6 +239,7 @@ private fun AddRecipeTextField(
         keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
         interactionSource = interactionSource,
         colors = TextFieldDefaults.textFieldColors(
+            textColor = Green1,
             containerColor = Grey0,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,

@@ -76,28 +76,36 @@ fun RecipesToolbar(
             fontFamily = FontFamily.Cursive,
             fontWeight = FontWeight.Bold,
         )
-        AnimatedVisibility(
-            visible = !isCollapsed,
-            enter = fadeIn(animationSpec = tween(100)),
-            exit = fadeOut(animationSpec = tween(100)),
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(SEARCH_FIELD_SIZE),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
+            AnimatedVisibility(
+                visible = !isCollapsed,
+                enter = fadeIn(animationSpec = tween(500)),
+                exit = fadeOut(animationSpec = tween(500)),
             ) {
-
-                SearchFieldComponent(
-                    searchTerm = searchRequest,
-                    placeholder = stringResource(id = R.string.search_hint),
-                    onSearchTermChange = onSearchTermChange,
-                    onSearchFieldClear = onSearchFieldClear,
+                Row(
                     modifier = Modifier
-                        .weight(1f),
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                AddNewRecipeButton(EXPANDED_TOOLBAR_ICON_SIZE, onAddNewRecipe)
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+
+                    SearchFieldComponent(
+                        searchTerm = searchRequest,
+                        placeholder = stringResource(id = R.string.search_hint),
+                        onSearchTermChange = onSearchTermChange,
+                        onSearchFieldClear = onSearchFieldClear,
+                        modifier = Modifier
+                            .weight(1f),
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    AddNewRecipeButton(EXPANDED_TOOLBAR_ICON_SIZE, onAddNewRecipe)
+                }
             }
         }
     }
@@ -105,6 +113,7 @@ fun RecipesToolbar(
 
 private val COLLAPSED_TOOLBAR_ICON_SIZE = 40.dp
 private val EXPANDED_TOOLBAR_ICON_SIZE = 50.dp
+private val SEARCH_FIELD_SIZE = 56.dp
 
 @Composable
 fun CollapsedToolBar(
