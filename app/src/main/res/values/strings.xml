@@ -2,7 +2,7 @@
     <string name="app_name">Recipe Book</string>
     <string name="app_title">Recipe Book</string>
     <string name="message_wait">Please wait</string>
-    <string name="message_error">Oops, something happened</string>
+    <string name="message_empty">There is no recipe yet</string>
     <string name="search_hint">Search for a recipe</string>
     <string name="add_new_recipe">Add new recipe</string>
     <string name="recipe_image">Recipe image</string>
@@ -14,4 +14,5 @@
     <string name="button_clear_description">Clear search</string>
     <string name="button_delete">Delete</string>
     <string name="button_edit">Edit</string>
+    <string name="filter_category_all">All</string>
 </resources>

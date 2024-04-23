@@ -7,12 +7,13 @@ import com.okrama.recipesbook.ui.recipes.RecipesScreenState
 
 class RecipeScreenStateProvider : PreviewParameterProvider<RecipesScreenState> {
     override val values: Sequence<RecipesScreenState> = sequenceOf(
-        RecipesScreenState.Loaded(
+        RecipesScreenState(
             recipes = getPreviewRecipesList(),
         ),
-        RecipesScreenState.Initial,
-        RecipesScreenState.Loading,
-        RecipesScreenState.Error,
+        RecipesScreenState(),
+        RecipesScreenState(
+            isRefreshing = true,
+        ),
     )
 }
 

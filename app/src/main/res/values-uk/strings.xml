@@ -2,7 +2,7 @@
     <string name="app_name">Книга Рецептів</string>
     <string name="app_title">Книга Рецептів</string>
     <string name="message_wait">Будь ласка очікуйте</string>
-    <string name="message_error">От халепа!</string>
+    <string name="message_empty">Тут поки немає жодного рецепту</string>
     <string name="search_hint">Пошук рецепту</string>
     <string name="add_new_recipe">Додавання рецепту</string>
     <string name="recipe_image">Зображення рецепту</string>
@@ -14,4 +14,5 @@
     <string name="button_clear_description">Очистити пошук</string>
     <string name="button_delete">Видалити</string>
     <string name="button_edit">Змінити</string>
+    <string name="filter_category_all">All</string>
 </resources>

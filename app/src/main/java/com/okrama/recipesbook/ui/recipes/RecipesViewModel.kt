@@ -3,10 +3,10 @@ package com.okrama.recipesbook.ui.recipes
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.okrama.recipesbook.ui.core.flow.SaveableStateFlow.Companion.saveableStateFlow
 import com.okrama.recipesbook.domain.recipe.RecipeInteractor
-import com.okrama.recipesbook.model.EMPTY_RECIPE_ID
+import com.okrama.recipesbook.model.Category
 import com.okrama.recipesbook.model.Recipe
+import com.okrama.recipesbook.ui.core.flow.SaveableStateFlow.Companion.saveableStateFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -47,14 +47,14 @@ class RecipesViewModel @Inject constructor(
         val filteredRecipes =
             recipes.filter { it.title.contains(other = searchTerm, ignoreCase = true) }
 
-        RecipesScreenState.Loaded(
+        RecipesScreenState(
             recipes = filteredRecipes,
             search = searchTerm,
         )
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = RecipesScreenState.Initial
+        initialValue = constructInitialUiState()
     )
 
     fun onSearchTermChange(searchTerm: String) {
@@ -72,4 +72,12 @@ class RecipesViewModel @Inject constructor(
             )
         }
     }
+
+    fun onRecipeCategoryChange(vaultFilterCategory: Category) {
+        viewModelScope.launch {
+            // TODO filter by category
+        }
+    }
+
+    private fun constructInitialUiState(): RecipesScreenState = RecipesScreenState()
 }

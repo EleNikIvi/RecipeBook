@@ -1,6 +1,5 @@
 package com.okrama.recipesbook.ui.recipes.screen
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,6 +12,8 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -21,12 +22,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.okrama.recipesbook.R
+import com.okrama.recipesbook.model.Category
 import com.okrama.recipesbook.ui.core.DevicePreviews
-import com.okrama.recipesbook.ui.core.components.CircularProgressDialog
 import com.okrama.recipesbook.ui.core.theme.Grey1
 import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
 import com.okrama.recipesbook.ui.recipes.RecipesScreenState
@@ -44,6 +44,7 @@ fun RecipesScreen(
     val onSearchTermChange: (String) -> Unit = viewModel::onSearchTermChange
     val onSearchFieldClear: () -> Unit = viewModel::onSearchFieldClear
     val onDeleteRecipe: (Long) -> Unit = viewModel::onDeleteRecipe
+    val onFilterCategorySelected: (Category) -> Unit = viewModel::onRecipeCategoryChange
     RecipesScreen(
         screenState,
         onAddNewRecipe,
@@ -52,9 +53,11 @@ fun RecipesScreen(
         onSearchFieldClear,
         onDeleteRecipe,
         onEditRecipe,
+        onFilterCategorySelected,
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun RecipesScreen(
     screenState: RecipesScreenState,
@@ -64,42 +67,49 @@ private fun RecipesScreen(
     onSearchFieldClear: () -> Unit,
     onDeleteRecipe: (Long) -> Unit,
     onEditRecipe: (Long) -> Unit,
+    onFilterCategorySelected: (Category) -> Unit,
 ) {
-    Box(
+    val listState = rememberLazyGridState()
+    val isCollapsed = isToolBarCollapsed(listState)
+    Scaffold(
         modifier = Modifier
-            .fillMaxSize()
-            .background(Grey1),
-        contentAlignment = Alignment.TopCenter
-    ) {
-        val listState = rememberLazyGridState()
-
-        val isCollapsed = isToolBarCollapsed(listState)
-        CollapsedToolBar(
-            modifier = Modifier.zIndex(2f),
-            isCollapsed = isCollapsed,
-            onAddNewRecipe = onAddNewRecipe,
-        )
-        Title(isCollapsed)
-
-        LazyVerticalGrid(
-            columns = GridCells.Adaptive(minSize = 130.dp),
-            state = listState,
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
+            .fillMaxSize(),
+        containerColor = Grey1,
+        topBar = {
+            RecipesToolbar(
+                screenState,
+                isCollapsed = isCollapsed,
+                onAddNewRecipe = onAddNewRecipe,
+                onSearchTermChange = onSearchTermChange,
+                onSearchFieldClear = onSearchFieldClear,
+                onFilterCategorySelected = onFilterCategorySelected,
+            )
+        },
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .padding(paddingValues)
+                .fillMaxSize()
         ) {
-            item(span = { GridItemSpan(maxLineSpan) }) {
-                RecipesToolbar(
-                    screenState.searchRequest,
-                    isCollapsed = isCollapsed,
-                    onAddNewRecipe,
-                    onSearchTermChange,
-                    onSearchFieldClear,
-                )
-            }
-
-            when (screenState) {
-                is RecipesScreenState.Initial -> {}
-                is RecipesScreenState.Loaded -> {
+            LazyVerticalGrid(
+                columns = GridCells.Adaptive(minSize = 130.dp),
+                state = listState,
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                if (screenState.recipes.isEmpty()) {
+                    item(span = { GridItemSpan(maxLineSpan) }) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            Text(
+                                text = stringResource(id = R.string.message_empty),
+                            )
+                        }
+                    }
+                } else {
                     items(
                         items = screenState.recipes,
                         key = { it.id },
@@ -118,25 +128,6 @@ private fun RecipesScreen(
                     }
                 }
 
-                is RecipesScreenState.Loading -> {
-                    item(span = { GridItemSpan(maxLineSpan) }) {
-                        CircularProgressDialog(message = stringResource(id = R.string.message_wait))
-                    }
-                }
-
-                is RecipesScreenState.Error -> {
-                    item(span = { GridItemSpan(maxLineSpan) }) {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth(),
-                            contentAlignment = Alignment.Center,
-                        ) {
-                            Text(
-                                text = stringResource(id = R.string.message_error),
-                            )
-                        }
-                    }
-                }
             }
         }
     }
@@ -157,6 +148,7 @@ private fun RecipesScreenPreview(
             onSearchFieldClear = {},
             onDeleteRecipe = {},
             onEditRecipe = {},
+            onFilterCategorySelected = {},
         )
     }
 }

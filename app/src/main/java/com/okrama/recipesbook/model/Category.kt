@@ -1,5 +1,6 @@
 package com.okrama.recipesbook.model
 
+import androidx.annotation.StringRes
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -7,6 +8,6 @@ import androidx.room.PrimaryKey
 data class Category(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
-    val name: String,
-    val imageUrl: String = "",
+    val title: String? = "",
+    @StringRes val titleResId: Int? = 0,
 )

@@ -1,22 +1,18 @@
 package com.okrama.recipesbook.ui.recipes.screen
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.LazyGridState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.twotone.Add
 import androidx.compose.material3.Icon
@@ -29,7 +25,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
@@ -41,10 +36,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import com.okrama.recipesbook.R
+import com.okrama.recipesbook.model.Category
 import com.okrama.recipesbook.ui.core.components.SearchFieldComponent
+import com.okrama.recipesbook.ui.core.components.filterrail.FilterRail
 import com.okrama.recipesbook.ui.core.theme.Green0
 import com.okrama.recipesbook.ui.core.theme.Green3
 import com.okrama.recipesbook.ui.core.theme.Yellow1
+import com.okrama.recipesbook.ui.recipes.RecipesScreenState
 
 
 private val COLLAPSED_TOP_BAR_HEIGHT = 56.dp
@@ -52,107 +50,92 @@ private val EXPANDED_TOP_BAR_HEIGHT = 150.dp
 
 @Composable
 fun RecipesToolbar(
-    searchRequest: String,
+    contentState: RecipesScreenState,
     isCollapsed: Boolean,
     onAddNewRecipe: () -> Unit,
     onSearchTermChange: (String) -> Unit = {},
     onSearchFieldClear: () -> Unit = {},
+    onFilterCategorySelected: (Category) -> Unit = {},
 ) {
 
     Column(
         modifier = Modifier
             .background(Brush.horizontalGradient(listOf(Yellow1, Green0)))
-            .fillMaxWidth()
-            .padding(16.dp),
+            .fillMaxWidth(),
     ) {
-        Text(
+        Title(isCollapsed)
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp),
-            text = stringResource(id = R.string.app_title),
-            textAlign = TextAlign.Start,
-            fontSize = 40.sp,
-            color = Color.Transparent,
-            fontFamily = FontFamily.Cursive,
-            fontWeight = FontWeight.Bold,
-        )
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(SEARCH_FIELD_SIZE),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
+                .fillMaxWidth(),
         ) {
-            AnimatedVisibility(
-                visible = !isCollapsed,
-                enter = fadeIn(animationSpec = tween(500)),
-                exit = fadeOut(animationSpec = tween(500)),
+            Row(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Row(
+                SearchFieldComponent(
+                    searchTerm = contentState.search,
+                    placeholder = stringResource(id = R.string.search_hint),
+                    onSearchTermChange = onSearchTermChange,
+                    onSearchFieldClear = onSearchFieldClear,
                     modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-
-                    SearchFieldComponent(
-                        searchTerm = searchRequest,
-                        placeholder = stringResource(id = R.string.search_hint),
-                        onSearchTermChange = onSearchTermChange,
-                        onSearchFieldClear = onSearchFieldClear,
-                        modifier = Modifier
-                            .weight(1f),
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    AddNewRecipeButton(EXPANDED_TOOLBAR_ICON_SIZE, onAddNewRecipe)
-                }
+                        .weight(1f)
+                        ,
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                AddNewRecipeButton(
+                    iconSize = 50.dp,
+                    onAddNewRecipe = onAddNewRecipe
+                )
             }
+            FilterRail(
+                contentState = contentState,
+                onFilterCategorySelected = onFilterCategorySelected
+            )
         }
     }
 }
 
-private val COLLAPSED_TOOLBAR_ICON_SIZE = 40.dp
-private val EXPANDED_TOOLBAR_ICON_SIZE = 50.dp
-private val SEARCH_FIELD_SIZE = 56.dp
-
 @Composable
-fun CollapsedToolBar(
-    modifier: Modifier = Modifier,
-    isCollapsed: Boolean,
-    onAddNewRecipe: () -> Unit,
+private fun FilterRail(
+    contentState: RecipesScreenState,
+    onFilterCategorySelected: (Category) -> Unit,
 ) {
-    Box(
-        modifier = modifier
-            .background(Color.Transparent)
-            .fillMaxWidth()
-            .height(COLLAPSED_TOP_BAR_HEIGHT),
-        contentAlignment = Alignment.BottomStart
-    ) {
-        AnimatedVisibility(
-            visible = isCollapsed,
-            enter = fadeIn(animationSpec = tween(300)),
-            exit = fadeOut(animationSpec = tween(300)),
-        ) {
-            Row(
-                modifier = modifier
-                    .background(Brush.horizontalGradient(listOf(Yellow1, Green0)))
-                    .fillMaxSize()
-                    .padding(16.dp),
-            ) {
-                Spacer(modifier = Modifier.weight(1f))
-                AddNewRecipeButton(COLLAPSED_TOOLBAR_ICON_SIZE, onAddNewRecipe)
-            }
-        }
+    val filterRailScrollState = rememberScrollState()
+
+    Column(modifier = Modifier.heightIn(min = 15.dp)) {
+        FilterRail(
+            filterCategories = contentState.filterCategories,
+            selectedCategory = contentState.selectedCategory,
+            onFilterCategorySelected = onFilterCategorySelected,
+            contentPadding = PaddingValues(
+                horizontal = 16.dp,
+                vertical = 12.dp
+            ),
+            scrollState = filterRailScrollState,
+        )
     }
 }
 
 @Composable
 fun Title(isCollapsed: Boolean) {
+    val collapsedPaddings = PaddingValues(
+        start = 16.dp,
+        bottom = 8.dp,
+        end = 16.dp,
+    )
+    val expandedPaddings = PaddingValues(
+        vertical = 16.dp,
+        horizontal = 16.dp,
+    )
+
     Text(
         modifier = Modifier
             .zIndex(2f)
             .fillMaxWidth()
-            .padding(16.dp),
+            .padding(if (isCollapsed) collapsedPaddings else expandedPaddings),
         text = stringResource(id = R.string.app_title),
         textAlign = TextAlign.Start,
         fontSize = if (isCollapsed) 20.sp else 40.sp,
