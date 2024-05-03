@@ -1,18 +1,23 @@
 package com.okrama.recipesbook.ui.recipes
 
-import com.okrama.recipesbook.R
+import android.os.Parcelable
 import com.okrama.recipesbook.model.Category
 import com.okrama.recipesbook.model.Recipe
+import com.okrama.recipesbook.ui.core.model.CategoryListProvider.CATEGORY_ALL
+import kotlinx.parcelize.Parcelize
 
-private val CATEGORY_ALL = Category(
-    id = 0,
-    titleResId = R.string.filter_category_all,
-)
 
 data class RecipesScreenState(
     val recipes: List<Recipe> = emptyList(),
     val search: String = "",
-    val filterCategories: List<Category> = mutableListOf(CATEGORY_ALL),
+    val categories: List<Category> = emptyList(),
     val selectedCategory: Category = CATEGORY_ALL,
     val isRefreshing: Boolean = false,
 )
+
+@Parcelize
+data class RecipesPersistedState(
+    val searchFieldEnabled: Boolean = false,
+    val filterCategories: List<Category> = emptyList(),
+    val selectedCategory: Category = CATEGORY_ALL,
+) : Parcelable

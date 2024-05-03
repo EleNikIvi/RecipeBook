@@ -19,6 +19,8 @@ object MainDestinations {
     const val EDIT_RECIPE_ROUTE = "editRecipe"
     const val RECIPES_DETAIL_ROUTE = "recipeDetail"
     const val RECIPE_ID_KEY = "recipeId"
+    const val ADD_CATEGORY_ROUTE = "addCategory"
+    const val CATEGORY_ID_KEY = "CategoryId"
 }
 
 /**
@@ -68,6 +70,13 @@ class RecipesBookNavController(
         // In order to discard duplicated navigation events, we check the Lifecycle
         if (from.lifecycleIsResumed()) {
             navController.navigate("${MainDestinations.RECIPES_DETAIL_ROUTE}/$recipeId")
+        }
+    }
+
+    fun navigateToAddNewCategory(from: NavBackStackEntry) {
+        // In order to discard duplicated navigation events, we check the Lifecycle
+        if (from.lifecycleIsResumed()) {
+            navController.navigate(MainDestinations.ADD_CATEGORY_ROUTE)
         }
     }
 }

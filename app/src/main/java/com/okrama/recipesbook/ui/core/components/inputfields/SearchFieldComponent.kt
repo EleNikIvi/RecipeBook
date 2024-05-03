@@ -1,6 +1,5 @@
-package com.okrama.recipesbook.ui.core.components
+package com.okrama.recipesbook.ui.core.components.inputfields
 
-import android.util.Log
 import androidx.compose.foundation.hoverable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
@@ -19,12 +18,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
@@ -33,10 +30,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.okrama.recipesbook.R
-import com.okrama.recipesbook.ui.core.theme.Green1
-import com.okrama.recipesbook.ui.core.theme.Grey0
 import com.okrama.recipesbook.ui.core.theme.Grey5
 import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
+import timber.log.Timber
 
 private val ICON_SIZE = 24.dp
 
@@ -82,24 +78,20 @@ fun SearchFieldComponent(
             placeholder?.let {
                 Text(
                     text = it,
+                    style = RecipesBookTheme.typography.bodyLarge,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
                 )
             }
         },
+        textStyle = RecipesBookTheme.typography.bodyLarge,
         enabled = true,
         singleLine = true,
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
         keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
         interactionSource = interactionSource,
         shape = RoundedCornerShape(14.dp),
-        colors = TextFieldDefaults.textFieldColors(
-            textColor = Green1,
-            containerColor = Grey0,
-            focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent,
-            disabledIndicatorColor = Color.Transparent,
-        ),
+        colors = textFieldColors(),
         modifier = modifier
             .hoverable(
                 enabled = enabled,
@@ -107,7 +99,7 @@ fun SearchFieldComponent(
             )
             .onFocusChanged {
                 if (it.hasFocus) {
-                    Log.d("tag", "Search field focused")
+                    Timber.d("Search field focused")
                 }
             },
     )

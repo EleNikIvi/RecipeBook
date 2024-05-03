@@ -25,20 +25,14 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.okrama.recipesbook.R
 import com.okrama.recipesbook.ui.core.DevicePreviews
 import com.okrama.recipesbook.ui.core.components.ImageComponent
@@ -47,27 +41,11 @@ import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
 import com.okrama.recipesbook.ui.core.theme.Yellow0
 import com.okrama.recipesbook.ui.core.theme.Yellow1
 import com.okrama.recipesbook.ui.details.RecipeDetailsScreenState
-import com.okrama.recipesbook.ui.details.RecipeDetailsViewModel
-
-@Composable
-fun RecipeDetailsScreen(
-    upPress: () -> Unit,
-    onEditRecipe: (Long) -> Unit,
-    viewModel: RecipeDetailsViewModel = hiltViewModel(),
-) {
-    val state by viewModel.screenState.collectAsStateWithLifecycle()
-
-    RecipeDetailsScreen(
-        state,
-        upPress,
-        onEditRecipe,
-    )
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun RecipeDetailsScreen(
-    recipeDetailsState: RecipeDetailsScreenState,
+fun RecipeDetailsScreen(
+    state: RecipeDetailsScreenState,
     upPress: () -> Unit,
     onEditRecipe: (Long) -> Unit,
 ) {
@@ -91,7 +69,7 @@ private fun RecipeDetailsScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 ImageComponent(
-                    imageUri = recipeDetailsState.imageUrl,
+                    imageUri = state.imageUrl,
                     modifier = Modifier.aspectRatio(1f),
                     contentDescription = stringResource(id = R.string.recipe_image),
                     cornerRadius = 0.dp,
@@ -102,19 +80,17 @@ private fun RecipeDetailsScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(8.dp),
-                    text = recipeDetailsState.title,
+                    text = state.title,
                     textAlign = TextAlign.Center,
-                    fontSize = 36.sp,
-                    fontFamily = FontFamily.Cursive,
-                    fontWeight = FontWeight.Bold,
+                    style = RecipesBookTheme.typography.headingXLarge,
                 )
 
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(8.dp),
-                    text = recipeDetailsState.description,
-                    fontSize = 24.sp,
+                    text = state.description,
+                    style = RecipesBookTheme.typography.bodyLarge,
                 )
             }
         }
@@ -143,7 +119,7 @@ private fun RecipeDetailsScreen(
             Spacer(modifier = Modifier.weight(1f))
             Box(modifier = Modifier.padding(8.dp)) {
                 IconButton(
-                    onClick = { onEditRecipe(recipeDetailsState.id) },
+                    onClick = { onEditRecipe(state.id) },
                     enabled = true,
                     modifier = Modifier
                         .clip(shape = RoundedCornerShape(size = 25.dp))
@@ -169,7 +145,7 @@ private fun HomeScreenPreview(
 ) {
     RecipesBookTheme {
         RecipeDetailsScreen(
-            recipeDetailsState = screenState,
+            state = screenState,
             upPress = {},
             onEditRecipe = {},
         )

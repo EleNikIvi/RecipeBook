@@ -5,6 +5,7 @@
     <string name="message_empty">Тут поки немає жодного рецепту</string>
     <string name="search_hint">Пошук рецепту</string>
     <string name="add_new_recipe">Додавання рецепту</string>
+    <string name="add_label">Додати</string>
     <string name="recipe_image">Зображення рецепту</string>
     <string name="navigate_back">Навігація назад</string>
     <string name="recipe_name_placeholder">Введіть назву рецепту</string>
@@ -14,5 +15,10 @@
     <string name="button_clear_description">Очистити пошук</string>
     <string name="button_delete">Видалити</string>
     <string name="button_edit">Змінити</string>
-    <string name="filter_category_all">All</string>
+    <string name="filter_category_all">Всі</string>
+    <string name="title_new_category">Нова категорія</string>
+    <string name="category_name_placeholder">Введіть назву категорії</string>
+    <string name="max_length_format">%1$d / %2$d</string>
+    <string name="add_category_description">Додати категорію</string>
+    <string name="category_label">Категорія</string>
 </resources>

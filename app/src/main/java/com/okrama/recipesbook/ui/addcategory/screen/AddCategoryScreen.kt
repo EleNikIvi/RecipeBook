@@ -1,22 +1,17 @@
-package com.okrama.recipesbook.ui.addrecipe.screen
+package com.okrama.recipesbook.ui.addcategory.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material.icons.twotone.Add
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -41,39 +36,33 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.okrama.recipesbook.R
-import com.okrama.recipesbook.ui.addrecipe.AddRecipeScreenState
+import com.okrama.recipesbook.ui.addcategory.AddCategoryScreenState
+import com.okrama.recipesbook.ui.addcategory.MAX_CATEGORY_TITLE_CHAR
+import com.okrama.recipesbook.ui.addrecipe.screen.AddRecipeScreenStateProvider
 import com.okrama.recipesbook.ui.core.DevicePreviews
-import com.okrama.recipesbook.ui.core.components.CardComponent
-import com.okrama.recipesbook.ui.core.components.RecipeGalleryImage
-import com.okrama.recipesbook.ui.core.components.inputfields.RecipeTextField
-import com.okrama.recipesbook.ui.core.components.inputfields.SpinnerComponent
-import com.okrama.recipesbook.ui.core.components.inputfields.getStringValue
+import com.okrama.recipesbook.ui.core.components.inputfields.RecipeTextFieldWithLimit
 import com.okrama.recipesbook.ui.core.theme.Green0
 import com.okrama.recipesbook.ui.core.theme.Green3
-import com.okrama.recipesbook.ui.core.theme.Grey0
 import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
 import com.okrama.recipesbook.ui.core.theme.Yellow1
 import com.okrama.recipesbook.ui.core.theme.Yellow4
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddRecipeScreen(
-    state: AddRecipeScreenState,
-    onImageAdded: (String) -> Unit,
-    onRecipeNameChange: (String) -> Unit,
-    onRecipeDescriptionChange: (String) -> Unit,
-    onSaveRecipe: () -> Unit,
-    onCategoryChange: (Long) -> Unit,
+fun AddCategoryScreen(
+    state: AddCategoryScreenState,
+    onCategoryNameChange: (String) -> Unit,
+    onSaveCategory: () -> Unit,
     upPress: () -> Unit,
 ) {
-    if (state is AddRecipeScreenState.Initial) {
+    if (state is AddCategoryScreenState.Initial) {
         Scaffold(
             modifier = Modifier
                 .fillMaxSize(),
             topBar = {
-                AddRecipeTopAppbar(
+                AddCategoryTopAppbar(
                     upPress,
-                    onSaveRecipe,
+                    onSaveCategory,
                     state.canSave,
                 )
             }
@@ -94,53 +83,12 @@ fun AddRecipeScreen(
                         .verticalScroll(rememberScrollState()),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    RecipeGalleryImage(
-                        modifier = Modifier
-                            .height(300.dp)
-                            .width(300.dp)
-                            .padding(bottom = 16.dp),
-                        imageUrl = state.imageUrl,
-                        onImageAdded = onImageAdded,
-                    )
-                    RecipeTextField(
+                    RecipeTextFieldWithLimit(
                         text = state.title,
-                        onTextChange = onRecipeNameChange,
-                        placeholder = stringResource(id = R.string.recipe_name_placeholder),
+                        onTextChange = onCategoryNameChange,
+                        placeholder = stringResource(id = R.string.category_name_placeholder),
                         singleLine = true,
-                    )
-
-                    RecipeTextField(
-                        text = state.description,
-                        onTextChange = onRecipeDescriptionChange,
-                        placeholder = stringResource(id = R.string.recipe_description_placeholder),
-                    )
-                    SpinnerComponent(
-                        label = stringResource(id = R.string.category_label),
-                        selectedCategory = getStringValue(
-                            state.categoriesDropdown.valueResId,
-                            state.categoriesDropdown.value
-                        ),
-                        spinnerItems = state.categoriesDropdown.spinnerItems,
-                        onSelectionChanged = onCategoryChange,
-                        actionIcon = {
-                            CardComponent(
-                                onClick = { /*onAddFolder*/ }, // TODO,
-                                backgroundColor = Grey0,
-                                elevation = RecipesBookTheme.elevation.small,
-                                enforceTouchTargetSize = false
-                            ) {
-                                Column {
-                                    Icon(
-                                        painter = rememberVectorPainter(image = Icons.TwoTone.Add),
-                                        modifier = Modifier
-                                            .widthIn(min = 36.dp)
-                                            .heightIn(min = 36.dp),
-                                        contentDescription = null,
-                                        tint = Green0,
-                                    )
-                                }
-                            }
-                        }
+                        maxTitleLength = MAX_CATEGORY_TITLE_CHAR,
                     )
                 }
             }
@@ -152,7 +100,7 @@ fun AddRecipeScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun AddRecipeTopAppbar(
+private fun AddCategoryTopAppbar(
     upPress: () -> Unit,
     onSaveRecipe: () -> Unit,
     canSave: Boolean,
@@ -164,7 +112,7 @@ private fun AddRecipeTopAppbar(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
-                text = stringResource(id = R.string.title_new_recipe),
+                text = stringResource(id = R.string.title_new_category),
                 textAlign = TextAlign.Center,
                 fontSize = 36.sp,
                 fontFamily = FontFamily.Cursive,
@@ -210,18 +158,15 @@ private fun AddRecipeTopAppbar(
 
 @DevicePreviews
 @Composable
-private fun AddRecipeScreenPreview(
+private fun AddCategoryScreenPreview(
     @PreviewParameter(AddRecipeScreenStateProvider::class)
-    screenState: AddRecipeScreenState
+    screenState: AddCategoryScreenState
 ) {
     RecipesBookTheme {
-        AddRecipeScreen(
+        AddCategoryScreen(
             state = screenState,
-            onImageAdded = {},
-            onRecipeNameChange = {},
-            onRecipeDescriptionChange = {},
-            onSaveRecipe = {},
-            onCategoryChange = {},
+            onCategoryNameChange = {},
+            onSaveCategory = {},
             upPress = {},
         )
     }

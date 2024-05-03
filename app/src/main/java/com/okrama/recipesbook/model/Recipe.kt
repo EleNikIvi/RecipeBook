@@ -11,7 +11,7 @@ const val EMPTY_RECIPE_ID = -1L
 @Entity(tableName = "recipe")
 data class Recipe(
     @PrimaryKey(autoGenerate = true)
-    val id: Long = 0,
+    val recipeId: Long = 0,
     val title: String,
     val description: String,
     val imageUrl: String = "",

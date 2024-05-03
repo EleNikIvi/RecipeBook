@@ -19,31 +19,31 @@ class RecipeScreenStateProvider : PreviewParameterProvider<RecipesScreenState> {
 
 private fun getPreviewRecipesList() = listOf(
     Recipe(
-        id = 1,
+        recipeId = 1,
         title = "Potato",
         description = LOREM_IPSUM,
         imageUrl = "https://avatars.githubusercontent.com/u/1428207?v=4",
     ),
     Recipe(
-        id = 2,
+        recipeId = 2,
         title = LOREM_IPSUM,
         description = "",
         imageUrl = "https://avatars.githubusercontent.com/u/1428207?v=4",
     ),
     Recipe(
-        id = 3,
+        recipeId = 3,
         title = "",
         description = LOREM_IPSUM,
         imageUrl = "https://avatars.githubusercontent.com/u/1428207?v=4",
     ),
     Recipe(
-        id = 4,
+        recipeId = 4,
         title = "recipe without image",
         description = LOREM_IPSUM,
         imageUrl = "",
     ),
     Recipe(
-        id = 5,
+        recipeId = 5,
         title = "turbio \uD83D\uDE00 \uD83D\uDE00 \uD83D\uDE00",
         description = LOREM_IPSUM,
         imageUrl = "https://avatars.githubusercontent.com/u/1428207?v=4",

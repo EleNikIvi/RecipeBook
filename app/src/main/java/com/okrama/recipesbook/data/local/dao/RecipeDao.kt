@@ -1,4 +1,4 @@
-package com.okrama.recipesbook.data.local.recipe
+package com.okrama.recipesbook.data.local.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -10,15 +10,15 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface RecipeDao {
-    @Query("SELECT * FROM recipe ORDER BY id ASC")
+    @Query("SELECT * FROM recipe ORDER BY recipeId ASC")
     fun getAllRecipes(): Flow<Recipes>
 
-    @Query("SELECT * FROM recipe WHERE id = :id")
+    @Query("SELECT * FROM recipe WHERE recipeId = :id")
     fun getRecipe(id: Long): Flow<Recipe>
 
     @Insert(onConflict = REPLACE)
     suspend fun insertOrUpdateRecipe(recipe: Recipe): Long
 
-    @Query("DELETE FROM recipe WHERE id = :recipeId")
+    @Query("DELETE FROM recipe WHERE recipeId = :recipeId")
     suspend fun deleteRecipe(recipeId: Long)
 }

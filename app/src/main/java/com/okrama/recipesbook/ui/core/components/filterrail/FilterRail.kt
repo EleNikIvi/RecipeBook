@@ -5,29 +5,38 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.twotone.Add
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.okrama.recipesbook.model.Category
 import com.okrama.recipesbook.ui.core.components.CardComponent
+import com.okrama.recipesbook.ui.core.components.inputfields.getStringValue
+import com.okrama.recipesbook.ui.core.theme.Green0
 import com.okrama.recipesbook.ui.core.theme.Green1
 import com.okrama.recipesbook.ui.core.theme.Green2
-import com.okrama.recipesbook.ui.core.theme.Grey0
+import com.okrama.recipesbook.ui.core.theme.Grey2
 import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
+import com.okrama.recipesbook.ui.core.theme.Yellow1
 
 @Composable
 fun FilterRail(
     onFilterCategorySelected: (Category) -> Unit,
+    onAddNewCategory: () -> Unit,
     filterCategories: List<Category>,
     selectedCategory: Category,
     contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp, vertical = 12.dp),
@@ -40,12 +49,15 @@ fun FilterRail(
     ) {
         filterCategories.forEach { category ->
             FilterChip(
-                title = category.titleResId?.let { stringResource(id = it) } ?: category.title
-                ?: "",
+                title = getStringValue(category.titleResId, category.title),
                 isSelected = category == selectedCategory,
                 onClick = { onFilterCategorySelected(category) },
             )
         }
+        Spacer(modifier = Modifier.width(8.dp))
+        AddNewFilterChip(
+            onClick = { onAddNewCategory() },
+        )
     }
 }
 
@@ -57,7 +69,7 @@ private fun FilterChip(
 ) {
     CardComponent(
         onClick = onClick,
-        backgroundColor = if (isSelected) Grey0 else Color.Transparent,
+        backgroundColor = if (isSelected) Yellow1 else Color.Transparent,
         elevation = if (isSelected) RecipesBookTheme.elevation.small else 0.dp,
         enforceTouchTargetSize = false
     ) {
@@ -69,10 +81,37 @@ private fun FilterChip(
         ) {
             Text(
                 text = title,
-                fontSize = 12.sp,
+                style = RecipesBookTheme.typography.bodyMediumStrong,
                 color = if (isSelected) Green1 else Green2,
                 modifier = Modifier
                     .semantics { contentDescription = title },
+            )
+        }
+    }
+}
+
+@Composable
+private fun AddNewFilterChip(
+    onClick: () -> Unit,
+) {
+    CardComponent(
+        onClick = onClick,
+        backgroundColor = Green0,
+        elevation = RecipesBookTheme.elevation.small,
+        enforceTouchTargetSize = false
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(
+                    horizontal = 8.dp,
+                    vertical = 4.dp
+                ),
+        ) {
+            Icon(
+                painter = rememberVectorPainter(image = Icons.TwoTone.Add),
+                modifier = Modifier.size(20.dp),
+                contentDescription = null,
+                tint = Grey2,
             )
         }
     }
@@ -87,6 +126,7 @@ private fun FilterRailCompactSizePreview(
     RecipesBookTheme {
         FilterRail(
             onFilterCategorySelected = {},
+            onAddNewCategory = {},
             filterCategories = categories,
             selectedCategory = categories.first(),
         )
@@ -102,6 +142,7 @@ private fun FilterRailLargeSizePreview(
     RecipesBookTheme {
         FilterRail(
             onFilterCategorySelected = {},
+            onAddNewCategory = {},
             filterCategories = categories,
             selectedCategory = categories.first(),
         )

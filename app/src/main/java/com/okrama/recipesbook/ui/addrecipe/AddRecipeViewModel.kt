@@ -1,15 +1,18 @@
 package com.okrama.recipesbook.ui.addrecipe
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.okrama.recipesbook.domain.category.CategoryInteractor
 import com.okrama.recipesbook.domain.recipe.RecipeInteractor
+import com.okrama.recipesbook.model.Category
 import com.okrama.recipesbook.model.EMPTY_RECIPE_ID
-import com.okrama.recipesbook.ui.core.flow.SaveableStateFlow
+import com.okrama.recipesbook.ui.addrecipe.Categories.getCategoriesDropdown
 import com.okrama.recipesbook.ui.core.flow.SaveableStateFlow.Companion.saveableStateFlow
+import com.okrama.recipesbook.ui.core.model.CategoryListProvider
 import com.okrama.recipesbook.ui.core.navigation.MainDestinations
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -20,43 +23,42 @@ import javax.inject.Inject
 @HiltViewModel
 class AddRecipeViewModel @Inject constructor(
     private val recipeInteractor: RecipeInteractor,
+    private val categoryInteractor: CategoryInteractor,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
     private val _recipeId =
         savedStateHandle.get<Long>(MainDestinations.RECIPE_ID_KEY) ?: EMPTY_RECIPE_ID
 
-    private val _recipeImageUri: SaveableStateFlow<String?> = savedStateHandle.saveableStateFlow(
-        key = "add_recipe-view-model-image-key",
-        initialValue = null,
+    private val _persistedState = savedStateHandle.saveableStateFlow(
+        key = "add-recipe-view-model-state-key",
+        initialValue = constructInitialPersistedState(),
     )
-    private val _recipeName = savedStateHandle.saveableStateFlow(
-        key = "add_recipe-view-model-name-key",
-        initialValue = "",
+
+    private val _initialImageUri = MutableStateFlow<String?>(null)
+    private val _initialTitle = MutableStateFlow("")
+    private val _initialDescription = MutableStateFlow("")
+    private val _categories = savedStateHandle.saveableStateFlow(
+        key = "categories-view-model-list-key",
+        initialValue = emptyList<Category>(),
     )
-    private val _recipeDescription = savedStateHandle.saveableStateFlow(
-        key = "add_recipe-view-model-description-key",
-        initialValue = "",
-    )
-    private val _isSaved = savedStateHandle.saveableStateFlow(
-        key = "add_recipe-view-model-saved-key",
-        initialValue = false,
-    )
+
+    private val _isSaved = MutableStateFlow(false)
 
     val screenState: StateFlow<AddRecipeScreenState> = combine(
-        _recipeImageUri.asStateFlow(),
-        _recipeName.asStateFlow(),
-        _recipeDescription.asStateFlow(),
-        _isSaved.asStateFlow(),
-    ) { recipeImageUri, recipeName, recipeDescription, isSaved ->
-        val canSave = recipeName.isNotBlank() || recipeDescription.isNotBlank()
+        _persistedState.asStateFlow(),
+        _categories.asStateFlow(),
+        _isSaved,
+    ) { persistedState, categories, isSaved ->
 
         if (!isSaved) {
+            val dropdown = getCategoriesDropdown(categories, persistedState.selectedCategory)
             AddRecipeScreenState.Initial(
-                imageUrl = recipeImageUri,
-                title = recipeName,
-                description = recipeDescription,
-                canSave = canSave,
+                imageUrl = persistedState.imageUrl,
+                title = persistedState.title,
+                description = persistedState.description,
+                categoriesDropdown = dropdown,
+                canSave = persistedState.isChanged,
             )
         } else {
             AddRecipeScreenState.Saved
@@ -68,29 +70,69 @@ class AddRecipeViewModel @Inject constructor(
     )
 
     init {
-        if (_recipeId != EMPTY_RECIPE_ID) {
-            viewModelScope.launch {
-                recipeInteractor.getRecipe(_recipeId)
-                    .collect { recipe ->
-                        _recipeImageUri.value = recipe.imageUrl
-                        _recipeName.value = recipe.title
-                        _recipeDescription.value = recipe.description
-                        Log.d("AddRecipeViewModel", "init $recipe")
+        viewModelScope.launch {
+            if (_recipeId != EMPTY_RECIPE_ID) {
+
+                launch {
+                    recipeInteractor.getRecipe(_recipeId)
+                        .collect { recipe ->
+                            _initialImageUri.value = recipe.imageUrl
+                            _initialTitle.value = recipe.title
+                            _initialDescription.value = recipe.description
+                            _persistedState.update {
+                                it.copy(
+                                    imageUrl = recipe.imageUrl,
+                                    title = recipe.title,
+                                    description = recipe.description,
+                                )
+                            }
+                        }
+                }
+            }
+            launch {
+                categoryInteractor.getCategories()
+                    .collect { values ->
+                        _categories.value = CategoryListProvider.getCategories(values)
                     }
             }
         }
     }
 
     fun onImageAdded(imageUrl: String) {
-        _recipeImageUri.value = imageUrl
+        _persistedState.update {
+            it.copy(
+                imageUrl = imageUrl,
+            )
+        }
+        updateIsChanged(imageUrl != _initialImageUri.value)
     }
 
     fun onRecipeNameChange(recipeName: String) {
-        _recipeName.value = recipeName
+        _persistedState.update {
+            it.copy(
+                title = recipeName,
+            )
+        }
+        updateIsChanged(recipeName != _initialTitle.value)
     }
 
     fun onRecipeDescriptionChange(recipeDescription: String) {
-        _recipeDescription.value = recipeDescription
+        _persistedState.update {
+            it.copy(
+                description = recipeDescription,
+            )
+        }
+        updateIsChanged(recipeDescription != _initialDescription.value)
+    }
+
+    fun onCategoryChange(categoryId: Long) {
+        _categories.value.find { it.categoryId == categoryId }?.let { selectedCategory ->
+            _persistedState.update {
+                it.copy(
+                    selectedCategory = selectedCategory,
+                )
+            }
+        }
     }
 
     fun saveRecipe() {
@@ -98,15 +140,17 @@ class AddRecipeViewModel @Inject constructor(
             val recipeId = if (_recipeId != EMPTY_RECIPE_ID) {
                 recipeInteractor.updateRecipe(
                     id = _recipeId,
-                    imageUrl = _recipeImageUri.value ?: "",
-                    title = _recipeName.value.trim(),
-                    description = _recipeDescription.value.trim()
+                    imageUrl = _persistedState.value.imageUrl ?: "",
+                    title = _persistedState.value.title.trim(),
+                    description = _persistedState.value.description.trim(),
+                    categoryId = _persistedState.value.selectedCategory.categoryId
                 )
             } else {
                 recipeInteractor.addRecipe(
-                    imageUrl = _recipeImageUri.value ?: "",
-                    title = _recipeName.value.trim(),
-                    description = _recipeDescription.value.trim()
+                    imageUrl = _persistedState.value.imageUrl ?: "",
+                    title = _persistedState.value.title.trim(),
+                    description = _persistedState.value.description.trim(),
+                    categoryId = _persistedState.value.selectedCategory.categoryId
                 )
 
             }
@@ -115,4 +159,15 @@ class AddRecipeViewModel @Inject constructor(
             }
         }
     }
+
+    private fun updateIsChanged(isChanged: Boolean) {
+        _persistedState.update {
+            it.copy(
+                isChanged = isChanged,
+            )
+        }
+    }
+
+    private fun constructInitialPersistedState(): AddRecipePersistedState =
+        AddRecipePersistedState()
 }

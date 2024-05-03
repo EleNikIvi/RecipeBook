@@ -50,7 +50,7 @@ fun RecipeItem(
             .fillMaxSize()
             .combinedClickable(onLongClick = {
                 isExpanded = true
-            }, onClick = { onRecipeSelected(recipe.id) }),
+            }, onClick = { onRecipeSelected(recipe.recipeId) }),
         elevation = CardDefaults.cardElevation(
             defaultElevation = 8.dp
         ),
@@ -92,14 +92,14 @@ fun RecipeItem(
                     text = { Text(text = stringResource(id = R.string.button_delete)) },
                     onClick = {
                         isExpanded = false
-                        onDeleteRecipe(recipe.id)
+                        onDeleteRecipe(recipe.recipeId)
                     }
                 )
                 DropdownMenuItem(
                     text = { Text(text = stringResource(id = R.string.button_edit)) },
                     onClick = {
                         isExpanded = false
-                        onEditRecipe(recipe.id)
+                        onEditRecipe(recipe.recipeId)
                     }
                 )
             }
@@ -114,7 +114,7 @@ private fun RecipeItemPreview() {
     RecipesBookTheme {
         RecipeItem(
             recipe = Recipe(
-                id = 1L,
+                recipeId = 1L,
                 title = LOREM_IPSUM,
                 description = LOREM_IPSUM,
                 imageUrl = "https://avatars.githubusercontent.com/u/1428207?v=4",

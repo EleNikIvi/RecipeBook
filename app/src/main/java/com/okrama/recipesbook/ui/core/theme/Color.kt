@@ -21,3 +21,5 @@ val Grey3 = Color(0xFFE6E2DD)
 val Grey4 = Color(0xFF484740)
 val Grey5 = Color(0xFF697771)
 val Grey6 = Color(0xFFD5E7DC)
+
+val InteractiveColor = Color(0xFF41158F)

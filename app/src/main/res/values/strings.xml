@@ -5,6 +5,7 @@
     <string name="message_empty">There is no recipe yet</string>
     <string name="search_hint">Search for a recipe</string>
     <string name="add_new_recipe">Add new recipe</string>
+    <string name="add_label">Add</string>
     <string name="recipe_image">Recipe image</string>
     <string name="navigate_back">Navigate back</string>
     <string name="recipe_name_placeholder">Enter recipe name</string>
@@ -15,4 +16,9 @@
     <string name="button_delete">Delete</string>
     <string name="button_edit">Edit</string>
     <string name="filter_category_all">All</string>
+    <string name="title_new_category">New Category</string>
+    <string name="category_name_placeholder">Enter category name</string>
+    <string name="max_length_format">%1$d / %2$d</string>
+    <string name="add_category_description">Add category</string>
+    <string name="category_label">Category</string>
 </resources>

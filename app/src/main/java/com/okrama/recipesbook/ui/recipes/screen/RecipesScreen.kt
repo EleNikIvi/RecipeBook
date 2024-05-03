@@ -16,58 +16,31 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.okrama.recipesbook.R
 import com.okrama.recipesbook.model.Category
 import com.okrama.recipesbook.ui.core.DevicePreviews
 import com.okrama.recipesbook.ui.core.theme.Grey1
 import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
 import com.okrama.recipesbook.ui.recipes.RecipesScreenState
-import com.okrama.recipesbook.ui.recipes.RecipesViewModel
 
-
-@Composable
-fun RecipesScreen(
-    onAddNewRecipe: () -> Unit,
-    onEditRecipe: (Long) -> Unit,
-    onRecipeSelected: (Long) -> Unit,
-    viewModel: RecipesViewModel = hiltViewModel(),
-) {
-    val screenState by viewModel.screenState.collectAsStateWithLifecycle()
-    val onSearchTermChange: (String) -> Unit = viewModel::onSearchTermChange
-    val onSearchFieldClear: () -> Unit = viewModel::onSearchFieldClear
-    val onDeleteRecipe: (Long) -> Unit = viewModel::onDeleteRecipe
-    val onFilterCategorySelected: (Category) -> Unit = viewModel::onRecipeCategoryChange
-    RecipesScreen(
-        screenState,
-        onAddNewRecipe,
-        onRecipeSelected,
-        onSearchTermChange,
-        onSearchFieldClear,
-        onDeleteRecipe,
-        onEditRecipe,
-        onFilterCategorySelected,
-    )
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun RecipesScreen(
+fun RecipesScreen(
     screenState: RecipesScreenState,
     onAddNewRecipe: () -> Unit,
-    onRecipeSelected: (Long) -> Unit,
-    onSearchTermChange: (String) -> Unit,
-    onSearchFieldClear: () -> Unit,
-    onDeleteRecipe: (Long) -> Unit,
     onEditRecipe: (Long) -> Unit,
-    onFilterCategorySelected: (Category) -> Unit,
+    onRecipeSelected: (Long) -> Unit,
+    onSearchFieldClear: () -> Unit,
+    onSearchTermChange: (String) -> Unit,
+    onDeleteRecipe: (Long) -> Unit,
+    onRecipeCategoryChange: (Category) -> Unit,
+    onAddNewCategory: () -> Unit,
 ) {
     val listState = rememberLazyGridState()
     val isCollapsed = isToolBarCollapsed(listState)
@@ -82,7 +55,8 @@ private fun RecipesScreen(
                 onAddNewRecipe = onAddNewRecipe,
                 onSearchTermChange = onSearchTermChange,
                 onSearchFieldClear = onSearchFieldClear,
-                onFilterCategorySelected = onFilterCategorySelected,
+                onFilterCategorySelected = onRecipeCategoryChange,
+                onAddNewCategory = onAddNewCategory,
             )
         },
     ) { paddingValues ->
@@ -98,7 +72,7 @@ private fun RecipesScreen(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 if (screenState.recipes.isEmpty()) {
-                    item(span = { GridItemSpan(maxLineSpan) }) {
+                    item(span = { GridItemSpan(maxLineSpan) }) { // TODO Empty message
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth(),
@@ -112,7 +86,7 @@ private fun RecipesScreen(
                 } else {
                     items(
                         items = screenState.recipes,
-                        key = { it.id },
+                        key = { it.recipeId },
                     ) { recipe ->
                         Column(
                             modifier = Modifier
@@ -148,7 +122,8 @@ private fun RecipesScreenPreview(
             onSearchFieldClear = {},
             onDeleteRecipe = {},
             onEditRecipe = {},
-            onFilterCategorySelected = {},
+            onRecipeCategoryChange = {},
+            onAddNewCategory = {},
         )
     }
 }
