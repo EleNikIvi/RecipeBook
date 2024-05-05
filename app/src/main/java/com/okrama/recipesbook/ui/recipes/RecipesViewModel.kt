@@ -64,17 +64,23 @@ class RecipesViewModel @Inject constructor(
 
     val screenState: StateFlow<RecipesScreenState> = combine(
         _allRecipes.asStateFlow(),
+        _recipesForCategory.asStateFlow(),
         _persistedState.asStateFlow(),
         _searchTerm.asStateFlow(),
-    ) { recipes, persistedState, searchTerm ->
+    ) { recipes, recipesForCategory, persistedState, searchTerm ->
+
+        val currentRecipes =
+            if (persistedState.selectedCategory == CategoryListProvider.CATEGORY_ALL) recipes
+            else recipesForCategory
 
         val filteredRecipes =
-            recipes.filter { it.title.contains(other = searchTerm, ignoreCase = true) }
+            currentRecipes.filter { it.title.contains(other = searchTerm, ignoreCase = true) }
 
         RecipesScreenState(
             recipes = filteredRecipes,
             categories = persistedState.filterCategories,
             search = searchTerm,
+            selectedCategory = persistedState.selectedCategory,
         )
     }.stateIn(
         scope = viewModelScope,

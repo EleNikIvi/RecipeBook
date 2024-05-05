@@ -82,7 +82,7 @@ internal val Typography = RecipesBookTypography(
         fontFamily = FontFamily.Default
     ),
     bodyLarge = TextStyle(
-        fontSize = 24.sp,
+        fontSize = 16.sp,
         lineHeight = 34.sp,
         fontWeight = FontWeight.Normal,
         fontFamily = FontFamily.Default

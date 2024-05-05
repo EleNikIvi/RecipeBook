@@ -22,6 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -54,6 +55,7 @@ fun AddCategoryScreen(
     onCategoryNameChange: (String) -> Unit,
     onSaveCategory: () -> Unit,
     upPress: () -> Unit,
+    upPressWithResult: (Long) -> Unit,
 ) {
     if (state is AddCategoryScreenState.Initial) {
         Scaffold(
@@ -93,8 +95,10 @@ fun AddCategoryScreen(
                 }
             }
         }
-    } else {
-        upPress()
+    } else if (state is AddCategoryScreenState.Saved) {
+        LaunchedEffect(Unit) {
+            upPressWithResult(state.categoryId)
+        }
     }
 }
 
@@ -168,6 +172,7 @@ private fun AddCategoryScreenPreview(
             onCategoryNameChange = {},
             onSaveCategory = {},
             upPress = {},
+            upPressWithResult = {},
         )
     }
 }

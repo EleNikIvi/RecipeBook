@@ -51,7 +51,9 @@ fun FilterRail(
             FilterChip(
                 title = getStringValue(category.titleResId, category.title),
                 isSelected = category == selectedCategory,
-                onClick = { onFilterCategorySelected(category) },
+                onClick = {
+                    onFilterCategorySelected(category)
+                },
             )
         }
         Spacer(modifier = Modifier.width(8.dp))

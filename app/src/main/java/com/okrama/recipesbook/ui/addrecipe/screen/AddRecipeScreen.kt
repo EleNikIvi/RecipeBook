@@ -3,6 +3,7 @@ package com.okrama.recipesbook.ui.addrecipe.screen
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -62,8 +63,9 @@ fun AddRecipeScreen(
     onImageAdded: (String) -> Unit,
     onRecipeNameChange: (String) -> Unit,
     onRecipeDescriptionChange: (String) -> Unit,
-    onSaveRecipe: () -> Unit,
     onCategoryChange: (Long) -> Unit,
+    onAddNewCategory: () -> Unit,
+    onSaveRecipe: () -> Unit,
     upPress: () -> Unit,
 ) {
     if (state is AddRecipeScreenState.Initial) {
@@ -104,6 +106,7 @@ fun AddRecipeScreen(
                     )
                     RecipeTextField(
                         text = state.title,
+                        modifier = Modifier.padding(vertical = 8.dp),
                         onTextChange = onRecipeNameChange,
                         placeholder = stringResource(id = R.string.recipe_name_placeholder),
                         singleLine = true,
@@ -111,11 +114,13 @@ fun AddRecipeScreen(
 
                     RecipeTextField(
                         text = state.description,
+                        modifier = Modifier.padding(vertical = 8.dp),
                         onTextChange = onRecipeDescriptionChange,
                         placeholder = stringResource(id = R.string.recipe_description_placeholder),
                     )
                     SpinnerComponent(
                         label = stringResource(id = R.string.category_label),
+                        modifier = Modifier.padding(vertical = 8.dp),
                         selectedCategory = getStringValue(
                             state.categoriesDropdown.valueResId,
                             state.categoriesDropdown.value
@@ -123,8 +128,9 @@ fun AddRecipeScreen(
                         spinnerItems = state.categoriesDropdown.spinnerItems,
                         onSelectionChanged = onCategoryChange,
                         actionIcon = {
+                            Spacer(modifier = Modifier.width(16.dp))
                             CardComponent(
-                                onClick = { /*onAddFolder*/ }, // TODO,
+                                onClick = { onAddNewCategory() },
                                 backgroundColor = Grey0,
                                 elevation = RecipesBookTheme.elevation.small,
                                 enforceTouchTargetSize = false
@@ -220,8 +226,9 @@ private fun AddRecipeScreenPreview(
             onImageAdded = {},
             onRecipeNameChange = {},
             onRecipeDescriptionChange = {},
-            onSaveRecipe = {},
             onCategoryChange = {},
+            onAddNewCategory = {},
+            onSaveRecipe = {},
             upPress = {},
         )
     }

@@ -1,6 +1,7 @@
 package com.okrama.recipesbook
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -16,6 +17,7 @@ import com.okrama.recipesbook.ui.addrecipe.AddRecipeViewModel
 import com.okrama.recipesbook.ui.addrecipe.screen.AddRecipeScreen
 import com.okrama.recipesbook.ui.core.navigation.MainDestinations.ADD_CATEGORY_ROUTE
 import com.okrama.recipesbook.ui.core.navigation.MainDestinations.ADD_RECIPE_ROUTE
+import com.okrama.recipesbook.ui.core.navigation.MainDestinations.CATEGORY_ID_KEY
 import com.okrama.recipesbook.ui.core.navigation.MainDestinations.EDIT_RECIPE_ROUTE
 import com.okrama.recipesbook.ui.core.navigation.MainDestinations.RECIPES_DETAIL_ROUTE
 import com.okrama.recipesbook.ui.core.navigation.MainDestinations.RECIPES_ROUTE
@@ -39,6 +41,7 @@ fun RecipesBookApp() {
             onEditRecipe = recipesBookNavController::navigateToEditRecipe,
             onAddNewCategorySelected = recipesBookNavController::navigateToAddNewCategory,
             upPress = recipesBookNavController::upPress,
+            upPressWithResult = recipesBookNavController::upPressWithResult
         )
     }
 }
@@ -49,6 +52,7 @@ private fun NavGraphBuilder.recipesBookNavGraph(
     onEditRecipe: (Long, NavBackStackEntry) -> Unit,
     onAddNewCategorySelected: (NavBackStackEntry) -> Unit,
     upPress: () -> Unit,
+    upPressWithResult: (Long, String) -> Unit,
 ) {
     composable(RECIPES_ROUTE) { backStackEntry ->
         val viewModel: RecipesViewModel = hiltViewModel()
@@ -81,7 +85,7 @@ private fun NavGraphBuilder.recipesBookNavGraph(
     composable(
         "${EDIT_RECIPE_ROUTE}/{${RECIPE_ID_KEY}}",
         arguments = listOf(navArgument(RECIPE_ID_KEY) { type = NavType.LongType })
-    ) {
+    ) { backStackEntry ->
         val viewModel: AddRecipeViewModel = hiltViewModel()
         val screenState by viewModel.screenState.collectAsStateWithLifecycle()
         AddRecipeScreen(
@@ -89,32 +93,42 @@ private fun NavGraphBuilder.recipesBookNavGraph(
             onImageAdded = viewModel::onImageAdded,
             onRecipeNameChange = viewModel::onRecipeNameChange,
             onRecipeDescriptionChange = viewModel::onRecipeDescriptionChange,
-            onSaveRecipe = viewModel::saveRecipe,
             onCategoryChange = viewModel::onCategoryChange,
-            upPress = { upPress() },
+            onSaveRecipe = viewModel::saveRecipe,
+            onAddNewCategory = { onAddNewCategorySelected(backStackEntry) },
+            upPress = upPress,
         )
     }
-    composable(ADD_RECIPE_ROUTE) {
+    composable(ADD_RECIPE_ROUTE) { backStackEntry ->
         val viewModel: AddRecipeViewModel = hiltViewModel()
         val screenState by viewModel.screenState.collectAsStateWithLifecycle()
+
+        LaunchedEffect(key1 = true) {
+            backStackEntry.savedStateHandle.get<Long>(CATEGORY_ID_KEY)?.let { newCategoryId ->
+                viewModel.onCategoryChange(newCategoryId)
+            }
+        }
         AddRecipeScreen(
             state = screenState,
             onImageAdded = viewModel::onImageAdded,
             onRecipeNameChange = viewModel::onRecipeNameChange,
             onRecipeDescriptionChange = viewModel::onRecipeDescriptionChange,
-            onSaveRecipe = viewModel::saveRecipe,
             onCategoryChange = viewModel::onCategoryChange,
-            upPress = { upPress() },
+            onSaveRecipe = viewModel::saveRecipe,
+            onAddNewCategory = { onAddNewCategorySelected(backStackEntry) },
+            upPress = upPress,
         )
     }
     composable(ADD_CATEGORY_ROUTE) {
         val viewModel: AddCategoryViewModel = hiltViewModel()
         val screenState by viewModel.screenState.collectAsStateWithLifecycle()
+
         AddCategoryScreen(
             state = screenState,
             onCategoryNameChange = viewModel::onCategoryNameChange,
             onSaveCategory = viewModel::saveCategory,
-            upPress = { upPress() },
+            upPress = upPress,
+            upPressWithResult = { id -> upPressWithResult(id, CATEGORY_ID_KEY) }
         )
     }
 }

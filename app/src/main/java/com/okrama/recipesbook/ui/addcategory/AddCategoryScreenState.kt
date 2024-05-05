@@ -1,5 +1,7 @@
 package com.okrama.recipesbook.ui.addcategory
 
+import com.okrama.recipesbook.model.CategoryId
+
 
 const val MAX_CATEGORY_TITLE_CHAR = 10
 sealed interface AddCategoryScreenState {
@@ -10,5 +12,5 @@ sealed interface AddCategoryScreenState {
         val canSave: Boolean = false,
     ) : AddCategoryScreenState
 
-    object Saved : AddCategoryScreenState
+    data class Saved(val categoryId: CategoryId) : AddCategoryScreenState
 }

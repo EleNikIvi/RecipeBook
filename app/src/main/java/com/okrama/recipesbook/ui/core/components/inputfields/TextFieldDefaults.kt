@@ -61,7 +61,6 @@ fun RecipeTextField(
         shape = RoundedCornerShape(4.dp),
         modifier = modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp)
             .hoverable(
                 enabled = enabled,
                 interactionSource = interactionSource,

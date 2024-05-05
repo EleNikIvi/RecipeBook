@@ -29,7 +29,6 @@ class AddRecipeViewModel @Inject constructor(
 
     private val _recipeId =
         savedStateHandle.get<Long>(MainDestinations.RECIPE_ID_KEY) ?: EMPTY_RECIPE_ID
-
     private val _persistedState = savedStateHandle.saveableStateFlow(
         key = "add-recipe-view-model-state-key",
         initialValue = constructInitialPersistedState(),
@@ -72,7 +71,6 @@ class AddRecipeViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             if (_recipeId != EMPTY_RECIPE_ID) {
-
                 launch {
                     recipeInteractor.getRecipe(_recipeId)
                         .collect { recipe ->
@@ -95,6 +93,7 @@ class AddRecipeViewModel @Inject constructor(
                         _categories.value = CategoryListProvider.getCategories(values)
                     }
             }
+
         }
     }
 

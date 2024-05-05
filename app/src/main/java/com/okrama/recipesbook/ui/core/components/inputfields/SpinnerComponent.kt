@@ -2,12 +2,10 @@ package com.okrama.recipesbook.ui.core.components.inputfields
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.twotone.KeyboardArrowDown
@@ -41,17 +39,18 @@ import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
 @Composable
 fun SpinnerComponent(
     label: String,
+    modifier: Modifier = Modifier,
     selectedCategory: String,
     spinnerItems: List<SpinnerItem>,
     onSelectionChanged: (Long) -> Unit,
-    actionIcon: @Composable (BoxScope.() -> Unit) = {},
+    actionIcon: @Composable (RowScope.() -> Unit) = {},
 ) {
     var expanded by remember { mutableStateOf(false) }
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
         ExposedDropdownMenuBox(
-            modifier = Modifier
+            modifier = modifier
                 .weight(1f),
             expanded = expanded,
             onExpandedChange = {
@@ -70,7 +69,7 @@ fun SpinnerComponent(
                     )
                 },
                 textStyle = RecipesBookTheme.typography.bodyLarge,
-                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                trailingIcon = { SpinnerIcon(expanded = expanded) },
                 colors = textFieldColors(),
                 modifier = Modifier
                     .menuAnchor()
@@ -100,9 +99,8 @@ fun SpinnerComponent(
                 }
             }
         }
-        Spacer(modifier = Modifier.width(16.dp))
-        Box(
-            contentAlignment = Alignment.CenterEnd,
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             actionIcon()
         }

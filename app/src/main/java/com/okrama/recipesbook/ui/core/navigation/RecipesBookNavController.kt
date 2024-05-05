@@ -52,6 +52,14 @@ class RecipesBookNavController(
         navController.navigateUp()
     }
 
+    fun <T> upPressWithResult(data: T?, key: String) {
+        // Pass result back
+        navController.previousBackStackEntry
+            ?.savedStateHandle
+            ?.set(key, data)
+        navController.navigateUp()
+    }
+
     fun navigateToAddNewRecipe(from: NavBackStackEntry) {
         // In order to discard duplicated navigation events, we check the Lifecycle
         if (from.lifecycleIsResumed()) {

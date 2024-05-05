@@ -27,24 +27,24 @@ class AddCategoryViewModel @Inject constructor(
         key = "add_category-view-model-name-key",
         initialValue = "",
     )
-    private val _isSaved = savedStateHandle.saveableStateFlow(
+    private val _savedCategoryId = savedStateHandle.saveableStateFlow(
         key = "add_category-view-model-saved-key",
-        initialValue = false,
+        initialValue = EMPTY_CATEGORY_ID,
     )
 
     val screenState: StateFlow<AddCategoryScreenState> = combine(
         _categoryName.asStateFlow(),
-        _isSaved.asStateFlow(),
-    ) { categoryName, isSaved ->
+        _savedCategoryId.asStateFlow(),
+    ) { categoryName, savedCategoryId ->
         val canSave = categoryName.isNotBlank()
 
-        if (!isSaved) {
+        if (savedCategoryId == EMPTY_CATEGORY_ID) {
             AddCategoryScreenState.Initial(
                 title = categoryName,
                 canSave = canSave,
             )
         } else {
-            AddCategoryScreenState.Saved
+            AddCategoryScreenState.Saved(categoryId = savedCategoryId)
         }
     }.stateIn(
         scope = viewModelScope,
@@ -58,7 +58,7 @@ class AddCategoryViewModel @Inject constructor(
 
     fun saveCategory() {
         viewModelScope.launch {
-            val recipeId = if (_categoryId != EMPTY_CATEGORY_ID) {
+            val categoryId = if (_categoryId != EMPTY_CATEGORY_ID) {
                 categoryInteractor.updateCategory(
                     id = _categoryId,
                     title = _categoryName.value.trim(),
@@ -69,8 +69,8 @@ class AddCategoryViewModel @Inject constructor(
                 )
 
             }
-            if (recipeId > 0) {
-                _isSaved.value = true
+            if (categoryId > 0) {
+                _savedCategoryId.value = categoryId
             }
         }
     }
