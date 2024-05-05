@@ -1,23 +1,31 @@
 package com.okrama.recipesbook.ui.recipes.screen
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
@@ -75,12 +83,25 @@ fun RecipesScreen(
                     item(span = { GridItemSpan(maxLineSpan) }) { // TODO Empty message
                         Box(
                             modifier = Modifier
-                                .fillMaxWidth(),
+                                .fillMaxSize()
+                                .padding(16.dp),
                             contentAlignment = Alignment.Center,
                         ) {
-                            Text(
-                                text = stringResource(id = R.string.message_empty),
-                            )
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                modifier = Modifier.widthIn(max = 544.dp)
+                            ) {
+                                Image(
+                                    painter = painterResource(R.drawable.ic_empty_list),
+                                    modifier = Modifier.size(160.dp),
+                                    contentDescription = "Message Image",
+                                )
+                                Spacer(modifier = Modifier.height(24.dp))
+                                Text(
+                                    text = stringResource(id = R.string.message_empty),
+                                )
+                            }
+
                         }
                     }
                 } else {
