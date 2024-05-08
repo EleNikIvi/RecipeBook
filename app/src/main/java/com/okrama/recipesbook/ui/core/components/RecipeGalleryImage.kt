@@ -47,9 +47,11 @@ fun RecipeGalleryImage(
             containerColor = Grey3
         )
     ) {
+
         var imageUri by remember {
-            mutableStateOf<Uri?>(if (imageUrl == null) null else Uri.parse(imageUrl))
+            mutableStateOf<Uri?>(if(imageUrl == null) null else Uri.parse(imageUrl))
         }
+
         val context = LocalContext.current
 
         val launcher = rememberLauncherForActivityResult(
@@ -61,7 +63,7 @@ fun RecipeGalleryImage(
                     Intent.FLAG_GRANT_READ_URI_PERMISSION
                 )
                 onImageAdded(it.toString())
-                imageUri = uri
+                imageUri = it
             }
         }
 
@@ -73,10 +75,6 @@ fun RecipeGalleryImage(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
         ) {
-            Log.d(
-                "RecipeGalleryImage",
-                "imageUri $imageUri"
-            )
             if (imageUri != null) {
                 imageUri?.let {
                     ImageComponent(
@@ -85,6 +83,12 @@ fun RecipeGalleryImage(
                         contentDescription = "Recipe image",
                     )
                 }
+            } else if(imageUrl != null){
+                ImageComponent(
+                    imageUri = imageUrl,
+                    modifier = Modifier.fillMaxSize(),
+                    contentDescription = "Recipe image",
+                )
             } else {
                 ImageComponent(
                     modifier = Modifier.size(70.dp),

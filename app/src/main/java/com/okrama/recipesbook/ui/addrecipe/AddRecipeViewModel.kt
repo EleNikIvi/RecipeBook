@@ -1,5 +1,6 @@
 package com.okrama.recipesbook.ui.addrecipe
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -37,6 +38,7 @@ class AddRecipeViewModel @Inject constructor(
     private val _initialImageUri = MutableStateFlow<String?>(null)
     private val _initialTitle = MutableStateFlow("")
     private val _initialDescription = MutableStateFlow("")
+    private val _initialCategory = MutableStateFlow(CategoryListProvider.CATEGORY_ALL)
     private val _categories = savedStateHandle.saveableStateFlow(
         key = "categories-view-model-list-key",
         initialValue = emptyList<Category>(),
@@ -52,6 +54,7 @@ class AddRecipeViewModel @Inject constructor(
 
         if (!isSaved) {
             val dropdown = getCategoriesDropdown(categories, persistedState.selectedCategory)
+            Log.d("RecipeGalleryImage", "recipe.imageUrl ${persistedState.imageUrl}")
             AddRecipeScreenState.Initial(
                 imageUrl = persistedState.imageUrl,
                 title = persistedState.title,
@@ -85,6 +88,16 @@ class AddRecipeViewModel @Inject constructor(
                                 )
                             }
                         }
+                }
+                launch {
+                    categoryInteractor.getCategoryForRecipe(_recipeId).collect { category ->
+                        _persistedState.update {
+                            it.copy(
+                                selectedCategory = category
+                            )
+                        }
+                        _initialCategory.value = category
+                    }
                 }
             }
             launch {
@@ -131,6 +144,7 @@ class AddRecipeViewModel @Inject constructor(
                     selectedCategory = selectedCategory,
                 )
             }
+            updateIsChanged(_initialCategory.value != selectedCategory)
         }
     }
 

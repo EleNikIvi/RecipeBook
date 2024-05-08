@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "723ccf64d68225be6603bfeaacfed515",
+    "identityHash": "5ef0520beb0ac65556625251aabf734e",
     "entities": [
       {
         "tableName": "recipe",
@@ -75,7 +75,7 @@
         "foreignKeys": []
       },
       {
-        "tableName": "CategoryAndRecipeEntity",
+        "tableName": "category_recipe",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`categoryId` INTEGER NOT NULL, `recipeId` INTEGER NOT NULL, PRIMARY KEY(`categoryId`, `recipeId`))",
         "fields": [
           {
@@ -105,7 +105,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '723ccf64d68225be6603bfeaacfed515')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5ef0520beb0ac65556625251aabf734e')"
     ]
   }
 }

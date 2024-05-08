@@ -11,6 +11,9 @@ class CategoryInteractor @Inject constructor(
 
     fun getCategory(id: Long): Flow<Category> = categoryRepository.getCategory(id = id)
 
+    suspend fun getCategoryForRecipe(recipeId: Long): Flow<Category> =
+        categoryRepository.getCategoryForRecipe(recipeId = recipeId)
+
     suspend fun addCategory(
         title: String,
     ): Long = categoryRepository.addCategory(

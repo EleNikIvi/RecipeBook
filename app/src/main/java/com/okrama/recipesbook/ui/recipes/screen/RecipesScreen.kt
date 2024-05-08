@@ -94,7 +94,7 @@ fun RecipesScreen(
                                 Image(
                                     painter = painterResource(R.drawable.ic_empty_list),
                                     modifier = Modifier.size(160.dp),
-                                    contentDescription = "Message Image",
+                                    contentDescription = "",
                                 )
                                 Spacer(modifier = Modifier.height(24.dp))
                                 Text(
