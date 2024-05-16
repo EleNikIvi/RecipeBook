@@ -65,13 +65,13 @@ internal val Typography = RecipesBookTypography(
     ),
     headingLarge = TextStyle(
         fontSize = 28.sp,
-        lineHeight = 34.sp,
+        lineHeight = 36.sp,
         fontWeight = FontWeight.Medium,
         fontFamily = FontFamily.Default
     ),
     headingMedium = TextStyle(
         fontSize = 24.sp,
-        lineHeight = 34.sp,
+        lineHeight = 32.sp,
         fontWeight = FontWeight.Bold,
         fontFamily = FontFamily.Default
     ),
@@ -83,7 +83,7 @@ internal val Typography = RecipesBookTypography(
     ),
     bodyLarge = TextStyle(
         fontSize = 16.sp,
-        lineHeight = 34.sp,
+        lineHeight = 24.sp,
         fontWeight = FontWeight.Normal,
         fontFamily = FontFamily.Default
     ),

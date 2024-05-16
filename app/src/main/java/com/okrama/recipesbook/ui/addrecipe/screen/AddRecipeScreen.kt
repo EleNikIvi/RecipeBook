@@ -7,17 +7,14 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material.icons.twotone.Add
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -45,14 +42,10 @@ import androidx.compose.ui.unit.sp
 import com.okrama.recipesbook.R
 import com.okrama.recipesbook.ui.addrecipe.AddRecipeScreenState
 import com.okrama.recipesbook.ui.core.DevicePreviews
-import com.okrama.recipesbook.ui.core.components.CardComponent
 import com.okrama.recipesbook.ui.core.components.RecipeGalleryImage
 import com.okrama.recipesbook.ui.core.components.inputfields.RecipeTextField
-import com.okrama.recipesbook.ui.core.components.inputfields.SpinnerComponent
-import com.okrama.recipesbook.ui.core.components.inputfields.getStringValue
 import com.okrama.recipesbook.ui.core.theme.Green0
 import com.okrama.recipesbook.ui.core.theme.Green3
-import com.okrama.recipesbook.ui.core.theme.Grey0
 import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
 import com.okrama.recipesbook.ui.core.theme.Yellow1
 import com.okrama.recipesbook.ui.core.theme.Yellow4
@@ -93,7 +86,7 @@ fun AddRecipeScreen(
                         .imePadding()
                         .fillMaxSize()
                         .background(Green0)
-                        .padding(16.dp)
+                        //.padding(16.dp)
                         .verticalScroll(rememberScrollState()),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -101,53 +94,29 @@ fun AddRecipeScreen(
                         modifier = Modifier
                             .height(300.dp)
                             .width(300.dp)
-                            .padding(bottom = 16.dp),
+                            .padding(16.dp),
                         imageUrl = state.imageUrl,
                         onImageAdded = onImageAdded,
                     )
+                    CategorySpinner(
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                        categoriesDropdown = state.categoriesDropdown,
+                        onCategoryChange = onCategoryChange,
+                        onAddNewCategory = onAddNewCategory,
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
                     RecipeTextField(
                         text = state.title,
-                        modifier = Modifier.padding(vertical = 8.dp),
+                        modifier = Modifier.padding(horizontal = 16.dp),
                         onTextChange = onRecipeNameChange,
                         placeholder = stringResource(id = R.string.recipe_name_placeholder),
                         singleLine = true,
                     )
-
                     RecipeTextField(
                         text = state.description,
-                        modifier = Modifier.padding(vertical = 8.dp),
+                        modifier = Modifier.padding(16.dp),
                         onTextChange = onRecipeDescriptionChange,
                         placeholder = stringResource(id = R.string.recipe_description_placeholder),
-                    )
-                    SpinnerComponent(
-                        label = stringResource(id = R.string.category_label),
-                        modifier = Modifier.padding(vertical = 8.dp),
-                        selectedCategory = getStringValue(
-                            state.categoriesDropdown.valueResId,
-                            state.categoriesDropdown.value
-                        ),
-                        spinnerItems = state.categoriesDropdown.spinnerItems,
-                        onSelectionChanged = onCategoryChange,
-                        actionIcon = {
-                            Spacer(modifier = Modifier.width(16.dp))
-                            CardComponent(
-                                onClick = { onAddNewCategory() },
-                                backgroundColor = Grey0,
-                                elevation = RecipesBookTheme.elevation.small,
-                                enforceTouchTargetSize = false
-                            ) {
-                                Column {
-                                    Icon(
-                                        painter = rememberVectorPainter(image = Icons.TwoTone.Add),
-                                        modifier = Modifier
-                                            .widthIn(min = 36.dp)
-                                            .heightIn(min = 36.dp),
-                                        contentDescription = null,
-                                        tint = Green0,
-                                    )
-                                }
-                            }
-                        }
                     )
                 }
             }
