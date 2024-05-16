@@ -18,8 +18,8 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.okrama.recipesbook.R
-import com.okrama.recipesbook.ui.core.theme.Green0
 import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
+import com.okrama.recipesbook.ui.core.theme.primaryLight
 
 @Composable
 fun ImageComponent(
@@ -45,7 +45,7 @@ fun ImageComponent(
         contentDescription = contentDescription,
         modifier = modifier
             .clip(shape = RoundedCornerShape(size = cornerRadius))
-            .background(Green0)
+            .background(primaryLight)
             .padding(padding),
         contentScale = ContentScale.Crop,
     )

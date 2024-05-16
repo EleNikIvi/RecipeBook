@@ -31,6 +31,10 @@ import com.okrama.recipesbook.ui.core.theme.Green1
 import com.okrama.recipesbook.ui.core.theme.Green3
 import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
 import com.okrama.recipesbook.ui.core.theme.Yellow4
+import com.okrama.recipesbook.ui.core.theme.errorLight
+import com.okrama.recipesbook.ui.core.theme.onPrimaryContainerLight
+import com.okrama.recipesbook.ui.core.theme.primaryContainerLight
+import com.okrama.recipesbook.ui.core.theme.primaryLight
 
 @Composable
 fun ButtonAdd(
@@ -47,15 +51,15 @@ fun ButtonAdd(
         modifier = modifier
             .dropShadow(
                 elevation = 20.dp,
-                color = Green3.copy(alpha = 0.2f),
+                color = primaryLight.copy(alpha = 0.2f),
                 offsetY = 8.dp,
                 cornerRadius = 8.dp,
             )
             .height(height = buttonHeight),
         shape = RecipesBookTheme.shapes.medium,
         colors = ButtonDefaults.buttonColors(
-            containerColor = Yellow4,
-            contentColor = Green1,
+            containerColor = primaryContainerLight,
+            contentColor = onPrimaryContainerLight,
         ),
         contentPadding = contentPadding,
         onClick = onClick
@@ -63,7 +67,6 @@ fun ButtonAdd(
         Icon(
             painter = rememberVectorPainter(image = Icons.TwoTone.Add),
             contentDescription = stringResource(id = R.string.add_label),
-            tint = Green1,
         )
         Spacer(modifier = Modifier.width(horizontalGap))
         Text(

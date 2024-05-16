@@ -30,9 +30,10 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.okrama.recipesbook.ui.core.components.inputfields.model.SpinnerItem
-import com.okrama.recipesbook.ui.core.theme.Green0
-import com.okrama.recipesbook.ui.core.theme.Grey0
 import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
+import com.okrama.recipesbook.ui.core.theme.backgroundLight
+import com.okrama.recipesbook.ui.core.theme.onSurfaceLight
+import com.okrama.recipesbook.ui.core.theme.primaryLight
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -76,7 +77,7 @@ fun SpinnerComponent(
             ExposedDropdownMenu(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Grey0),
+                    .background(backgroundLight),
                 expanded = expanded,
                 onDismissRequest = { expanded = false }
             ) {
@@ -85,6 +86,7 @@ fun SpinnerComponent(
                         text = {
                             Text(
                                 text = getStringValue(item.valueResId, item.value),
+                                color = onSurfaceLight,
                                 style = RecipesBookTheme.typography.bodyLarge,
                             )
                         },
@@ -185,7 +187,7 @@ private fun SpinnerWithActionButtonPreview() {
                     ) {
                         Icon(
                             painter = rememberVectorPainter(image = Icons.Rounded.Add),
-                            tint = Green0,
+                            tint = primaryLight,
                             contentDescription = "",
                         )
                     }

@@ -73,6 +73,8 @@ dependencies {
     implementation ("androidx.hilt:hilt-navigation-compose:1.0.0")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.0-beta01")
 
+    implementation("com.google.accompanist:accompanist-insets:0.22.0-rc")
+
     implementation ("androidx.room:room-runtime:2.6.1")
     // To use Kotlin annotation processing tool (kapt)
     ksp("androidx.room:room-compiler:2.6.1")

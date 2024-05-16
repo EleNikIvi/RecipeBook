@@ -33,8 +33,9 @@ import com.okrama.recipesbook.R
 import com.okrama.recipesbook.model.Recipe
 import com.okrama.recipesbook.ui.core.Const.LOREM_IPSUM
 import com.okrama.recipesbook.ui.core.components.ImageComponent
-import com.okrama.recipesbook.ui.core.theme.Grey0
 import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
+import com.okrama.recipesbook.ui.core.theme.onTertiaryContainerLight
+import com.okrama.recipesbook.ui.core.theme.tertiaryContainerLight
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -48,14 +49,15 @@ fun RecipeItem(
     Card(
         modifier = Modifier
             .fillMaxSize()
-            .combinedClickable(onLongClick = {
-                isExpanded = true
-            }, onClick = { onRecipeSelected(recipe.recipeId) }),
+            .combinedClickable(
+                onLongClick = {
+                    isExpanded = true
+                }, onClick = { onRecipeSelected(recipe.recipeId) }),
         elevation = CardDefaults.cardElevation(
             defaultElevation = 8.dp
         ),
         colors = CardDefaults.cardColors(
-            containerColor = Grey0
+            containerColor = tertiaryContainerLight
         )
     ) {
         Column(
@@ -77,35 +79,55 @@ fun RecipeItem(
                 modifier = Modifier
                     .padding(8.dp)
                     .semantics { contentDescription = recipe.title },
+                color = onTertiaryContainerLight,
                 text = recipe.title,
+                style = RecipesBookTheme.typography.bodyLarge,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Normal,
                 maxLines = 2,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
             )
 
-            DropdownMenu(
-                expanded = isExpanded,
-                onDismissRequest = { isExpanded = false }
-            ) {
-                DropdownMenuItem(
-                    text = { Text(text = stringResource(id = R.string.button_delete)) },
-                    onClick = {
-                        isExpanded = false
-                        onDeleteRecipe(recipe.recipeId)
-                    }
-                )
-                DropdownMenuItem(
-                    text = { Text(text = stringResource(id = R.string.button_edit)) },
-                    onClick = {
-                        isExpanded = false
-                        onEditRecipe(recipe.recipeId)
-                    }
-                )
-            }
+            RecipesDropdownMenu(
+                isExpanded = isExpanded,
+                onDismiss = { isExpanded = false },
+                onDeleteRecipe = {
+                    isExpanded = false
+                    onDeleteRecipe(recipe.recipeId)
+                },
+                onEditRecipe = {
+                    isExpanded = false
+                    onEditRecipe(recipe.recipeId)
+                },
+            )
         }
     }
+}
 
+@Composable
+private fun RecipesDropdownMenu(
+    isExpanded: Boolean,
+    onDismiss: () -> Unit,
+    onDeleteRecipe: () -> Unit,
+    onEditRecipe: () -> Unit,
+) {
+    DropdownMenu(
+        expanded = isExpanded,
+        onDismissRequest = onDismiss
+    ) {
+        DropdownMenuItem(
+            text = { Text(text = stringResource(id = R.string.button_delete)) },
+            onClick = {
+                onDeleteRecipe()
+            }
+        )
+        DropdownMenuItem(
+            text = { Text(text = stringResource(id = R.string.button_edit)) },
+            onClick = {
+                onEditRecipe()
+            }
+        )
+    }
 }
 
 @Preview

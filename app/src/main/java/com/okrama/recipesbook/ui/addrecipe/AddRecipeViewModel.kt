@@ -54,13 +54,12 @@ class AddRecipeViewModel @Inject constructor(
 
         if (!isSaved) {
             val dropdown = getCategoriesDropdown(categories, persistedState.selectedCategory)
-            Log.d("RecipeGalleryImage", "recipe.imageUrl ${persistedState.imageUrl}")
             AddRecipeScreenState.Initial(
                 imageUrl = persistedState.imageUrl,
                 title = persistedState.title,
                 description = persistedState.description,
                 categoriesDropdown = dropdown,
-                canSave = persistedState.isChanged,
+                canSave = persistedState.title.isNotBlank() && persistedState.isChanged,
             )
         } else {
             AddRecipeScreenState.Saved

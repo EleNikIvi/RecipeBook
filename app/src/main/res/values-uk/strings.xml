@@ -6,6 +6,7 @@
     <string name="search_hint">Пошук рецепту</string>
     <string name="add_new_recipe">Додавання рецепту</string>
     <string name="add_label">Додати</string>
+    <string name="add_photo_label">Додати зображення</string>
     <string name="recipe_image">Зображення рецепту</string>
     <string name="navigate_back">Навігація назад</string>
     <string name="recipe_name_placeholder">Введіть назву рецепту</string>

@@ -27,12 +27,11 @@ import androidx.compose.ui.unit.dp
 import com.okrama.recipesbook.model.Category
 import com.okrama.recipesbook.ui.core.components.CardComponent
 import com.okrama.recipesbook.ui.core.components.inputfields.getStringValue
-import com.okrama.recipesbook.ui.core.theme.Green0
-import com.okrama.recipesbook.ui.core.theme.Green1
-import com.okrama.recipesbook.ui.core.theme.Green2
-import com.okrama.recipesbook.ui.core.theme.Grey2
 import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
-import com.okrama.recipesbook.ui.core.theme.Yellow1
+import com.okrama.recipesbook.ui.core.theme.inversePrimaryContainerLight
+import com.okrama.recipesbook.ui.core.theme.onPrimaryContainerLight
+import com.okrama.recipesbook.ui.core.theme.onPrimaryLight
+import com.okrama.recipesbook.ui.core.theme.primaryContainerLight
 
 @Composable
 fun FilterRail(
@@ -73,7 +72,7 @@ private fun FilterChip(
 ) {
     CardComponent(
         onClick = onClick,
-        backgroundColor = if (isSelected) Yellow1 else Color.Transparent,
+        backgroundColor = if (isSelected) inversePrimaryContainerLight else Color.Transparent,
         elevation = if (isSelected) RecipesBookTheme.elevation.small else 0.dp,
         enforceTouchTargetSize = false
     ) {
@@ -86,7 +85,7 @@ private fun FilterChip(
             Text(
                 text = title,
                 style = RecipesBookTheme.typography.bodyMediumStrong,
-                color = if (isSelected) Green1 else Green2,
+                color = onPrimaryLight,
                 modifier = Modifier
                     .semantics { contentDescription = title },
             )
@@ -100,7 +99,7 @@ private fun AddNewFilterChip(
 ) {
     CardComponent(
         onClick = onClick,
-        backgroundColor = Green0,
+        backgroundColor = primaryContainerLight,
         elevation = RecipesBookTheme.elevation.small,
         enforceTouchTargetSize = false
     ) {
@@ -115,7 +114,7 @@ private fun AddNewFilterChip(
                 painter = rememberVectorPainter(image = Icons.TwoTone.Add),
                 modifier = Modifier.size(20.dp),
                 contentDescription = null,
-                tint = Grey2,
+                tint = onPrimaryContainerLight,
             )
         }
     }

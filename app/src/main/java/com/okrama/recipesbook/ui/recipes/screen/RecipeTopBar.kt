@@ -32,8 +32,9 @@ import com.okrama.recipesbook.model.Category
 import com.okrama.recipesbook.ui.core.components.ButtonAdd
 import com.okrama.recipesbook.ui.core.components.filterrail.FilterRail
 import com.okrama.recipesbook.ui.core.components.inputfields.SearchFieldComponent
-import com.okrama.recipesbook.ui.core.theme.Green0
-import com.okrama.recipesbook.ui.core.theme.Yellow1
+import com.okrama.recipesbook.ui.core.theme.inversePrimaryLight
+import com.okrama.recipesbook.ui.core.theme.onPrimaryContainerLight
+import com.okrama.recipesbook.ui.core.theme.primaryLight
 import com.okrama.recipesbook.ui.recipes.RecipesScreenState
 
 
@@ -53,7 +54,7 @@ fun RecipesToolbar(
 
     Column(
         modifier = Modifier
-            .background(Brush.horizontalGradient(listOf(Yellow1, Green0)))
+            .background(Brush.horizontalGradient(listOf(inversePrimaryLight, primaryLight)))
             .fillMaxWidth(),
     ) {
         Title(
@@ -130,6 +131,7 @@ fun Title(
                 .weight(1f),
             text = stringResource(id = R.string.app_title),
             textAlign = TextAlign.Start,
+            color = onPrimaryContainerLight,
             fontSize = if (isCollapsed) 20.sp else 40.sp,
             fontFamily = FontFamily.Cursive,
             fontWeight = FontWeight.Bold,

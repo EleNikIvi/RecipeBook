@@ -32,6 +32,7 @@ data class RecipesBookTypography internal constructor(
     val headingXLarge: TextStyle,
     val headingLarge: TextStyle,
     val headingMedium: TextStyle,
+    val headingSmallStrong: TextStyle,
     val headingSmall: TextStyle,
     // Body
     val bodyLarge: TextStyle,
@@ -75,10 +76,16 @@ internal val Typography = RecipesBookTypography(
         fontWeight = FontWeight.Bold,
         fontFamily = FontFamily.Default
     ),
-    headingSmall = TextStyle(
+    headingSmallStrong = TextStyle(
         fontSize = 20.sp,
         lineHeight = 28.sp,
         fontWeight = FontWeight.Bold,
+        fontFamily = FontFamily.Default
+    ),
+    headingSmall = TextStyle(
+        fontSize = 20.sp,
+        lineHeight = 28.sp,
+        fontWeight = FontWeight.Medium,
         fontFamily = FontFamily.Default
     ),
     bodyLarge = TextStyle(
@@ -176,6 +183,7 @@ internal val LocalRecipesBookTypography = staticCompositionLocalOf {
         headingXLarge = TextStyle.Default,
         headingLarge = TextStyle.Default,
         headingMedium = TextStyle.Default,
+        headingSmallStrong = TextStyle.Default,
         headingSmall = TextStyle.Default,
         bodyLarge = TextStyle.Default,
         bodyLargeStrong = TextStyle.Default,
@@ -201,7 +209,7 @@ private fun TypographyPreview() {
         "headingXLarge" to Typography.headingXLarge,
         "headingLarge" to Typography.headingLarge,
         "headingMedium" to Typography.headingMedium,
-        "headingSmall" to Typography.headingSmall,
+        "headingSmall" to Typography.headingSmallStrong,
         "bodyLarge" to Typography.bodyLarge,
         "bodyLargeStrong" to Typography.bodyLargeStrong,
         "bodyMedium" to Typography.bodyMedium,

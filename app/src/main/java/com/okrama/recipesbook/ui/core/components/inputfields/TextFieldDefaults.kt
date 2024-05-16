@@ -4,7 +4,6 @@ import androidx.compose.foundation.hoverable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.TextSelectionColors
@@ -23,11 +22,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.okrama.recipesbook.R
-import com.okrama.recipesbook.ui.addcategory.MAX_CATEGORY_TITLE_CHAR
-import com.okrama.recipesbook.ui.core.theme.Green1
-import com.okrama.recipesbook.ui.core.theme.Grey0
-import com.okrama.recipesbook.ui.core.theme.Grey5
 import com.okrama.recipesbook.ui.core.theme.InteractiveColor
+import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
+import com.okrama.recipesbook.ui.core.theme.onPrimaryContainerLight
+import com.okrama.recipesbook.ui.core.theme.onSurfaceLight
+import com.okrama.recipesbook.ui.core.theme.onSurfaceVariantLight
+import com.okrama.recipesbook.ui.core.theme.surfaceLight
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -41,7 +41,6 @@ fun RecipeTextField(
     singleLine: Boolean = false,
 ) {
     val focusManager = LocalFocusManager.current
-
     TextField(
         value = text,
         onValueChange = onTextChange,
@@ -58,7 +57,7 @@ fun RecipeTextField(
         keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
         interactionSource = interactionSource,
         colors = textFieldColors(),
-        shape = RoundedCornerShape(4.dp),
+        shape = RecipesBookTheme.shapes.small,
         modifier = modifier
             .fillMaxWidth()
             .hoverable(
@@ -91,6 +90,7 @@ fun RecipeTextFieldWithLimit(
         },
         supportingText = {
             Text(
+                color = onPrimaryContainerLight,
                 text = stringResource(id = R.string.max_length_format, text.length, maxTitleLength),
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.End,
@@ -109,7 +109,7 @@ fun RecipeTextFieldWithLimit(
         keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
         interactionSource = interactionSource,
         colors = textFieldColors(),
-        shape = RoundedCornerShape(4.dp),
+        shape = RecipesBookTheme.shapes.small,
         modifier = modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp)
@@ -122,7 +122,7 @@ fun RecipeTextFieldWithLimit(
 
 @Composable
 internal fun defaultTextSelectionColors(): TextSelectionColors {
-    val interactiveColor = InteractiveColor
+    val interactiveColor = onPrimaryContainerLight
     return remember(interactiveColor) {
         TextSelectionColors(
             handleColor = interactiveColor,
@@ -134,13 +134,13 @@ internal fun defaultTextSelectionColors(): TextSelectionColors {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun textFieldColors() = TextFieldDefaults.textFieldColors(
-    textColor = Green1,
-    containerColor = Grey0,
+    textColor = onSurfaceLight,
+    containerColor = surfaceLight,
     focusedIndicatorColor = Color.Transparent,
     unfocusedIndicatorColor = Color.Transparent,
     disabledIndicatorColor = Color.Transparent,
-    focusedLabelColor = Grey5,
-    unfocusedLabelColor = Grey5,
-    placeholderColor = Grey5,
-    disabledPlaceholderColor = Grey5,
+    focusedLabelColor = onSurfaceVariantLight,
+    unfocusedLabelColor = onSurfaceVariantLight,
+    placeholderColor = onSurfaceVariantLight,
+    disabledPlaceholderColor = onSurfaceVariantLight,
 )

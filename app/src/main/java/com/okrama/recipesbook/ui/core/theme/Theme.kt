@@ -26,7 +26,7 @@ fun RecipesBookTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = Green0.toArgb()
+            window.statusBarColor = primaryLight.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
         }
     }

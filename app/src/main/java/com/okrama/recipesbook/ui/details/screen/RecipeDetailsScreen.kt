@@ -36,10 +36,10 @@ import androidx.compose.ui.unit.dp
 import com.okrama.recipesbook.R
 import com.okrama.recipesbook.ui.core.DevicePreviews
 import com.okrama.recipesbook.ui.core.components.ImageComponent
-import com.okrama.recipesbook.ui.core.theme.Grey0
 import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
-import com.okrama.recipesbook.ui.core.theme.Yellow0
-import com.okrama.recipesbook.ui.core.theme.Yellow1
+import com.okrama.recipesbook.ui.core.theme.outlineLight
+import com.okrama.recipesbook.ui.core.theme.outlineVariantLight
+import com.okrama.recipesbook.ui.core.theme.primaryContainerLight
 import com.okrama.recipesbook.ui.details.RecipeDetailsScreenState
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -57,14 +57,13 @@ fun RecipeDetailsScreen(
             modifier = Modifier
                 .padding(paddingValues)
                 .fillMaxSize()
-                .background(Yellow1)
+                .background(primaryContainerLight)
         ) {
             Column(
                 modifier = Modifier
                     .systemBarsPadding()
                     .imePadding()
                     .fillMaxSize()
-                    .background(Yellow1)
                     .verticalScroll(rememberScrollState()),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -107,11 +106,11 @@ fun RecipeDetailsScreen(
                     modifier = Modifier
                         .clip(shape = RoundedCornerShape(size = 25.dp))
                         .size(35.dp)
-                        .background(Yellow0),
+                        .background(outlineLight),
                 ) {
                     Icon(
                         painter = rememberVectorPainter(image = Icons.Rounded.ArrowBack),
-                        tint = Grey0,
+                        tint = outlineVariantLight,
                         contentDescription = stringResource(id = R.string.navigate_back)
                     )
                 }
@@ -124,12 +123,12 @@ fun RecipeDetailsScreen(
                     modifier = Modifier
                         .clip(shape = RoundedCornerShape(size = 25.dp))
                         .size(35.dp)
-                        .background(Yellow0),
+                        .background(outlineLight),
                 ) {
                     Icon(
                         painter = rememberVectorPainter(image = Icons.Rounded.Edit),
-                        tint = Grey0,
-                        contentDescription = stringResource(id = R.string.navigate_back)
+                        tint = outlineVariantLight,
+                        contentDescription = stringResource(id = R.string.button_edit)
                     )
                 }
             }

@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.icons.Icons
@@ -20,9 +19,8 @@ import com.okrama.recipesbook.ui.addrecipe.DropdownField
 import com.okrama.recipesbook.ui.core.components.CardComponent
 import com.okrama.recipesbook.ui.core.components.inputfields.SpinnerComponent
 import com.okrama.recipesbook.ui.core.components.inputfields.getStringValue
-import com.okrama.recipesbook.ui.core.theme.Green0
-import com.okrama.recipesbook.ui.core.theme.Grey0
 import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
+import com.okrama.recipesbook.ui.core.theme.primaryLight
 
 @Composable
 fun CategorySpinner(
@@ -46,9 +44,8 @@ fun CategorySpinner(
                 Spacer(modifier = Modifier.width(16.dp))
                 CardComponent(
                     onClick = { onAddNewCategory() },
-                    backgroundColor = Grey0,
-                    elevation = RecipesBookTheme.elevation.small,
-                    enforceTouchTargetSize = false
+                    contentColor = primaryLight,
+                    elevation = RecipesBookTheme.elevation.medium,
                 ) {
                     Column {
                         Icon(
@@ -57,7 +54,6 @@ fun CategorySpinner(
                                 .widthIn(min = 36.dp)
                                 .heightIn(min = 36.dp),
                             contentDescription = null,
-                            tint = Green0,
                         )
                     }
                 }

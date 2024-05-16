@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalMinimumTouchTargetEnforcement
@@ -22,14 +21,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.okrama.recipesbook.ui.core.theme.Green1
-import com.okrama.recipesbook.ui.core.theme.Grey0
-import com.okrama.recipesbook.ui.core.theme.Grey5
 import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
+import com.okrama.recipesbook.ui.core.theme.backgroundLight
+import com.okrama.recipesbook.ui.core.theme.onBackgroundLight
+import com.okrama.recipesbook.ui.core.theme.onPrimaryContainerLight
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -38,8 +36,8 @@ fun CardComponent(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     shape: Shape = RecipesBookTheme.shapes.medium,
-    backgroundColor: Color = Grey0,
-    contentColor: Color = Green1,
+    backgroundColor: Color = backgroundLight,
+    contentColor: Color = onBackgroundLight,
     border: BorderStroke? = null,
     elevation: Dp = RecipesBookTheme.elevation.small,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
@@ -54,11 +52,14 @@ fun CardComponent(
             modifier = modifier.shadow(
                 elevation = elevation,
                 shape = shape,
-                spotColor = Grey5
+                spotColor = onPrimaryContainerLight,
             ),
             enabled = enabled,
             shape = shape,
-            colors = CardDefaults.cardColors(contentColor = contentColor, containerColor = backgroundColor,),
+            colors = CardDefaults.cardColors(
+                contentColor = contentColor,
+                containerColor = backgroundColor,
+            ),
             elevation = CardDefaults.cardElevation(
                 defaultElevation = 0.dp
             ),
@@ -99,6 +100,6 @@ private fun ClickablePreview() {
 @Composable
 private fun DummyCardContent(text: String) {
     Box(modifier = Modifier.size(56.dp), contentAlignment = Alignment.Center) {
-        Text(text = text,)
+        Text(text = text)
     }
 }

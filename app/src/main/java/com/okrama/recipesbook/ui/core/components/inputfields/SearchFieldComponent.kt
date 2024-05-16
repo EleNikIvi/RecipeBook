@@ -30,8 +30,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.okrama.recipesbook.R
-import com.okrama.recipesbook.ui.core.theme.Grey5
 import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
+import com.okrama.recipesbook.ui.core.theme.onSurfaceVariantLight
 import timber.log.Timber
 
 private val ICON_SIZE = 24.dp
@@ -57,7 +57,7 @@ fun SearchFieldComponent(
                 painter = rememberVectorPainter(image = Icons.TwoTone.Search),
                 contentDescription = "",
                 modifier = Modifier.size(ICON_SIZE),
-                tint = Grey5,
+                tint = onSurfaceVariantLight,
             )
         },
         trailingIcon = if (searchTerm.isNotEmpty()) {
@@ -67,7 +67,7 @@ fun SearchFieldComponent(
                         painter = rememberVectorPainter(image = Icons.TwoTone.Close),
                         contentDescription = searchClearContentDescription,
                         modifier = Modifier.size(ICON_SIZE),
-                        tint = Grey5,
+                        tint = onSurfaceVariantLight,
                     )
                 }
             }

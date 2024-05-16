@@ -1,39 +1,25 @@
 package com.okrama.recipesbook.ui.recipes.screen
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import com.okrama.recipesbook.R
 import com.okrama.recipesbook.model.Category
 import com.okrama.recipesbook.ui.core.DevicePreviews
-import com.okrama.recipesbook.ui.core.theme.Grey1
 import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
+import com.okrama.recipesbook.ui.core.theme.backgroundLight
 import com.okrama.recipesbook.ui.recipes.RecipesScreenState
 
 
@@ -55,7 +41,7 @@ fun RecipesScreen(
     Scaffold(
         modifier = Modifier
             .fillMaxSize(),
-        containerColor = Grey1,
+        containerColor = backgroundLight,
         topBar = {
             RecipesToolbar(
                 screenState,
@@ -76,50 +62,25 @@ fun RecipesScreen(
             LazyVerticalGrid(
                 columns = GridCells.Adaptive(minSize = 130.dp),
                 state = listState,
+                contentPadding = PaddingValues(8.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 if (screenState.recipes.isEmpty()) {
-                    item(span = { GridItemSpan(maxLineSpan) }) { // TODO Empty message
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(16.dp),
-                            contentAlignment = Alignment.Center,
-                        ) {
-                            Column(
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                                modifier = Modifier.widthIn(max = 544.dp)
-                            ) {
-                                Image(
-                                    painter = painterResource(R.drawable.ic_empty_list),
-                                    modifier = Modifier.size(160.dp),
-                                    contentDescription = "",
-                                )
-                                Spacer(modifier = Modifier.height(24.dp))
-                                Text(
-                                    text = stringResource(id = R.string.message_empty),
-                                )
-                            }
-
-                        }
+                    item(span = { GridItemSpan(maxLineSpan) }) {
+                        RecipesEmptyMessage()
                     }
                 } else {
                     items(
                         items = screenState.recipes,
                         key = { it.recipeId },
                     ) { recipe ->
-                        Column(
-                            modifier = Modifier
-                                .padding(PaddingValues(all = 8.dp))
-                        ) {
-                            RecipeItem(
-                                recipe = recipe,
-                                onRecipeSelected = onRecipeSelected,
-                                onDeleteRecipe = onDeleteRecipe,
-                                onEditRecipe = onEditRecipe,
-                            )
-                        }
+                        RecipeItem(
+                            recipe = recipe,
+                            onRecipeSelected = onRecipeSelected,
+                            onDeleteRecipe = onDeleteRecipe,
+                            onEditRecipe = onEditRecipe,
+                        )
                     }
                 }
 
