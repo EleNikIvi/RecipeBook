@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.okrama.recipesbook.data.local.dao.CategoryAndRecipeDao
 import com.okrama.recipesbook.data.local.dao.CategoryDao
+import com.okrama.recipesbook.data.local.dao.RecipeAndIngredientsDao
 import com.okrama.recipesbook.data.local.dao.RecipeDao
 import dagger.Module
 import dagger.Provides
@@ -28,6 +29,11 @@ class DatabaseModule {
     @Provides
     fun provideCategoryAndRecipeDao(appDatabase: RecipeBookDatabase): CategoryAndRecipeDao {
         return appDatabase.categoryAndRecipeDao
+    }
+
+    @Provides
+    fun provideRecipeAndIngredientsDao(appDatabase: RecipeBookDatabase): RecipeAndIngredientsDao {
+        return appDatabase.recipeAndIngredientsDao
     }
 
     @Provides

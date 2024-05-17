@@ -11,11 +11,13 @@
     <string name="navigate_back">Navigate back</string>
     <string name="recipe_name_placeholder">Enter recipe name</string>
     <string name="recipe_description_placeholder">Enter recipe description</string>
+    <string name="recipe_ingredients_placeholder">Enter ingredients (separate by Enter)</string>
     <string name="title_new_recipe">New Recipe</string>
     <string name="button_save">Save</string>
     <string name="button_clear_description">Clear search</string>
     <string name="button_delete">Delete</string>
     <string name="button_edit">Edit</string>
+    <string name="ingredients_label">Ingredients</string>
     <string name="filter_category_all">All</string>
     <string name="title_new_category">New Category</string>
     <string name="category_name_placeholder">Enter category name</string>

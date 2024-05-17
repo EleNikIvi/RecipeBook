@@ -22,7 +22,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.okrama.recipesbook.R
-import com.okrama.recipesbook.ui.core.theme.InteractiveColor
 import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
 import com.okrama.recipesbook.ui.core.theme.onPrimaryContainerLight
 import com.okrama.recipesbook.ui.core.theme.onSurfaceLight
@@ -38,6 +37,7 @@ fun RecipeTextField(
     onTextChange: (String) -> Unit,
     enabled: Boolean = true,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    imeAction: ImeAction = ImeAction.Done,
     singleLine: Boolean = false,
 ) {
     val focusManager = LocalFocusManager.current
@@ -53,7 +53,7 @@ fun RecipeTextField(
         },
         enabled = true,
         singleLine = singleLine,
-        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+        keyboardOptions = KeyboardOptions(imeAction = imeAction),
         keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
         interactionSource = interactionSource,
         colors = textFieldColors(),

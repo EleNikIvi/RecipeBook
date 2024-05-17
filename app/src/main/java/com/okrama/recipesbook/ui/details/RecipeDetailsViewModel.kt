@@ -1,8 +1,10 @@
 package com.okrama.recipesbook.ui.details
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.okrama.recipesbook.domain.category.CategoryInteractor
 import com.okrama.recipesbook.domain.recipe.RecipeInteractor
 import com.okrama.recipesbook.model.EMPTY_RECIPE_ID
 import com.okrama.recipesbook.ui.core.flow.SaveableStateFlow
@@ -19,6 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class RecipeDetailsViewModel @Inject constructor(
     private val recipeInteractor: RecipeInteractor,
+    private val categoryInteractor: CategoryInteractor,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -32,22 +35,34 @@ class RecipeDetailsViewModel @Inject constructor(
         key = "recipe-details-view-model-name-key",
         initialValue = "",
     )
+    private val _category = savedStateHandle.saveableStateFlow(
+        key = "recipe-details-view-model-category-key",
+        initialValue = "",
+    )
     private val _recipeDescription = savedStateHandle.saveableStateFlow(
         key = "recipe-details-view-model-description-key",
+        initialValue = "",
+    )
+    private val _ingredients = savedStateHandle.saveableStateFlow(
+        key = "recipe-details-view-model-ingredients-key",
         initialValue = "",
     )
 
     val screenState: StateFlow<RecipeDetailsScreenState> = combine(
         _recipeImageUri.asStateFlow(),
         _recipeName.asStateFlow(),
+        _category.asStateFlow(),
         _recipeDescription.asStateFlow(),
-    ) { recipeImageUri, recipeName, recipeDescription ->
+        _ingredients.asStateFlow()
+    ) { recipeImageUri, recipeName, category, recipeDescription, ingredients ->
 
         RecipeDetailsScreenState(
             id = _recipeId,
             imageUrl = recipeImageUri,
             title = recipeName,
+            category = category,
             description = recipeDescription,
+            ingredients = ingredients
         )
 
     }.stateIn(
@@ -58,12 +73,22 @@ class RecipeDetailsViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            recipeInteractor.getRecipe(_recipeId)
-                .collect { recipe ->
-                    _recipeImageUri.value = recipe.imageUrl
-                    _recipeName.value = recipe.title
-                    _recipeDescription.value = recipe.description
+            launch {
+                recipeInteractor.getRecipeWithIngredients(_recipeId)
+                    .collect { recipeWithIngredients ->
+                        _recipeImageUri.value = recipeWithIngredients.recipe.imageUrl
+                        _recipeName.value = recipeWithIngredients.recipe.title
+                        _recipeDescription.value = recipeWithIngredients.recipe.description
+                        _ingredients.value = recipeInteractor.getIngredientsAsString(recipeWithIngredients.ingredients)
+                    }
+            }
+            launch {
+                launch {
+                    categoryInteractor.getCategoryForRecipe(_recipeId).collect { category ->
+                        _category.value = category.title ?: ""
+                    }
                 }
+            }
         }
     }
 }

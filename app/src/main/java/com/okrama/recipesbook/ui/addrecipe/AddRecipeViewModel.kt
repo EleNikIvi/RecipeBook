@@ -1,9 +1,9 @@
 package com.okrama.recipesbook.ui.addrecipe
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.okrama.recipesbook.data.local.entity.Ingredient
 import com.okrama.recipesbook.domain.category.CategoryInteractor
 import com.okrama.recipesbook.domain.recipe.RecipeInteractor
 import com.okrama.recipesbook.model.Category
@@ -39,6 +39,8 @@ class AddRecipeViewModel @Inject constructor(
     private val _initialTitle = MutableStateFlow("")
     private val _initialDescription = MutableStateFlow("")
     private val _initialCategory = MutableStateFlow(CategoryListProvider.CATEGORY_ALL)
+    private val _initialIngredients = MutableStateFlow(emptyList<Ingredient>())
+    private var _initialIngredientsStr = ""
     private val _categories = savedStateHandle.saveableStateFlow(
         key = "categories-view-model-list-key",
         initialValue = emptyList<Category>(),
@@ -59,6 +61,7 @@ class AddRecipeViewModel @Inject constructor(
                 title = persistedState.title,
                 description = persistedState.description,
                 categoriesDropdown = dropdown,
+                ingredients = persistedState.ingredients,
                 canSave = persistedState.title.isNotBlank() && persistedState.isChanged,
             )
         } else {
@@ -74,16 +77,19 @@ class AddRecipeViewModel @Inject constructor(
         viewModelScope.launch {
             if (_recipeId != EMPTY_RECIPE_ID) {
                 launch {
-                    recipeInteractor.getRecipe(_recipeId)
-                        .collect { recipe ->
-                            _initialImageUri.value = recipe.imageUrl
-                            _initialTitle.value = recipe.title
-                            _initialDescription.value = recipe.description
+                    recipeInteractor.getRecipeWithIngredients(_recipeId)
+                        .collect { recipeWithIngredients ->
+                            _initialIngredientsStr = recipeInteractor.getIngredientsAsString(recipeWithIngredients.ingredients)
+                            _initialImageUri.value = recipeWithIngredients.recipe.imageUrl
+                            _initialTitle.value = recipeWithIngredients.recipe.title
+                            _initialDescription.value = recipeWithIngredients.recipe.description
+                            _initialIngredients.value = recipeWithIngredients.ingredients
                             _persistedState.update {
                                 it.copy(
-                                    imageUrl = recipe.imageUrl,
-                                    title = recipe.title,
-                                    description = recipe.description,
+                                    imageUrl = recipeWithIngredients.recipe.imageUrl,
+                                    title = recipeWithIngredients.recipe.title,
+                                    description = recipeWithIngredients.recipe.description,
+                                    ingredients = _initialIngredientsStr
                                 )
                             }
                         }
@@ -147,6 +153,15 @@ class AddRecipeViewModel @Inject constructor(
         }
     }
 
+    fun onIngredientsChange(ingredients: String) {
+        _persistedState.update {
+            it.copy(
+                ingredients = ingredients,
+            )
+        }
+        updateIsChanged(ingredients != _initialIngredientsStr)
+    }
+
     fun saveRecipe() {
         viewModelScope.launch {
             val recipeId = if (_recipeId != EMPTY_RECIPE_ID) {
@@ -155,14 +170,16 @@ class AddRecipeViewModel @Inject constructor(
                     imageUrl = _persistedState.value.imageUrl ?: "",
                     title = _persistedState.value.title.trim(),
                     description = _persistedState.value.description.trim(),
-                    categoryId = _persistedState.value.selectedCategory.categoryId
+                    categoryId = _persistedState.value.selectedCategory.categoryId,
+                    ingredients = _persistedState.value.ingredients,
                 )
             } else {
                 recipeInteractor.addRecipe(
                     imageUrl = _persistedState.value.imageUrl ?: "",
                     title = _persistedState.value.title.trim(),
                     description = _persistedState.value.description.trim(),
-                    categoryId = _persistedState.value.selectedCategory.categoryId
+                    categoryId = _persistedState.value.selectedCategory.categoryId,
+                    ingredients = _persistedState.value.ingredients,
                 )
 
             }

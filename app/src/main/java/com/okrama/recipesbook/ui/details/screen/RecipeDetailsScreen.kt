@@ -88,7 +88,31 @@ fun RecipeDetailsScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(8.dp),
+                    text = state.category,
+                    textAlign = TextAlign.Center,
+                    style = RecipesBookTheme.typography.headingSmall,
+                )
+
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp),
                     text = state.description,
+                    style = RecipesBookTheme.typography.bodyLarge,
+                )
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp),
+                    text = stringResource(id = R.string.ingredients_label),
+                    textAlign = TextAlign.Center,
+                    style = RecipesBookTheme.typography.headingSmall,
+                )
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp),
+                    text = state.ingredients,
                     style = RecipesBookTheme.typography.bodyLarge,
                 )
             }

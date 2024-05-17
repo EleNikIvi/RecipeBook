@@ -7,5 +7,7 @@ data class RecipeDetailsScreenState(
     val id: Long = EMPTY_RECIPE_ID,
     val imageUrl: String = "",
     val title: String = "",
+    val category: String = "",
     val description: String = "",
+    val ingredients: String = "",
 )

@@ -11,11 +11,13 @@
     <string name="navigate_back">Навігація назад</string>
     <string name="recipe_name_placeholder">Введіть назву рецепту</string>
     <string name="recipe_description_placeholder">Введіть опис рецепту</string>
+    <string name="recipe_ingredients_placeholder">Введіть інгредієнти</string>
     <string name="title_new_recipe">Новий рецепт</string>
     <string name="button_save">Зберегти</string>
     <string name="button_clear_description">Очистити пошук</string>
     <string name="button_delete">Видалити</string>
     <string name="button_edit">Змінити</string>
+    <string name="ingredients_label">Інгредієнти</string>
     <string name="filter_category_all">Всі</string>
     <string name="title_new_category">Нова категорія</string>
     <string name="category_name_placeholder">Введіть назву категорії</string>

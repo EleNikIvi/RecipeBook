@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.okrama.recipesbook.R
@@ -27,6 +28,7 @@ fun AddRecipeScreen(
     onRecipeNameChange: (String) -> Unit,
     onRecipeDescriptionChange: (String) -> Unit,
     onCategoryChange: (Long) -> Unit,
+    onIngredientsChange: (String) -> Unit,
     onAddNewCategory: () -> Unit,
     onSaveRecipe: () -> Unit,
     upPress: () -> Unit,
@@ -58,13 +60,23 @@ fun AddRecipeScreen(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 onTextChange = onRecipeNameChange,
                 placeholder = stringResource(id = R.string.recipe_name_placeholder),
+                imeAction = ImeAction.Next,
                 singleLine = true,
             )
+            Spacer(modifier = Modifier.height(16.dp))
             RecipeTextField(
                 text = state.description,
-                modifier = Modifier.padding(16.dp),
+                modifier = Modifier.padding(horizontal = 16.dp),
                 onTextChange = onRecipeDescriptionChange,
                 placeholder = stringResource(id = R.string.recipe_description_placeholder),
+                imeAction = ImeAction.Next,
+            )
+            RecipeTextField(
+                text = state.ingredients,
+                modifier = Modifier.padding(16.dp),
+                onTextChange = onIngredientsChange,
+                placeholder = stringResource(id = R.string.recipe_ingredients_placeholder),
+                imeAction = ImeAction.Default,
             )
         }
     } else {
@@ -87,6 +99,7 @@ private fun AddRecipeScreenPreview(
             onRecipeNameChange = {},
             onRecipeDescriptionChange = {},
             onCategoryChange = {},
+            onIngredientsChange = {},
             onAddNewCategory = {},
             onSaveRecipe = {},
             upPress = {},

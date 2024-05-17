@@ -27,11 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.okrama.recipesbook.R
 import com.okrama.recipesbook.ui.core.dropShadow
-import com.okrama.recipesbook.ui.core.theme.Green1
-import com.okrama.recipesbook.ui.core.theme.Green3
 import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
-import com.okrama.recipesbook.ui.core.theme.Yellow4
-import com.okrama.recipesbook.ui.core.theme.errorLight
 import com.okrama.recipesbook.ui.core.theme.onPrimaryContainerLight
 import com.okrama.recipesbook.ui.core.theme.primaryContainerLight
 import com.okrama.recipesbook.ui.core.theme.primaryLight

@@ -15,6 +15,7 @@ sealed interface AddRecipeScreenState {
         val title: String = "",
         val description: String = "",
         val categoriesDropdown: DropdownField = DropdownField(),
+        val ingredients: String = "",
         val canSave: Boolean = false,
     ) : AddRecipeScreenState
 
@@ -34,6 +35,7 @@ data class AddRecipePersistedState(
     val title: String = "",
     val description: String = "",
     val selectedCategory: Category = CategoryListProvider.CATEGORY_ALL,
+    val ingredients: String = "",
     val isChanged: Boolean = false,
 ) : Parcelable
 

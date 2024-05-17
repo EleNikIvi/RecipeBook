@@ -119,11 +119,11 @@ class RecipesViewModel @Inject constructor(
 
     private suspend fun loadRecipes(category: Category) {
         viewModelScope.launch {
-            val recipes = recipeInteractor.getRecipesBy(category.categoryId)
-            _recipesForCategory.update { recipes?.recipes ?: emptyList() }
+            val recipesForCategory = recipeInteractor.getRecipesBy(category.categoryId)
+            _recipesForCategory.update { recipesForCategory?.recipes ?: emptyList() }
             _persistedState.update {
                 it.copy(
-                    searchFieldEnabled = !recipes?.recipes.isNullOrEmpty(),
+                    searchFieldEnabled = !recipesForCategory?.recipes.isNullOrEmpty(),
                     selectedCategory = category,
                 )
             }
