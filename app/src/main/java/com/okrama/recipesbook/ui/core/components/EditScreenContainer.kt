@@ -1,5 +1,6 @@
 package com.okrama.recipesbook.ui.core.components
 
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,11 +26,11 @@ import com.okrama.recipesbook.ui.core.theme.primaryLight
 fun EditScreenContainer(
     title: String,
     canSave: Boolean,
+    scrollState: ScrollState = rememberScrollState(),
     upPress: () -> Unit,
     onSave: () -> Unit,
     content: @Composable () -> Unit
 ) {
-    val scrollState = rememberScrollState()
     Scaffold(
         modifier = Modifier
             .fillMaxSize(),

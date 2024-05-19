@@ -9,7 +9,6 @@ import com.okrama.recipesbook.data.local.dao.RecipeDao
 import com.okrama.recipesbook.data.local.entity.CategoryAndRecipeEntity
 import com.okrama.recipesbook.data.local.entity.Ingredient
 import com.okrama.recipesbook.domain.recipe.RecipeRepository
-import com.okrama.recipesbook.domain.recipe.Recipes
 import com.okrama.recipesbook.domain.recipe.RecipesWithIngredients
 import com.okrama.recipesbook.model.CategoryId
 import com.okrama.recipesbook.model.CategoryWithRecipes
@@ -27,27 +26,27 @@ class RecipeRepositoryImpl @Inject constructor(
     private val recipeWithIngredientsDao: RecipeAndIngredientsDao,
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
 ) : RecipeRepository {
-    override fun getAllRecipes(): Flow<Recipes> = recipeDao.getAllRecipes()
-    override fun getAllRecipesWithIngredients(): Flow<RecipesWithIngredients>  = recipeWithIngredientsDao.getAllRecipesWithIngredients()
+    override fun getAllRecipes(): Flow<List<Recipe>> = recipeDao.getAllRecipes()
+    override fun getAllRecipesWithIngredients(): Flow<RecipesWithIngredients> =
+        recipeWithIngredientsDao.getAllRecipesWithIngredients()
 
     override suspend fun getRecipesBy(categoryId: CategoryId): CategoryWithRecipes? =
         categoryDao.getCategoryWithRecipes(categoryId = categoryId)
 
-    override fun getRecipeWithIngredients(id: Long): Flow<RecipeWithIngredients> = recipeWithIngredientsDao.getRecipeWithIngredients(id = id)
+    override fun getRecipeWithIngredients(id: Long): Flow<RecipeWithIngredients> =
+        recipeWithIngredientsDao.getRecipeWithIngredients(id = id)
 
     override suspend fun addRecipe(
         recipe: Recipe,
         categoryId: CategoryId,
         ingredients: List<String>
-    ) =
-        insertOrUpdateRecipe(recipe = recipe, categoryId = categoryId, ingredients = ingredients)
+    ) = insertOrUpdateRecipe(recipe = recipe, categoryId = categoryId, ingredients = ingredients)
 
     override suspend fun updateRecipe(
         recipe: Recipe,
         categoryId: CategoryId,
         ingredients: List<String>
-    ) =
-        insertOrUpdateRecipe(recipe = recipe, categoryId = categoryId, ingredients = ingredients)
+    ) = insertOrUpdateRecipe(recipe = recipe, categoryId = categoryId, ingredients = ingredients)
 
     private suspend fun insertOrUpdateRecipe(
         recipe: Recipe,

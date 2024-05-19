@@ -13,7 +13,7 @@ private const val INGREDIENTS_SEPARATOR = "\n"
 class RecipeInteractor @Inject constructor(
     private val recipeRepository: RecipeRepository,
 ) {
-    fun getAllRecipes(): Flow<Recipes> = recipeRepository.getAllRecipes()
+    fun getAllRecipes(): Flow<List<Recipe>> = recipeRepository.getAllRecipes()
     suspend fun getRecipesBy(categoryId: CategoryId): CategoryWithRecipes? =
         recipeRepository.getRecipesBy(categoryId = categoryId)
 
@@ -33,7 +33,7 @@ class RecipeInteractor @Inject constructor(
             imageUrl = imageUrl,
         ),
         categoryId = categoryId,
-        ingredients = getIngredientsAsList(ingredients),
+        ingredients = if(ingredients.isBlank()) emptyList() else getIngredientsAsList(ingredients),
     )
 
     suspend fun updateRecipe(

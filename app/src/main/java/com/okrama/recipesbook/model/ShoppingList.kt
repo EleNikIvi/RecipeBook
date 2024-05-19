@@ -6,14 +6,11 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 
-const val EMPTY_CATEGORY_ID = -1L
-typealias CategoryId = Long
-
+const val EMPTY_LIST_ID = -1L
 @Parcelize
-@Entity(tableName = "category")
-data class Category(
+@Entity(tableName = "shopping_list")
+data class ShoppingList(
     @PrimaryKey(autoGenerate = true)
-    val categoryId: CategoryId = 0,
-    val title: String? = "",
-    @StringRes var titleResId: Int? = null,
+    val listId: Long = 0,
+    val title: String = "",
 ) : Parcelable

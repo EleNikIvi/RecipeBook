@@ -1,5 +1,8 @@
 package com.okrama.recipesbook.ui.core.theme
 
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.RadioButtonDefaults
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 //Light
@@ -76,3 +79,18 @@ val surfaceContainerLowDark = Color(0xFF1C1C14)
 val surfaceContainerDark = Color(0xFF202018)
 val surfaceContainerHighDark = Color(0xFF2B2A22)
 val surfaceContainerHighestDark = Color(0xFF36352C)
+
+
+internal val alertDialogButtonColors
+    @Composable
+    get() = ButtonDefaults.textButtonColors(
+        contentColor = tertiaryLight,
+        disabledContentColor = outlineLight
+    )
+
+internal val radioButtonColors
+    @Composable
+    get() = RadioButtonDefaults.colors(
+        selectedColor = tertiaryLight,
+        unselectedColor = outlineLight
+    )

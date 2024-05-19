@@ -40,7 +40,7 @@ import com.okrama.recipesbook.ui.core.theme.primaryLight
 fun SpinnerComponent(
     label: String,
     modifier: Modifier = Modifier,
-    selectedCategory: String,
+    selectedItem: String,
     spinnerItems: List<SpinnerItem>,
     onSelectionChanged: (Long) -> Unit,
     actionIcon: @Composable (RowScope.() -> Unit) = {},
@@ -58,7 +58,7 @@ fun SpinnerComponent(
             }
         ) {
             TextField(
-                value = selectedCategory,
+                value = selectedItem,
                 onValueChange = {},
                 readOnly = true,
                 singleLine = true,
@@ -143,7 +143,7 @@ private fun EnabledSpinnerPreview() {
             var spinnerSelectedIndex by rememberSaveable { mutableLongStateOf(1L) }
             SpinnerComponent(
                 label = "Enabled spinner",
-                selectedCategory = OPTIONS[0].value ?: "",
+                selectedItem = OPTIONS[0].value ?: "",
                 spinnerItems = OPTIONS,
                 onSelectionChanged = { selectedIndex ->
                     spinnerSelectedIndex = selectedIndex
@@ -160,7 +160,7 @@ private fun DisabledSpinnerPreview() {
         Box {
             SpinnerComponent(
                 label = "Disabled label",
-                selectedCategory = OPTIONS[0].value ?: "",
+                selectedItem = OPTIONS[0].value ?: "",
                 spinnerItems = OPTIONS,
                 onSelectionChanged = {  /*no-op*/ },
             )
@@ -176,7 +176,7 @@ private fun SpinnerWithActionButtonPreview() {
             var spinnerSelectedIndex by rememberSaveable { mutableLongStateOf(1L) }
             SpinnerComponent(
                 label = "Spinner with action button",
-                selectedCategory = OPTIONS[0].value ?: "",
+                selectedItem = OPTIONS[0].value ?: "",
                 spinnerItems = OPTIONS,
                 onSelectionChanged = { selectedIndex ->
                     spinnerSelectedIndex = selectedIndex
@@ -206,7 +206,7 @@ private fun SpinnerWithPlaceholderTextPreview() {
             var spinnerSelectedIndex by rememberSaveable { mutableLongStateOf(0L) }
             SpinnerComponent(
                 label = "Spinner with placeholder text",
-                selectedCategory = OPTIONS[0].value ?: "",
+                selectedItem = OPTIONS[0].value ?: "",
                 spinnerItems = OPTIONS,
                 onSelectionChanged = { selectedIndex ->
                     spinnerSelectedIndex = selectedIndex
@@ -225,7 +225,7 @@ private fun SpinnerWithLongTextPreview() {
             var spinnerSelectedIndex by rememberSaveable { mutableLongStateOf(5L) }
             SpinnerComponent(
                 label = "Spinner with long text",
-                selectedCategory = OPTIONS[0].value ?: "",
+                selectedItem = OPTIONS[0].value ?: "",
                 spinnerItems = OPTIONS,
                 onSelectionChanged = { selectedIndex ->
                     spinnerSelectedIndex = selectedIndex

@@ -2,6 +2,7 @@ package com.okrama.recipesbook.data.repository
 
 import com.okrama.recipesbook.domain.category.CategoryRepository
 import com.okrama.recipesbook.domain.recipe.RecipeRepository
+import com.okrama.recipesbook.domain.shoppinglist.ShoppingListRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -19,4 +20,8 @@ interface RepositoryModule {
     @Binds
     @ViewModelScoped
     fun bindCategoryRepository(repository: CategoryRepositoryImpl): CategoryRepository
+
+    @Binds
+    @ViewModelScoped
+    fun bindShoppingListRepository(repository: ShoppingListRepositoryImpl): ShoppingListRepository
 }

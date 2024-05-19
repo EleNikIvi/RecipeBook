@@ -1,4 +1,4 @@
-package com.okrama.recipesbook
+package com.okrama.recipesbook.ui.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -14,7 +14,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             ProvideWindowInsets {
                 RecipesBookTheme {
-                    RecipesBookApp()
+                    MainScreen()
                 }
             }
         }

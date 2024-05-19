@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Recipe Book</string>
     <string name="app_title">Recipe Book</string>
+    <string name="recipes_title">Recipes</string>
+    <string name="shopping_list_title">Shopping List</string>
+    <string name="settings_title">Settings</string>
     <string name="message_wait">Please wait</string>
     <string name="message_empty">There is no recipe yet</string>
     <string name="search_hint">Search for a recipe</string>
@@ -24,4 +27,11 @@
     <string name="max_length_format">%1$d / %2$d</string>
     <string name="add_category_description">Add category</string>
     <string name="category_label">Category</string>
+    <string name="create_shopping_list_placeholder">Create new shopping list</string>
+    <string name="choose_shopping_list_placeholder">Choose shopping list</string>
+    <string name="ok_label">Ok</string>
+    <string name="cancel_label">Cancel</string>
+    <string name="edit_shopping_list_title">Edit Shopping List</string>
+    <string name="shopping_list_name_placeholder">Enter shopping list name</string>
+    <string name="shopping_list_product_placeholder">Enter product name</string>
 </resources>

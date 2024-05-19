@@ -1,6 +1,9 @@
 package com.okrama.recipesbook.ui.details.screen
 
+import androidx.annotation.StringRes
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,15 +22,20 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Edit
+import androidx.compose.material.icons.rounded.ShoppingCart
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -35,11 +43,19 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.okrama.recipesbook.R
 import com.okrama.recipesbook.ui.core.DevicePreviews
+import com.okrama.recipesbook.ui.core.components.CardComponent
 import com.okrama.recipesbook.ui.core.components.ImageComponent
+import com.okrama.recipesbook.ui.core.components.dialog.AlertDialogComponent
+import com.okrama.recipesbook.ui.core.components.inputfields.SpinnerComponent
+import com.okrama.recipesbook.ui.core.components.inputfields.model.DropdownField
+import com.okrama.recipesbook.ui.core.components.inputfields.model.SpinnerItem
 import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
 import com.okrama.recipesbook.ui.core.theme.outlineLight
 import com.okrama.recipesbook.ui.core.theme.outlineVariantLight
 import com.okrama.recipesbook.ui.core.theme.primaryContainerLight
+import com.okrama.recipesbook.ui.core.theme.primaryLight
+import com.okrama.recipesbook.ui.core.theme.radioButtonColors
+import com.okrama.recipesbook.ui.details.Dialog
 import com.okrama.recipesbook.ui.details.RecipeDetailsScreenState
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -48,6 +64,10 @@ fun RecipeDetailsScreen(
     state: RecipeDetailsScreenState,
     upPress: () -> Unit,
     onEditRecipe: (Long) -> Unit,
+    onShowShoppingList: () -> Unit,
+    onCreateShoppingList: () -> Unit,
+    onUpdateShoppingList: (Long) -> Unit,
+    onHideShoppingList: () -> Unit,
 ) {
     Scaffold(
         modifier = Modifier
@@ -117,46 +137,184 @@ fun RecipeDetailsScreen(
                 )
             }
         }
-        Row(
+        TopAppBar(
+            upPress = upPress,
+            onEditRecipe = { onEditRecipe(state.id) },
+            onShowShoppingList = onShowShoppingList,
+        )
+
+        if (state.dialog == Dialog.ShowShoppingListDialog) {
+            ShoppingListDialog(
+                state.shoppingListDropdown,
+                onCreateShoppingList = {
+                    onCreateShoppingList()
+                },
+                onUpdateShoppingList = { listId ->
+                    onUpdateShoppingList(listId)
+                },
+                onHideShoppingList = onHideShoppingList,
+            )
+        } else {
+            Unit
+        }
+    }
+}
+
+@Composable
+private fun TopAppBar(
+    upPress: () -> Unit,
+    onEditRecipe: () -> Unit,
+    onShowShoppingList: () -> Unit,
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        RecipeActionButton(
+            onAction = upPress,
+            icon = Icons.Rounded.ArrowBack,
+            iconContentResId = R.string.navigate_back
+        )
+        Spacer(modifier = Modifier.weight(1f))
+        RecipeActionButton(
+            onAction = { onShowShoppingList() },
+            icon = Icons.Rounded.ShoppingCart,
+            iconContentResId = R.string.shopping_list_title
+        )
+        RecipeActionButton(
+            onAction = onEditRecipe,
+            icon = Icons.Rounded.Edit,
+            iconContentResId = R.string.button_edit
+        )
+    }
+}
+
+@Composable
+private fun RecipeActionButton(
+    onAction: () -> Unit,
+    icon: ImageVector,
+    @StringRes iconContentResId: Int
+) {
+    Box(modifier = Modifier.padding(8.dp)) {
+        IconButton(
+            onClick = onAction,
+            enabled = true,
             modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
+                .clip(shape = RoundedCornerShape(size = 25.dp))
+                .size(35.dp)
+                .background(outlineLight),
         ) {
-            Box(modifier = Modifier.padding(8.dp)) {
-                IconButton(
-                    onClick = upPress,
-                    enabled = true,
-                    modifier = Modifier
-                        .clip(shape = RoundedCornerShape(size = 25.dp))
-                        .size(35.dp)
-                        .background(outlineLight),
+            Icon(
+                painter = rememberVectorPainter(image = icon),
+                tint = outlineVariantLight,
+                contentDescription = stringResource(id = iconContentResId)
+            )
+        }
+    }
+}
+
+private const val CREATE_NEW_LIST = "Create new list"
+private const val CHOOSE_LIST = "Choose list"
+
+@Composable
+private fun ShoppingListDialog(
+    shoppingListDropdown: DropdownField,
+    onCreateShoppingList: () -> Unit,
+    onUpdateShoppingList: (Long) -> Unit,
+    onHideShoppingList: () -> Unit,
+) {
+    val selectedShoppingList = remember { mutableStateOf(-1L) }
+    AlertDialogComponent(
+        title = stringResource(id = R.string.shopping_list_title),
+        confirmButtonText = stringResource(id = R.string.ok_label),
+        confirmButtonClicked = {
+            onHideShoppingList()
+            if (selectedShoppingList.value == -1L) onCreateShoppingList() else onUpdateShoppingList(
+                selectedShoppingList.value
+            )
+        },
+        dismissButtonText = stringResource(id = R.string.cancel_label),
+        dismissButtonClicked = onHideShoppingList,
+    ) {
+        val options = listOf(CREATE_NEW_LIST, CHOOSE_LIST)
+        val selectedOption = remember { mutableStateOf(options[0]) }
+
+        if (shoppingListDropdown.spinnerItems.isEmpty()) {
+            Text(
+                text = stringResource(id = R.string.create_shopping_list_placeholder),
+                style = RecipesBookTheme.typography.bodyLarge,
+            )
+        } else {
+            Column {
+                ListRadioButton(
+                    isSelected = selectedOption.value == CREATE_NEW_LIST,
+                    onClick = { selectedOption.value = CREATE_NEW_LIST },
                 ) {
-                    Icon(
-                        painter = rememberVectorPainter(image = Icons.Rounded.ArrowBack),
-                        tint = outlineVariantLight,
-                        contentDescription = stringResource(id = R.string.navigate_back)
+                    Text(
+                        text = stringResource(id = R.string.create_shopping_list_placeholder),
+                        style = RecipesBookTheme.typography.bodyLarge,
                     )
                 }
-            }
-            Spacer(modifier = Modifier.weight(1f))
-            Box(modifier = Modifier.padding(8.dp)) {
-                IconButton(
-                    onClick = { onEditRecipe(state.id) },
-                    enabled = true,
-                    modifier = Modifier
-                        .clip(shape = RoundedCornerShape(size = 25.dp))
-                        .size(35.dp)
-                        .background(outlineLight),
+                ListRadioButton(
+                    isSelected = selectedOption.value == CHOOSE_LIST,
+                    onClick = { selectedOption.value = CHOOSE_LIST },
                 ) {
-                    Icon(
-                        painter = rememberVectorPainter(image = Icons.Rounded.Edit),
-                        tint = outlineVariantLight,
-                        contentDescription = stringResource(id = R.string.button_edit)
+                    ListSpinner(
+                        selectedShoppingList = selectedShoppingList.value,
+                        spinnerItems = shoppingListDropdown.spinnerItems,
+                        onListChosen = { selectedListId ->
+                            selectedShoppingList.value = selectedListId
+                            selectedOption.value = CHOOSE_LIST
+                        }
                     )
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun ListRadioButton(
+    isSelected: Boolean,
+    onClick: () -> Unit,
+    content: @Composable () -> Unit,
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onClick() },
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        RadioButton(
+            selected = isSelected,
+            onClick = { onClick() },
+            colors = radioButtonColors,
+        )
+        content()
+    }
+}
+
+@Composable
+private fun ListSpinner(
+    selectedShoppingList: Long,
+    spinnerItems: List<SpinnerItem>,
+    onListChosen: (Long) -> Unit,
+) {
+    CardComponent(
+        border = BorderStroke(1.dp, primaryLight),
+        onClick = { onListChosen(selectedShoppingList) },
+        elevation = 0.dp,
+    ) {
+        SpinnerComponent(
+            label = stringResource(id = R.string.choose_shopping_list_placeholder),
+            selectedItem = spinnerItems.firstOrNull { it.id == selectedShoppingList }?.value ?: "",
+            spinnerItems = spinnerItems,
+            onSelectionChanged = {
+                onListChosen(it)
+            },
+        )
     }
 }
 
@@ -171,6 +329,10 @@ private fun HomeScreenPreview(
             state = screenState,
             upPress = {},
             onEditRecipe = {},
+            onShowShoppingList = {},
+            onCreateShoppingList = {},
+            onUpdateShoppingList = { },
+            onHideShoppingList = {},
         )
     }
 }

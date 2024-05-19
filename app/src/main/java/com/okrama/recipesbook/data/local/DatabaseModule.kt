@@ -6,6 +6,8 @@ import com.okrama.recipesbook.data.local.dao.CategoryAndRecipeDao
 import com.okrama.recipesbook.data.local.dao.CategoryDao
 import com.okrama.recipesbook.data.local.dao.RecipeAndIngredientsDao
 import com.okrama.recipesbook.data.local.dao.RecipeDao
+import com.okrama.recipesbook.data.local.dao.ShoppingListAndProductsDao
+import com.okrama.recipesbook.data.local.dao.ShoppingListDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,6 +37,17 @@ class DatabaseModule {
     fun provideRecipeAndIngredientsDao(appDatabase: RecipeBookDatabase): RecipeAndIngredientsDao {
         return appDatabase.recipeAndIngredientsDao
     }
+
+    @Provides
+    fun provideShoppingListDao(appDatabase: RecipeBookDatabase): ShoppingListDao {
+        return appDatabase.shoppingListDao
+    }
+
+    @Provides
+    fun provideShoppingListAndProductsDao(appDatabase: RecipeBookDatabase): ShoppingListAndProductsDao {
+        return appDatabase.shoppingListAndProductsDao
+    }
+
 
     @Provides
     @Singleton

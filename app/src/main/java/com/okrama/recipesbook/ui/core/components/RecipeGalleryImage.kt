@@ -29,11 +29,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.okrama.recipesbook.R
-import com.okrama.recipesbook.model.Recipe
-import com.okrama.recipesbook.ui.core.Const
 import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
 import com.okrama.recipesbook.ui.core.theme.backgroundLight
-import com.okrama.recipesbook.ui.recipes.screen.RecipeItem
 
 @Composable
 fun RecipeGalleryImage(

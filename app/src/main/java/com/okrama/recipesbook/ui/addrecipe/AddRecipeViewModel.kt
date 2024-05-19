@@ -11,7 +11,7 @@ import com.okrama.recipesbook.model.EMPTY_RECIPE_ID
 import com.okrama.recipesbook.ui.addrecipe.Categories.getCategoriesDropdown
 import com.okrama.recipesbook.ui.core.flow.SaveableStateFlow.Companion.saveableStateFlow
 import com.okrama.recipesbook.ui.core.model.CategoryListProvider
-import com.okrama.recipesbook.ui.core.navigation.MainDestinations
+import com.okrama.recipesbook.ui.core.navigation.RouteKey.RECIPE_ID_KEY
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -29,7 +29,7 @@ class AddRecipeViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _recipeId =
-        savedStateHandle.get<Long>(MainDestinations.RECIPE_ID_KEY) ?: EMPTY_RECIPE_ID
+        savedStateHandle.get<Long>(RECIPE_ID_KEY) ?: EMPTY_RECIPE_ID
     private val _persistedState = savedStateHandle.saveableStateFlow(
         key = "add-recipe-view-model-state-key",
         initialValue = constructInitialPersistedState(),
@@ -42,7 +42,7 @@ class AddRecipeViewModel @Inject constructor(
     private val _initialIngredients = MutableStateFlow(emptyList<Ingredient>())
     private var _initialIngredientsStr = ""
     private val _categories = savedStateHandle.saveableStateFlow(
-        key = "categories-view-model-list-key",
+        key = "add-recipe-view-model-categories-key",
         initialValue = emptyList<Category>(),
     )
 
@@ -79,7 +79,8 @@ class AddRecipeViewModel @Inject constructor(
                 launch {
                     recipeInteractor.getRecipeWithIngredients(_recipeId)
                         .collect { recipeWithIngredients ->
-                            _initialIngredientsStr = recipeInteractor.getIngredientsAsString(recipeWithIngredients.ingredients)
+                            _initialIngredientsStr =
+                                recipeInteractor.getIngredientsAsString(recipeWithIngredients.ingredients)
                             _initialImageUri.value = recipeWithIngredients.recipe.imageUrl
                             _initialTitle.value = recipeWithIngredients.recipe.title
                             _initialDescription.value = recipeWithIngredients.recipe.description
@@ -111,7 +112,6 @@ class AddRecipeViewModel @Inject constructor(
                         _categories.value = CategoryListProvider.getCategories(values)
                     }
             }
-
         }
     }
 

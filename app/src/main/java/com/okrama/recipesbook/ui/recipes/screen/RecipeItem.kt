@@ -24,14 +24,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.okrama.recipesbook.R
 import com.okrama.recipesbook.model.Recipe
-import com.okrama.recipesbook.ui.core.Const.LOREM_IPSUM
+import com.okrama.recipesbook.ui.core.LoremIpsum
 import com.okrama.recipesbook.ui.core.components.ImageComponent
 import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
 import com.okrama.recipesbook.ui.core.theme.onTertiaryContainerLight
@@ -82,8 +80,6 @@ fun RecipeItem(
                 color = onTertiaryContainerLight,
                 text = recipe.title,
                 style = RecipesBookTheme.typography.bodyLarge,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Normal,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
             )
@@ -137,8 +133,8 @@ private fun RecipeItemPreview() {
         RecipeItem(
             recipe = Recipe(
                 recipeId = 1L,
-                title = LOREM_IPSUM,
-                description = LOREM_IPSUM,
+                title = LoremIpsum.SHORT,
+                description = LoremIpsum.LONG,
                 imageUrl = "https://avatars.githubusercontent.com/u/1428207?v=4",
             ),
             onRecipeSelected = {},

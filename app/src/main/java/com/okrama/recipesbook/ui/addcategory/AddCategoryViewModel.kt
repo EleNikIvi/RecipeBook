@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.okrama.recipesbook.domain.category.CategoryInteractor
 import com.okrama.recipesbook.model.EMPTY_CATEGORY_ID
 import com.okrama.recipesbook.ui.core.flow.SaveableStateFlow.Companion.saveableStateFlow
-import com.okrama.recipesbook.ui.core.navigation.MainDestinations
+import com.okrama.recipesbook.ui.core.navigation.RouteKey.CATEGORY_ID_KEY
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -21,7 +21,7 @@ class AddCategoryViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val _categoryId =
-        savedStateHandle.get<Long>(MainDestinations.CATEGORY_ID_KEY) ?: EMPTY_CATEGORY_ID
+        savedStateHandle.get<Long>(CATEGORY_ID_KEY) ?: EMPTY_CATEGORY_ID
 
     private val _categoryName = savedStateHandle.saveableStateFlow(
         key = "add_category-view-model-name-key",

@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Книга Рецептів</string>
     <string name="app_title">Книга Рецептів</string>
+    <string name="recipes_title">Рецепти</string>
+    <string name="shopping_list_title">Список покупок</string>
+    <string name="settings_title">Налаштування</string>
     <string name="message_wait">Будь ласка очікуйте</string>
     <string name="message_empty">Тут поки немає жодного рецепту</string>
     <string name="search_hint">Пошук рецепту</string>
@@ -24,4 +27,11 @@
     <string name="max_length_format">%1$d / %2$d</string>
     <string name="add_category_description">Додати категорію</string>
     <string name="category_label">Категорія</string>
+    <string name="create_shopping_list_placeholder">Створити новий список покупок</string>
+    <string name="choose_shopping_list_placeholder">Обрати список покупок</string>
+    <string name="ok_label">Вибрати</string>
+    <string name="cancel_label">Відмінити</string>
+    <string name="edit_shopping_list_title">Змінити список покупок</string>
+    <string name="shopping_list_name_placeholder">Введіть назву списку покупок</string>
+    <string name="shopping_list_product_placeholder">Введіть назву продукту</string>
 </resources>

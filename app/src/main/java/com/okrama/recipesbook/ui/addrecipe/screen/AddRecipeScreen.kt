@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -14,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.okrama.recipesbook.R
 import com.okrama.recipesbook.ui.addrecipe.AddRecipeScreenState
 import com.okrama.recipesbook.ui.core.DevicePreviews
+import com.okrama.recipesbook.ui.core.bringIntoView
 import com.okrama.recipesbook.ui.core.components.EditScreenContainer
 import com.okrama.recipesbook.ui.core.components.RecipeGalleryImage
 import com.okrama.recipesbook.ui.core.components.inputfields.RecipeTextField
@@ -34,11 +36,13 @@ fun AddRecipeScreen(
     upPress: () -> Unit,
 ) {
     if (state is AddRecipeScreenState.Initial) {
+        val scrollState = rememberScrollState()
         EditScreenContainer(
             title = stringResource(id = R.string.title_new_recipe),
             upPress = upPress,
             onSave = onSaveRecipe,
             canSave = state.canSave,
+            scrollState = scrollState,
         ) {
             RecipeGalleryImage(
                 modifier = Modifier
@@ -73,7 +77,9 @@ fun AddRecipeScreen(
             )
             RecipeTextField(
                 text = state.ingredients,
-                modifier = Modifier.padding(16.dp),
+                modifier = Modifier
+                    .padding(16.dp)
+                    .bringIntoView(scrollState),
                 onTextChange = onIngredientsChange,
                 placeholder = stringResource(id = R.string.recipe_ingredients_placeholder),
                 imeAction = ImeAction.Default,

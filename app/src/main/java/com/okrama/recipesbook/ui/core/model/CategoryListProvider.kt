@@ -10,6 +10,8 @@ object CategoryListProvider {
     )
 
     fun getCategories(categories: List<Category>): List<Category> {
-        return mutableListOf<Category>(CATEGORY_ALL).also { it.addAll(categories.subList(1, categories.size)) }
+        return categories.toMutableList().also {
+            it[0] = CATEGORY_ALL
+        }
     }
 }

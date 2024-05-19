@@ -15,10 +15,10 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.okrama.recipesbook.R
-import com.okrama.recipesbook.ui.addrecipe.DropdownField
 import com.okrama.recipesbook.ui.core.components.CardComponent
 import com.okrama.recipesbook.ui.core.components.inputfields.SpinnerComponent
 import com.okrama.recipesbook.ui.core.components.inputfields.getStringValue
+import com.okrama.recipesbook.ui.core.components.inputfields.model.DropdownField
 import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
 import com.okrama.recipesbook.ui.core.theme.primaryLight
 
@@ -34,7 +34,7 @@ fun CategorySpinner(
     ) {
         SpinnerComponent(
             label = stringResource(id = R.string.category_label),
-            selectedCategory = getStringValue(
+            selectedItem = getStringValue(
                 categoriesDropdown.valueResId,
                 categoriesDropdown.value
             ),

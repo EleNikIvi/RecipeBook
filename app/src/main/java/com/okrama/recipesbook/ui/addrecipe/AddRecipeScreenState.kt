@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Immutable
 import com.okrama.recipesbook.model.Category
+import com.okrama.recipesbook.ui.core.components.inputfields.model.DropdownField
 import com.okrama.recipesbook.ui.core.components.inputfields.model.SpinnerItem
 import com.okrama.recipesbook.ui.core.model.CategoryListProvider
 import kotlinx.parcelize.Parcelize
@@ -21,13 +22,6 @@ sealed interface AddRecipeScreenState {
 
     data object Saved : AddRecipeScreenState
 }
-
-@Immutable
-data class DropdownField(
-    val value: String? = "",
-    @StringRes var valueResId: Int? = null,
-    val spinnerItems: List<SpinnerItem> = emptyList(),
-)
 
 @Parcelize
 data class AddRecipePersistedState(

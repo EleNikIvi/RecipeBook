@@ -46,7 +46,7 @@ fun RecipeTopAppBar(
                     .padding(16.dp),
                 text = title,
                 textAlign = TextAlign.Center,
-                style = RecipesBookTheme.typography.headingXLarge,
+                style = RecipesBookTheme.typography.headingMediumCursive,
             )
         },
         modifier = Modifier
