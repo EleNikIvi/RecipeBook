@@ -18,28 +18,29 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import com.okrama.recipesbook.ui.addrecipe.AddRecipeScreenState
 import com.okrama.recipesbook.ui.addrecipe.screen.AddRecipeScreenStateProvider
 import com.okrama.recipesbook.ui.core.DevicePreviews
+import com.okrama.recipesbook.ui.core.components.topappbar.SmallTopAppBarWithAction
 import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
 import com.okrama.recipesbook.ui.core.theme.primaryLight
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EditScreenContainer(
+fun SmallTopAppBarScreenContainer(
     title: String,
-    canSave: Boolean,
     scrollState: ScrollState = rememberScrollState(),
     upPress: () -> Unit,
-    onSave: () -> Unit,
+    onAction: () -> Unit,
+    actionButtonEnabled: Boolean = true,
     content: @Composable () -> Unit
 ) {
     Scaffold(
         modifier = Modifier
             .fillMaxSize(),
         topBar = {
-            RecipeTopAppBar(
+            SmallTopAppBarWithAction(
                 title = title,
                 upPress = upPress,
-                onSave = onSave,
-                canSave = canSave,
+                onAction = onAction,
+                actionButtonEnabled = actionButtonEnabled,
             )
         }
     ) { paddingValues ->
@@ -65,11 +66,11 @@ private fun EditScreenContainerPreview(
     screenState: AddRecipeScreenState
 ) {
     RecipesBookTheme {
-        EditScreenContainer(
+        SmallTopAppBarScreenContainer(
             title = "New Category",
             upPress = {},
-            onSave = {},
-            canSave = true,
+            onAction = {},
+            actionButtonEnabled = true,
             content = {},
         )
     }

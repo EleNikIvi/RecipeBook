@@ -45,6 +45,7 @@ import com.okrama.recipesbook.R
 import com.okrama.recipesbook.ui.core.DevicePreviews
 import com.okrama.recipesbook.ui.core.components.CardComponent
 import com.okrama.recipesbook.ui.core.components.ImageComponent
+import com.okrama.recipesbook.ui.core.components.button.ActionButton
 import com.okrama.recipesbook.ui.core.components.dialog.AlertDialogComponent
 import com.okrama.recipesbook.ui.core.components.inputfields.SpinnerComponent
 import com.okrama.recipesbook.ui.core.components.inputfields.model.DropdownField
@@ -137,7 +138,7 @@ fun RecipeDetailsScreen(
                 )
             }
         }
-        TopAppBar(
+        RecipeDetailsTopAppBar(
             upPress = upPress,
             onEditRecipe = { onEditRecipe(state.id) },
             onShowShoppingList = onShowShoppingList,
@@ -161,7 +162,7 @@ fun RecipeDetailsScreen(
 }
 
 @Composable
-private fun TopAppBar(
+private fun RecipeDetailsTopAppBar(
     upPress: () -> Unit,
     onEditRecipe: () -> Unit,
     onShowShoppingList: () -> Unit,
@@ -172,46 +173,22 @@ private fun TopAppBar(
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        RecipeActionButton(
+        ActionButton(
             onAction = upPress,
             icon = Icons.Rounded.ArrowBack,
             iconContentResId = R.string.navigate_back
         )
         Spacer(modifier = Modifier.weight(1f))
-        RecipeActionButton(
+        ActionButton(
             onAction = { onShowShoppingList() },
             icon = Icons.Rounded.ShoppingCart,
             iconContentResId = R.string.shopping_list_title
         )
-        RecipeActionButton(
+        ActionButton(
             onAction = onEditRecipe,
             icon = Icons.Rounded.Edit,
             iconContentResId = R.string.button_edit
         )
-    }
-}
-
-@Composable
-private fun RecipeActionButton(
-    onAction: () -> Unit,
-    icon: ImageVector,
-    @StringRes iconContentResId: Int
-) {
-    Box(modifier = Modifier.padding(8.dp)) {
-        IconButton(
-            onClick = onAction,
-            enabled = true,
-            modifier = Modifier
-                .clip(shape = RoundedCornerShape(size = 25.dp))
-                .size(35.dp)
-                .background(outlineLight),
-        ) {
-            Icon(
-                painter = rememberVectorPainter(image = icon),
-                tint = outlineVariantLight,
-                contentDescription = stringResource(id = iconContentResId)
-            )
-        }
     }
 }
 

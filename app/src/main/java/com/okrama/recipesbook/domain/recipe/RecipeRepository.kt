@@ -6,11 +6,10 @@ import com.okrama.recipesbook.model.Recipe
 import com.okrama.recipesbook.model.RecipeWithIngredients
 import kotlinx.coroutines.flow.Flow
 
-typealias RecipesWithIngredients = List<RecipeWithIngredients>
 
 interface RecipeRepository {
     fun getAllRecipes(): Flow<List<Recipe>>
-    fun getAllRecipesWithIngredients(): Flow<RecipesWithIngredients>
+    fun getAllRecipesWithIngredients(): Flow<List<RecipeWithIngredients>>
     suspend fun getRecipesBy(categoryId: CategoryId): CategoryWithRecipes?
     fun getRecipeWithIngredients(id: Long): Flow<RecipeWithIngredients>
     suspend fun addRecipe(recipe: Recipe, categoryId: CategoryId, ingredients: List<String>): Long

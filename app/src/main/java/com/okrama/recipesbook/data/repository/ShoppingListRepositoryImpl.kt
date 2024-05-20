@@ -21,6 +21,9 @@ class ShoppingListRepositoryImpl @Inject constructor(
     override fun getAllShoppingLists(): Flow<List<ShoppingList>> =
         shoppingListDao.getAllShoppingLists()
 
+    override fun getAllShoppingListsWithProducts(): Flow<List<ShoppingListWithProducts>> =
+        shoppingListAndProductsDao.getAllShoppingListsWithProducts()
+
     override fun getShoppingListWithProducts(listId: Long): Flow<ShoppingListWithProducts> =
         shoppingListAndProductsDao.getShoppingListWithProducts(id = listId)
 
@@ -32,6 +35,14 @@ class ShoppingListRepositoryImpl @Inject constructor(
         products: List<String>
     ): Long =
         insertOrUpdateShoppingList(shoppingList = shoppingList, products = products)
+
+    override suspend fun updateProductIsDone(prduct: Product) {
+        return withContext(defaultDispatcher) {
+            DatabaseUtils.safeLaunch {
+                shoppingListAndProductsDao.update(prduct)
+            }
+        }
+    }
 
     private suspend fun insertOrUpdateShoppingList(
         shoppingList: ShoppingList,

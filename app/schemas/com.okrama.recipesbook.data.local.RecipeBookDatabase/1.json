@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "b5ac2711769fccc806255fab59681c62",
+    "identityHash": "0aa02044fdf19df88a142a7afd0c71b7",
     "entities": [
       {
         "tableName": "recipe",
@@ -161,7 +161,7 @@
       },
       {
         "tableName": "product",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`shoppingListId` INTEGER NOT NULL, `productId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `product` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`shoppingListId` INTEGER NOT NULL, `productId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `product` TEXT NOT NULL, `isDone` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "shoppingListId",
@@ -180,6 +180,12 @@
             "columnName": "product",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "isDone",
+            "columnName": "isDone",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -195,7 +201,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b5ac2711769fccc806255fab59681c62')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0aa02044fdf19df88a142a7afd0c71b7')"
     ]
   }
 }

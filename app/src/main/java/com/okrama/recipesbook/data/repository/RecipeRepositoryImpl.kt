@@ -9,7 +9,6 @@ import com.okrama.recipesbook.data.local.dao.RecipeDao
 import com.okrama.recipesbook.data.local.entity.CategoryAndRecipeEntity
 import com.okrama.recipesbook.data.local.entity.Ingredient
 import com.okrama.recipesbook.domain.recipe.RecipeRepository
-import com.okrama.recipesbook.domain.recipe.RecipesWithIngredients
 import com.okrama.recipesbook.model.CategoryId
 import com.okrama.recipesbook.model.CategoryWithRecipes
 import com.okrama.recipesbook.model.Recipe
@@ -27,7 +26,7 @@ class RecipeRepositoryImpl @Inject constructor(
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
 ) : RecipeRepository {
     override fun getAllRecipes(): Flow<List<Recipe>> = recipeDao.getAllRecipes()
-    override fun getAllRecipesWithIngredients(): Flow<RecipesWithIngredients> =
+    override fun getAllRecipesWithIngredients(): Flow<List<RecipeWithIngredients>> =
         recipeWithIngredientsDao.getAllRecipesWithIngredients()
 
     override suspend fun getRecipesBy(categoryId: CategoryId): CategoryWithRecipes? =

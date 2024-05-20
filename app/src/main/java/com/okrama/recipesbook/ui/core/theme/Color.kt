@@ -1,6 +1,7 @@
 package com.okrama.recipesbook.ui.core.theme
 
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
@@ -93,4 +94,11 @@ internal val radioButtonColors
     get() = RadioButtonDefaults.colors(
         selectedColor = tertiaryLight,
         unselectedColor = outlineLight
+    )
+
+internal val checkboxColors
+    @Composable
+    get() = CheckboxDefaults.colors(
+        checkedColor = tertiaryLight,
+        uncheckedColor = outlineLight
     )

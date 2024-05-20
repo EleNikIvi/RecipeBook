@@ -58,6 +58,7 @@ sealed class RecipesDest(val route: String) {
     data object CreateShoppingList : RecipesDest("createShoppingList")
     data object EditShoppingList : RecipesDest("updateShoppingList")
     data object ShoppingLists : RecipesDest("shoppingLists")
+    data object ShoppingListDetails : RecipesDest("shoppingListDetails")
     data object Settings : RecipesDest("settings")
 }
 fun isBottomNavRoute(route: String?) =
@@ -134,17 +135,38 @@ class RecipesBookNavController(
         }
     }
 
-    fun navigateToCreateShoppingList(recipeId: Long, from: NavBackStackEntry) {
+    fun navigateToCreateShoppingList(from: NavBackStackEntry) {
+        // In order to discard duplicated navigation events, we check the Lifecycle
+        if (from.lifecycleIsResumed()) {
+            navController.navigate(RecipesDest.CreateShoppingList.route)
+        }
+    }
+
+    fun navigateToCreateShoppingListForRecipe(recipeId: Long, from: NavBackStackEntry) {
         // In order to discard duplicated navigation events, we check the Lifecycle
         if (from.lifecycleIsResumed()) {
             navController.navigate("${RecipesDest.CreateShoppingList.route}/$recipeId")
         }
     }
 
-    fun navigateToEditShoppingList(listId: Long, recipeId: Long,  from: NavBackStackEntry) {
+    fun navigateToEditShoppingListForRecipe(listId: Long, recipeId: Long, from: NavBackStackEntry) {
         // In order to discard duplicated navigation events, we check the Lifecycle
         if (from.lifecycleIsResumed()) {
             navController.navigate("${RecipesDest.EditShoppingList.route}/$listId/$recipeId")
+        }
+    }
+
+    fun navigateToEditShoppingList(listId: Long, from: NavBackStackEntry) {
+        // In order to discard duplicated navigation events, we check the Lifecycle
+        if (from.lifecycleIsResumed()) {
+            navController.navigate("${RecipesDest.EditShoppingList.route}/$listId")
+        }
+    }
+
+    fun navigateToShoppingListDetails(listId: Long,  from: NavBackStackEntry) {
+        // In order to discard duplicated navigation events, we check the Lifecycle
+        if (from.lifecycleIsResumed()) {
+            navController.navigate("${RecipesDest.ShoppingListDetails.route}/$listId")
         }
     }
 

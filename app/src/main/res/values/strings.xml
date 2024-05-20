@@ -6,7 +6,7 @@
     <string name="settings_title">Settings</string>
     <string name="message_wait">Please wait</string>
     <string name="message_empty">There is no recipe yet</string>
-    <string name="search_hint">Search for a recipe</string>
+    <string name="search_recipe_hint">Search for a recipe</string>
     <string name="add_new_recipe">Add new recipe</string>
     <string name="add_label">Add</string>
     <string name="add_photo_label">Add a photo</string>
@@ -34,4 +34,5 @@
     <string name="edit_shopping_list_title">Edit Shopping List</string>
     <string name="shopping_list_name_placeholder">Enter shopping list name</string>
     <string name="shopping_list_product_placeholder">Enter product name</string>
+    <string name="search_shopping_list_hint">Search for a shopping list</string>
 </resources>

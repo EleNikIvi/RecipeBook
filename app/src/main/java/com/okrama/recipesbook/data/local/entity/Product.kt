@@ -9,4 +9,5 @@ data class Product(
     @PrimaryKey(autoGenerate = true)
     val productId: Long = 0,
     val product: String,
+    val isDone: Boolean = false,
 )

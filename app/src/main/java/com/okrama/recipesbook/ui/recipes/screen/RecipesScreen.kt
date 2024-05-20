@@ -18,6 +18,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.okrama.recipesbook.model.Category
 import com.okrama.recipesbook.ui.core.DevicePreviews
+import com.okrama.recipesbook.ui.core.components.topappbar.isToolBarCollapsed
 import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
 import com.okrama.recipesbook.ui.core.theme.backgroundLight
 import com.okrama.recipesbook.ui.recipes.RecipesScreenState

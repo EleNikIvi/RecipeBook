@@ -27,10 +27,14 @@ import com.okrama.recipesbook.ui.details.RecipeDetailsViewModel
 import com.okrama.recipesbook.ui.details.screen.RecipeDetailsScreen
 import com.okrama.recipesbook.ui.recipes.RecipesViewModel
 import com.okrama.recipesbook.ui.recipes.screen.RecipesScreen
-import com.okrama.recipesbook.ui.shoppinglist.add.AddShoppingListState
 import com.okrama.recipesbook.ui.shoppinglist.add.AddShoppingListViewModel
-import com.okrama.recipesbook.ui.shoppinglist.add.Product
-import com.okrama.recipesbook.ui.shoppinglist.add.screen.AddToShoppingListScreen
+import com.okrama.recipesbook.ui.shoppinglist.add.screen.AddShoppingListScreen
+import com.okrama.recipesbook.ui.shoppinglist.details.ShoppingListDetailsSideEffect
+import com.okrama.recipesbook.ui.shoppinglist.details.ShoppingListDetailsViewModel
+import com.okrama.recipesbook.ui.shoppinglist.details.screen.ShoppingListDetailsScreen
+import com.okrama.recipesbook.ui.shoppinglist.list.ShoppingListsSideEffect
+import com.okrama.recipesbook.ui.shoppinglist.list.ShoppingListsViewModel
+import com.okrama.recipesbook.ui.shoppinglist.list.screen.ShoppingListsScreen
 
 @Composable
 fun AppNavGraph(navController: RecipesBookNavController) {
@@ -43,14 +47,16 @@ fun AppNavGraph(navController: RecipesBookNavController) {
             onRecipeSelected = navController::navigateToRecipeDetails,
             onEditRecipe = navController::navigateToEditRecipe,
             onAddNewCategorySelected = navController::navigateToAddNewCategory,
-            onCreateShoppingList = navController::navigateToCreateShoppingList,
-            onEditShoppingList = navController::navigateToEditShoppingList,
+            onCreateShoppingList = navController::navigateToCreateShoppingListForRecipe,
+            onEditShoppingList = navController::navigateToEditShoppingListForRecipe,
             upPress = navController::upPress,
             upPressWithResult = navController::upPressWithResult,
         )
         shoppingListNavGraph(
+            onCreateShoppingList = navController::navigateToCreateShoppingList,
+            onShoppingListDetails = navController::navigateToShoppingListDetails,
+            onEditShoppingList = navController::navigateToEditShoppingList,
             upPress = navController::upPress,
-            upPressWithResult = navController::upPressWithResult,
         )
         settingsNavGraph()
     }
@@ -170,71 +176,111 @@ private fun NavGraphBuilder.recipesNavGraph(
                 upPressWithResult = { id -> upPressWithResult(id, CATEGORY_ID_KEY) }
             )
         }
+        composable(RecipesDest.CreateShoppingList.route) {
+            AddShoppingListScreen(upPress = upPress)
+        }
         composable(
             "${RecipesDest.CreateShoppingList.route}/{$RECIPE_ID_KEY}",
             arguments = listOf(navArgument(RECIPE_ID_KEY) { type = NavType.LongType })
         ) {
-            val viewModel: AddShoppingListViewModel = hiltViewModel()
-            val screenState by viewModel.screenState.collectAsStateWithLifecycle()
-
-            AddToShoppingListScreen(
-                state = screenState,
-                onListNameChange = viewModel::onListNameChange,
-                onProductChange = viewModel::onProductChange,
-                onDeleteProduct = viewModel::onDeleteProduct,
-                onAddNewProduct = viewModel::onAddNewProduct,
-                onSaveList = viewModel::saveShoppingList,
-                upPress = upPress,
-            )
+            AddShoppingListScreen(upPress = upPress)
         }
         composable(
             "${RecipesDest.EditShoppingList.route}/{$SHOPPING_LIST_ID_KEY}/{$RECIPE_ID_KEY}",
             arguments = listOf(navArgument(SHOPPING_LIST_ID_KEY) { type = NavType.LongType },
                 navArgument(RECIPE_ID_KEY) { type = NavType.LongType })
         ) {
-            val viewModel: AddShoppingListViewModel = hiltViewModel()
-            val screenState by viewModel.screenState.collectAsStateWithLifecycle()
-
-            AddToShoppingListScreen(
-                state = screenState,
-                onListNameChange = viewModel::onListNameChange,
-                onProductChange = viewModel::onProductChange,
-                onDeleteProduct = viewModel::onDeleteProduct,
-                onAddNewProduct = viewModel::onAddNewProduct,
-                onSaveList = viewModel::saveShoppingList,
-                upPress = upPress,
-            )
+            AddShoppingListScreen(upPress = upPress)
         }
     }
 }
 
-private fun NavGraphBuilder.shoppingListNavGraph(
+@Composable
+private fun AddShoppingListScreen(
     upPress: () -> Unit,
-    upPressWithResult: (Long, String) -> Unit,
+) {
+    val viewModel: AddShoppingListViewModel = hiltViewModel()
+    val screenState by viewModel.screenState.collectAsStateWithLifecycle()
+
+    AddShoppingListScreen(
+        state = screenState,
+        onListNameChange = viewModel::onListNameChange,
+        onProductChange = viewModel::onProductChange,
+        onDeleteProduct = viewModel::onDeleteProduct,
+        onAddNewProduct = viewModel::onAddNewProduct,
+        onSaveList = viewModel::saveShoppingList,
+        upPress = upPress,
+    )
+}
+
+private fun NavGraphBuilder.shoppingListNavGraph(
+    onCreateShoppingList: (NavBackStackEntry) -> Unit,
+    onShoppingListDetails: (Long, NavBackStackEntry) -> Unit,
+    onEditShoppingList: (Long, NavBackStackEntry) -> Unit,
+    upPress: () -> Unit,
 ) {
     navigation(
         route = BottomDest.ShoppingList.route,
         startDestination = RecipesDest.ShoppingLists.route
     ) {
-        composable(RecipesDest.ShoppingLists.route) {
-            AddToShoppingListScreen(
-                state = AddShoppingListState.Initial(
-                    title = "Title of new recipe",
-                    products = listOf(
-                        Product("Sugar"),
-                        Product("Flour"),
-                        Product("Milk"),
-                        Product("Eggs")
-                    ),
-                    canSave = true,
-                ),
-                onListNameChange = {},
-                onProductChange = { _, _ -> },
-                onDeleteProduct = {},
-                onAddNewProduct = {},
-                onSaveList = {},
-                upPress = upPress,
+        composable(RecipesDest.ShoppingLists.route) { backStackEntry ->
+            val viewModel: ShoppingListsViewModel = hiltViewModel()
+            val screenState by viewModel.screenState.collectAsStateWithLifecycle()
+
+            LaunchedEffect(key1 = true) {
+                viewModel.sideEffect.collect { sideEffect ->
+                    when (sideEffect) {
+                        is ShoppingListsSideEffect.NavigateToCreateShoppingListScreen ->
+                            onCreateShoppingList(backStackEntry)
+
+                        is ShoppingListsSideEffect.NavigateToShoppingListDetailsScreen -> onShoppingListDetails(
+                            sideEffect.listId,
+                            backStackEntry
+                        )
+                    }
+                }
+            }
+
+            ShoppingListsScreen(
+                screenState = screenState,
+                onAddShoppingList = viewModel::onAddShoppingList,
+                onShoppingListDetails = viewModel::onShoppingListDetails,
+                onSearchTermChange = viewModel::onSearchTermChange,
+                onSearchFieldClear = viewModel::onSearchFieldClear,
             )
+        }
+
+        composable(
+            "${RecipesDest.ShoppingListDetails.route}/{$SHOPPING_LIST_ID_KEY}",
+            arguments = listOf(navArgument(SHOPPING_LIST_ID_KEY) { type = NavType.LongType })
+        ) { backStackEntry ->
+            val viewModel: ShoppingListDetailsViewModel = hiltViewModel()
+            val screenState by viewModel.screenState.collectAsStateWithLifecycle()
+
+            LaunchedEffect(key1 = true) {
+                viewModel.sideEffect.collect { sideEffect ->
+                    when (sideEffect) {
+                        is ShoppingListDetailsSideEffect.NavigateToEditShoppingListScreen ->
+                            onEditShoppingList(sideEffect.listId, backStackEntry)
+
+                        is ShoppingListDetailsSideEffect.NavigateUp -> upPress()
+                    }
+                }
+            }
+
+            ShoppingListDetailsScreen(
+                state = screenState,
+                upPress = viewModel::onNavigateUp,
+                onEditShoppingList = viewModel::onEditShoppingList,
+                onIsDone = viewModel::updateProductIsDone,
+            )
+        }
+
+        composable(
+            "${RecipesDest.EditShoppingList.route}/{$SHOPPING_LIST_ID_KEY}",
+            arguments = listOf(navArgument(SHOPPING_LIST_ID_KEY) { type = NavType.LongType })
+        ) {
+            AddShoppingListScreen(upPress = upPress)
         }
     }
 }

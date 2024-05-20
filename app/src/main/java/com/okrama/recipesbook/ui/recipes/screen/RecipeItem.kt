@@ -52,7 +52,7 @@ fun RecipeItem(
                     isExpanded = true
                 }, onClick = { onRecipeSelected(recipe.recipeId) }),
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 8.dp
+            defaultElevation = RecipesBookTheme.elevation.small
         ),
         colors = CardDefaults.cardColors(
             containerColor = tertiaryContainerLight

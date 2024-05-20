@@ -12,7 +12,7 @@ import com.okrama.recipesbook.ui.addcategory.AddCategoryScreenState
 import com.okrama.recipesbook.ui.addcategory.MAX_CATEGORY_TITLE_CHAR
 import com.okrama.recipesbook.ui.addrecipe.screen.AddRecipeScreenStateProvider
 import com.okrama.recipesbook.ui.core.DevicePreviews
-import com.okrama.recipesbook.ui.core.components.EditScreenContainer
+import com.okrama.recipesbook.ui.core.components.SmallTopAppBarScreenContainer
 import com.okrama.recipesbook.ui.core.components.inputfields.RecipeTextFieldWithLimit
 import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
 
@@ -25,11 +25,11 @@ fun AddCategoryScreen(
     upPressWithResult: (Long) -> Unit,
 ) {
     if (state is AddCategoryScreenState.Initial) {
-        EditScreenContainer(
+        SmallTopAppBarScreenContainer(
             title = stringResource(id = R.string.title_new_category),
             upPress = upPress,
-            onSave = onSaveCategory,
-            canSave = state.canSave,
+            onAction = onSaveCategory,
+            actionButtonEnabled = state.canSave,
         ) {
             RecipeTextFieldWithLimit(
                 modifier = Modifier.padding(16.dp),

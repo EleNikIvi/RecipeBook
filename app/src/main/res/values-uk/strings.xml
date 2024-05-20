@@ -6,7 +6,7 @@
     <string name="settings_title">Налаштування</string>
     <string name="message_wait">Будь ласка очікуйте</string>
     <string name="message_empty">Тут поки немає жодного рецепту</string>
-    <string name="search_hint">Пошук рецепту</string>
+    <string name="search_recipe_hint">Пошук рецепту</string>
     <string name="add_new_recipe">Додавання рецепту</string>
     <string name="add_label">Додати</string>
     <string name="add_photo_label">Додати зображення</string>
@@ -34,4 +34,5 @@
     <string name="edit_shopping_list_title">Змінити список покупок</string>
     <string name="shopping_list_name_placeholder">Введіть назву списку покупок</string>
     <string name="shopping_list_product_placeholder">Введіть назву продукту</string>
+    <string name="search_shopping_list_hint">Пошук списку покупок</string>
 </resources>

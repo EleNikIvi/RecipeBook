@@ -1,4 +1,4 @@
-package com.okrama.recipesbook.ui.core.components
+package com.okrama.recipesbook.ui.core.components.topappbar
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.okrama.recipesbook.R
@@ -29,15 +30,43 @@ import com.okrama.recipesbook.ui.core.theme.inversePrimaryLight
 import com.okrama.recipesbook.ui.core.theme.onPrimaryContainerLight
 import com.okrama.recipesbook.ui.core.theme.primaryLight
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RecipeTopAppBar(
+fun SmallTopAppBarWithAction(
     title: String,
     upPress: () -> Unit,
-    onSave: () -> Unit,
-    canSave: Boolean,
+    onAction: () -> Unit,
+    actionButtonEnabled: Boolean = true,
 ) {
     val focusManager = LocalFocusManager.current
+    SmallTopAppBarWithAction(
+        title = title,
+        upPress = upPress,
+    ) {
+        TextButton(
+            onClick = {
+                focusManager.clearFocus()
+                onAction()
+            },
+            colors = ButtonDefaults.textButtonColors(
+                contentColor = onPrimaryContainerLight,
+            ),
+            enabled = actionButtonEnabled,
+        ) {
+            Text(
+                text = stringResource(id = R.string.button_save),
+                style = RecipesBookTheme.typography.headingSmall,
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SmallTopAppBarWithAction(
+    title: String,
+    upPress: () -> Unit,
+    actionContent: @Composable () -> Unit,
+) {
     CenterAlignedTopAppBar(
         title = {
             Text(
@@ -45,6 +74,8 @@ fun RecipeTopAppBar(
                     .fillMaxWidth()
                     .padding(16.dp),
                 text = title,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
                 textAlign = TextAlign.Center,
                 style = RecipesBookTheme.typography.headingMediumCursive,
             )
@@ -67,21 +98,7 @@ fun RecipeTopAppBar(
             }
         },
         actions = {
-            TextButton(
-                onClick = {
-                    focusManager.clearFocus()
-                    onSave()
-                },
-                colors = ButtonDefaults.textButtonColors(
-                    contentColor = onPrimaryContainerLight,
-                ),
-                enabled = canSave,
-            ) {
-                Text(
-                    text = stringResource(id = R.string.button_save),
-                    style = RecipesBookTheme.typography.headingSmall,
-                )
-            }
+            actionContent()
         },
     )
 }
@@ -90,11 +107,11 @@ fun RecipeTopAppBar(
 @Composable
 private fun RecipeTopAppBarEnabledPreview() {
     RecipesBookTheme {
-        RecipeTopAppBar(
+        SmallTopAppBarWithAction(
             title = "New Category",
             upPress = {},
-            onSave = {},
-            canSave = true,
+            onAction = {},
+            actionButtonEnabled = true,
         )
     }
 }
@@ -103,11 +120,11 @@ private fun RecipeTopAppBarEnabledPreview() {
 @Composable
 private fun RecipeTopAppBarDisabledPreview() {
     RecipesBookTheme {
-        RecipeTopAppBar(
+        SmallTopAppBarWithAction(
             title = "New Category",
             upPress = {},
-            onSave = {},
-            canSave = false,
+            onAction = {},
+            actionButtonEnabled = false,
         )
     }
 }

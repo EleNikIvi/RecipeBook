@@ -16,7 +16,7 @@ import com.okrama.recipesbook.R
 import com.okrama.recipesbook.ui.addrecipe.AddRecipeScreenState
 import com.okrama.recipesbook.ui.core.DevicePreviews
 import com.okrama.recipesbook.ui.core.bringIntoView
-import com.okrama.recipesbook.ui.core.components.EditScreenContainer
+import com.okrama.recipesbook.ui.core.components.SmallTopAppBarScreenContainer
 import com.okrama.recipesbook.ui.core.components.RecipeGalleryImage
 import com.okrama.recipesbook.ui.core.components.inputfields.RecipeTextField
 import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
@@ -37,11 +37,11 @@ fun AddRecipeScreen(
 ) {
     if (state is AddRecipeScreenState.Initial) {
         val scrollState = rememberScrollState()
-        EditScreenContainer(
+        SmallTopAppBarScreenContainer(
             title = stringResource(id = R.string.title_new_recipe),
             upPress = upPress,
-            onSave = onSaveRecipe,
-            canSave = state.canSave,
+            onAction = onSaveRecipe,
+            actionButtonEnabled = state.canSave,
             scrollState = scrollState,
         ) {
             RecipeGalleryImage(

@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.okrama.recipesbook.data.local.entity.Product
 import com.okrama.recipesbook.model.ShoppingListWithProducts
 import kotlinx.coroutines.flow.Flow
@@ -12,6 +13,9 @@ import kotlinx.coroutines.flow.Flow
 interface ShoppingListAndProductsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertOrUpdate(product: Product)
+
+    @Update
+    fun update(product: Product)
 
     @Query("DELETE FROM product WHERE shoppingListId = :shoppingListId")
     fun deleteAllProductsFor(shoppingListId: Long)

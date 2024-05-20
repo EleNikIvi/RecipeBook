@@ -37,27 +37,27 @@ class AddShoppingListViewModel @Inject constructor(
         initialValue = constructInitialPersistedState(),
     )
     private val _initialTitle = MutableStateFlow("")
-    private val _initialProducts = MutableStateFlow(emptyList<Product>())
+    private val _initialProducts = MutableStateFlow(emptyList<NewProduct>())
     private val _isSaved = MutableStateFlow(false)
 
-    val screenState: StateFlow<AddShoppingListState> = combine(
+    val screenState: StateFlow<AddShoppingListScreenState> = combine(
         _persistedState.asStateFlow(),
         _isSaved,
     ) { persistedState, isSaved ->
 
         if (!isSaved) {
-            AddShoppingListState.Initial(
+            AddShoppingListScreenState.Initial(
                 title = persistedState.title,
                 products = persistedState.products,
                 canSave = persistedState.title.isNotBlank() && persistedState.isChanged,
             )
         } else {
-            AddShoppingListState.Saved
+            AddShoppingListScreenState.Saved
         }
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = AddShoppingListState.Initial()
+        initialValue = AddShoppingListScreenState.Initial()
     )
 
     init {
@@ -68,7 +68,7 @@ class AddShoppingListViewModel @Inject constructor(
                         .collect { recipeWithIngredients ->
                             if(recipeWithIngredients.ingredients.isNotEmpty()) {
                                 val products =
-                                    recipeWithIngredients.ingredients.map { Product(it.ingredient) }
+                                    recipeWithIngredients.ingredients.map { NewProduct(it.ingredient) }
                                 _persistedState.update { state ->
                                     state.copy(
                                         products = state.products + products
@@ -91,7 +91,7 @@ class AddShoppingListViewModel @Inject constructor(
                             }
                             if(shoppingListWithProducts.products.isNotEmpty()){
                                 val products =
-                                    shoppingListWithProducts.products.map { Product(it.product) }
+                                    shoppingListWithProducts.products.map { NewProduct(it.product) }
                                 _initialProducts.value += products
                                 _persistedState.update { state ->
                                     state.copy(
@@ -117,7 +117,7 @@ class AddShoppingListViewModel @Inject constructor(
     fun onProductChange(index: Int, name: String) {
         _persistedState.update {
             val products = it.products.toMutableList()
-            products[index] = Product(name)
+            products[index] = NewProduct(name)
             it.copy(
                 products = products,
             )
@@ -140,7 +140,7 @@ class AddShoppingListViewModel @Inject constructor(
     fun onAddNewProduct() {
         _persistedState.update {
             val products = it.products.toMutableList()
-            products.add(Product())
+            products.add(NewProduct())
             it.copy(
                 products = products,
             )

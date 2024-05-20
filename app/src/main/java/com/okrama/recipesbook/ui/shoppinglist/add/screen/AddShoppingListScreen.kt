@@ -21,17 +21,17 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.okrama.recipesbook.R
 import com.okrama.recipesbook.ui.core.DevicePreviews
-import com.okrama.recipesbook.ui.core.components.ButtonAdd
+import com.okrama.recipesbook.ui.core.components.button.ButtonAdd
 import com.okrama.recipesbook.ui.core.components.CardComponent
-import com.okrama.recipesbook.ui.core.components.EditScreenContainer
+import com.okrama.recipesbook.ui.core.components.SmallTopAppBarScreenContainer
 import com.okrama.recipesbook.ui.core.components.inputfields.RecipeTextField
 import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
 import com.okrama.recipesbook.ui.core.theme.primaryLight
-import com.okrama.recipesbook.ui.shoppinglist.add.AddShoppingListState
+import com.okrama.recipesbook.ui.shoppinglist.add.AddShoppingListScreenState
 
 @Composable
-fun AddToShoppingListScreen(
-    state: AddShoppingListState,
+fun AddShoppingListScreen(
+    state: AddShoppingListScreenState,
     onListNameChange: (String) -> Unit,
     onProductChange: (Int, String) -> Unit,
     onDeleteProduct: (Int) -> Unit,
@@ -39,12 +39,12 @@ fun AddToShoppingListScreen(
     onSaveList: () -> Unit,
     upPress: () -> Unit,
 ) {
-    if (state is AddShoppingListState.Initial) {
-        EditScreenContainer(
+    if (state is AddShoppingListScreenState.Initial) {
+        SmallTopAppBarScreenContainer(
             title = stringResource(id = R.string.edit_shopping_list_title),
             upPress = upPress,
-            onSave = onSaveList,
-            canSave = state.canSave,
+            onAction = onSaveList,
+            actionButtonEnabled = state.canSave,
         ) {
             Spacer(modifier = Modifier.height(16.dp))
             RecipeTextField(
@@ -92,7 +92,7 @@ fun AddToShoppingListScreen(
                 largeAppearance = true,
             )
         }
-    } else if (state is AddShoppingListState.Saved) {
+    } else if (state is AddShoppingListScreenState.Saved) {
         LaunchedEffect(Unit) {
             upPress()
         }
@@ -103,10 +103,10 @@ fun AddToShoppingListScreen(
 @Composable
 private fun AddCategoryScreenPreview(
     @PreviewParameter(AddShoppingListStateProvider::class)
-    screenState: AddShoppingListState
+    screenState: AddShoppingListScreenState
 ) {
     RecipesBookTheme {
-        AddToShoppingListScreen(
+        AddShoppingListScreen(
             state = screenState,
             onListNameChange = {},
             onProductChange = {_, _ -> },

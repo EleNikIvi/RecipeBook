@@ -1,4 +1,4 @@
-package com.okrama.recipesbook.ui.core.components
+package com.okrama.recipesbook.ui.core.components.button
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer

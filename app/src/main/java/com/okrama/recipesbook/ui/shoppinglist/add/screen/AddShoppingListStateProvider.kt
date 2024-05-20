@@ -1,18 +1,18 @@
 package com.okrama.recipesbook.ui.shoppinglist.add.screen
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import com.okrama.recipesbook.ui.shoppinglist.add.AddShoppingListState
-import com.okrama.recipesbook.ui.shoppinglist.add.Product
+import com.okrama.recipesbook.ui.shoppinglist.add.AddShoppingListScreenState
+import com.okrama.recipesbook.ui.shoppinglist.add.NewProduct
 
-class AddShoppingListStateProvider : PreviewParameterProvider<AddShoppingListState> {
-    override val values: Sequence<AddShoppingListState> = sequenceOf(
-        AddShoppingListState.Initial(
+class AddShoppingListStateProvider : PreviewParameterProvider<AddShoppingListScreenState> {
+    override val values: Sequence<AddShoppingListScreenState> = sequenceOf(
+        AddShoppingListScreenState.Initial(
             title = "Title of new Shopping List",
             products = listOf(
-                Product("Sugar"),
-                Product("Flour"),
-                Product("Milk"),
-                Product("Eggs")
+                NewProduct("Sugar"),
+                NewProduct("Flour"),
+                NewProduct("Milk"),
+                NewProduct("Eggs")
             ),
             canSave = true,
         )
