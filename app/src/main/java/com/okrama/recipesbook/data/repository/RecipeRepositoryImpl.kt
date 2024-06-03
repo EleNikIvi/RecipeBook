@@ -1,6 +1,6 @@
 package com.okrama.recipesbook.data.repository
 
-import com.okrama.recipesbook.base.DatabaseUtils
+import com.okrama.recipesbook.data.local.DatabaseUtils
 import com.okrama.recipesbook.base.DefaultDispatcher
 import com.okrama.recipesbook.data.local.dao.CategoryAndRecipeDao
 import com.okrama.recipesbook.data.local.dao.CategoryDao

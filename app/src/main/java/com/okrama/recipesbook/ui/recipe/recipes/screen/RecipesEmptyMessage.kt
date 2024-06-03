@@ -1,4 +1,4 @@
-package com.okrama.recipesbook.ui.recipes.screen
+package com.okrama.recipesbook.ui.recipe.recipes.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box

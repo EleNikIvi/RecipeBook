@@ -1,4 +1,4 @@
-package com.okrama.recipesbook.ui.details
+package com.okrama.recipesbook.ui.recipe.details
 
 sealed interface RecipeDetailsSideEffect {
     data class NavigateToCreateShoppingListScreen(

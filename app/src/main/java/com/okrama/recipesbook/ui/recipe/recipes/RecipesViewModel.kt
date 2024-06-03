@@ -1,4 +1,4 @@
-package com.okrama.recipesbook.ui.recipes
+package com.okrama.recipesbook.ui.recipe.recipes
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -9,9 +9,13 @@ import com.okrama.recipesbook.model.Category
 import com.okrama.recipesbook.model.Recipe
 import com.okrama.recipesbook.ui.core.flow.SaveableStateFlow.Companion.saveableStateFlow
 import com.okrama.recipesbook.ui.core.model.CategoryListProvider
+import com.okrama.recipesbook.ui.recipe.details.RecipeDetailsSideEffect
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -62,6 +66,9 @@ class RecipesViewModel @Inject constructor(
         }
     }
 
+    private val _sideEffect = MutableSharedFlow<RecipesSideEffect>()
+    val sideEffect: SharedFlow<RecipesSideEffect> = _sideEffect.asSharedFlow()
+
     val screenState: StateFlow<RecipesScreenState> = combine(
         _allRecipes.asStateFlow(),
         _recipesForCategory.asStateFlow(),
@@ -107,6 +114,14 @@ class RecipesViewModel @Inject constructor(
     fun onRecipeCategoryChange(category: Category) {
         viewModelScope.launch {
             loadRecipes(category)
+        }
+    }
+
+    fun onAddRecipeSelected() {
+        viewModelScope.launch {
+            _sideEffect.emit(
+                RecipesSideEffect.NavigateToAddRecipeScreen
+            )
         }
     }
 

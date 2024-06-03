@@ -1,7 +1,7 @@
-package com.okrama.recipesbook.ui.addrecipe.screen
+package com.okrama.recipesbook.ui.recipe.addrecipe.screen
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import com.okrama.recipesbook.ui.addrecipe.AddRecipeScreenState
+import com.okrama.recipesbook.ui.recipe.addrecipe.AddRecipeScreenState
 import com.okrama.recipesbook.ui.core.LoremIpsum
 
 class AddRecipeScreenStateProvider : PreviewParameterProvider<AddRecipeScreenState> {

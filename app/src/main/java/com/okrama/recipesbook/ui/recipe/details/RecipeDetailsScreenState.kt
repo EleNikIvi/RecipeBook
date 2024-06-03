@@ -1,4 +1,4 @@
-package com.okrama.recipesbook.ui.details
+package com.okrama.recipesbook.ui.recipe.details
 
 import android.os.Parcelable
 import com.okrama.recipesbook.model.EMPTY_RECIPE_ID

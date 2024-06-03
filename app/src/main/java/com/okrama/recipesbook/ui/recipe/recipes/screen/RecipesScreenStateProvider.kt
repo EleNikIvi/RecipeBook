@@ -1,9 +1,9 @@
-package com.okrama.recipesbook.ui.recipes.screen
+package com.okrama.recipesbook.ui.recipe.recipes.screen
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.okrama.recipesbook.model.Recipe
 import com.okrama.recipesbook.ui.core.LoremIpsum
-import com.okrama.recipesbook.ui.recipes.RecipesScreenState
+import com.okrama.recipesbook.ui.recipe.recipes.RecipesScreenState
 
 class RecipeScreenStateProvider : PreviewParameterProvider<RecipesScreenState> {
     override val values: Sequence<RecipesScreenState> = sequenceOf(

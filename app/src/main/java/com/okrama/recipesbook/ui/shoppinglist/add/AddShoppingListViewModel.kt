@@ -1,8 +1,10 @@
 package com.okrama.recipesbook.ui.shoppinglist.add
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.okrama.recipesbook.data.local.entity.Product
 import com.okrama.recipesbook.domain.recipe.RecipeInteractor
 import com.okrama.recipesbook.domain.shoppinglist.ShoppingListInteractor
 import com.okrama.recipesbook.model.EMPTY_LIST_ID
@@ -126,7 +128,7 @@ class AddShoppingListViewModel @Inject constructor(
     }
 
     fun onDeleteProduct(index: Int) {
-        var deletedItem = _initialProducts.value.getOrNull(index)
+        var deletedItem: NewProduct? = null
         _persistedState.update {
             val products = it.products.toMutableList()
             deletedItem = products.removeAt(index)
@@ -134,7 +136,7 @@ class AddShoppingListViewModel @Inject constructor(
                 products = products
             )
         }
-        updateIsChanged(deletedItem != _initialProducts.value.getOrNull(index))
+        updateIsChanged(deletedItem != null && deletedItem?.name == _initialProducts.value.getOrNull(index)?.name)
     }
 
     fun onAddNewProduct() {

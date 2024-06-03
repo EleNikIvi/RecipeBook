@@ -1,4 +1,4 @@
-package com.okrama.recipesbook.ui.addrecipe
+package com.okrama.recipesbook.ui.recipe.addrecipe
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -8,7 +8,7 @@ import com.okrama.recipesbook.domain.category.CategoryInteractor
 import com.okrama.recipesbook.domain.recipe.RecipeInteractor
 import com.okrama.recipesbook.model.Category
 import com.okrama.recipesbook.model.EMPTY_RECIPE_ID
-import com.okrama.recipesbook.ui.addrecipe.Categories.getCategoriesDropdown
+import com.okrama.recipesbook.ui.recipe.addrecipe.Categories.getCategoriesDropdown
 import com.okrama.recipesbook.ui.core.flow.SaveableStateFlow.Companion.saveableStateFlow
 import com.okrama.recipesbook.ui.core.model.CategoryListProvider
 import com.okrama.recipesbook.ui.core.navigation.RouteKey.RECIPE_ID_KEY

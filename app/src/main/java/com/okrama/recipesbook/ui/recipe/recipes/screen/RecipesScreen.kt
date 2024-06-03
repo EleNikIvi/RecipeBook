@@ -1,7 +1,6 @@
-package com.okrama.recipesbook.ui.recipes.screen
+package com.okrama.recipesbook.ui.recipe.recipes.screen
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -21,7 +20,7 @@ import com.okrama.recipesbook.ui.core.DevicePreviews
 import com.okrama.recipesbook.ui.core.components.topappbar.isToolBarCollapsed
 import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
 import com.okrama.recipesbook.ui.core.theme.backgroundLight
-import com.okrama.recipesbook.ui.recipes.RecipesScreenState
+import com.okrama.recipesbook.ui.recipe.recipes.RecipesScreenState
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -55,37 +54,34 @@ fun RecipesScreen(
             )
         },
     ) { paddingValues ->
-        Column(
+        LazyVerticalGrid(
             modifier = Modifier
                 .padding(paddingValues)
-                .fillMaxSize()
+                .fillMaxSize(),
+            columns = GridCells.Adaptive(minSize = 130.dp),
+            state = listState,
+            contentPadding = PaddingValues(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            LazyVerticalGrid(
-                columns = GridCells.Adaptive(minSize = 130.dp),
-                state = listState,
-                contentPadding = PaddingValues(8.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-            ) {
-                if (screenState.recipes.isEmpty()) {
-                    item(span = { GridItemSpan(maxLineSpan) }) {
-                        RecipesEmptyMessage()
-                    }
-                } else {
-                    items(
-                        items = screenState.recipes,
-                        key = { it.recipeId },
-                    ) { recipe ->
-                        RecipeItem(
-                            recipe = recipe,
-                            onRecipeSelected = onRecipeSelected,
-                            onDeleteRecipe = onDeleteRecipe,
-                            onEditRecipe = onEditRecipe,
-                        )
-                    }
+            if (screenState.recipes.isEmpty()) {
+                item(span = { GridItemSpan(maxLineSpan) }) {
+                    RecipesEmptyMessage()
                 }
-
+            } else {
+                items(
+                    items = screenState.recipes,
+                    key = { it.recipeId },
+                ) { recipe ->
+                    RecipeItem(
+                        recipe = recipe,
+                        onRecipeSelected = onRecipeSelected,
+                        onDeleteRecipe = onDeleteRecipe,
+                        onEditRecipe = onEditRecipe,
+                    )
+                }
             }
+
         }
     }
 }

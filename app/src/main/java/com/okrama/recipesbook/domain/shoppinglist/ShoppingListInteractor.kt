@@ -43,8 +43,6 @@ class ShoppingListInteractor @Inject constructor(
             ),
             products = if (products.isEmpty()) emptyList() else products.map { it.name }
         )
-
-
         return recipeId
     }
 

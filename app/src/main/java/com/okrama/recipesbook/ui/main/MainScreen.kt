@@ -8,8 +8,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import com.okrama.recipesbook.ui.core.DevicePreviews
 import com.okrama.recipesbook.ui.core.navigation.isBottomNavRoute
 import com.okrama.recipesbook.ui.core.navigation.rememberRecipesBookNavController
+import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -36,6 +38,14 @@ fun MainScreen() {
         ) {
             AppNavGraph(navController = recipesBookNavController)
         }
+    }
+}
+
+@DevicePreviews
+@Composable
+private fun MainScreenPreview() {
+    RecipesBookTheme {
+        MainScreen()
     }
 }
 

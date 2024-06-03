@@ -3,13 +3,16 @@ package com.okrama.recipesbook.ui.core.components.topappbar
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.sharp.Done
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
@@ -42,19 +45,23 @@ fun SmallTopAppBarWithAction(
         title = title,
         upPress = upPress,
     ) {
-        TextButton(
+        IconButton(
             onClick = {
                 focusManager.clearFocus()
                 onAction()
             },
-            colors = ButtonDefaults.textButtonColors(
+            colors = IconButtonDefaults.iconButtonColors(
                 contentColor = onPrimaryContainerLight,
             ),
             enabled = actionButtonEnabled,
         ) {
-            Text(
-                text = stringResource(id = R.string.button_save),
-                style = RecipesBookTheme.typography.headingSmall,
+            ButtonDefaults.textButtonColors(
+                contentColor = onPrimaryContainerLight,
+            )
+            Icon(
+                modifier = Modifier.size(32.dp),
+                painter = rememberVectorPainter(image = Icons.Sharp.Done),
+                contentDescription = stringResource(id = R.string.button_save),
             )
         }
     }

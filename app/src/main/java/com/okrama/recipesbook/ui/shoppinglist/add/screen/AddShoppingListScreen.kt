@@ -21,9 +21,9 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.okrama.recipesbook.R
 import com.okrama.recipesbook.ui.core.DevicePreviews
-import com.okrama.recipesbook.ui.core.components.button.ButtonAdd
 import com.okrama.recipesbook.ui.core.components.CardComponent
 import com.okrama.recipesbook.ui.core.components.SmallTopAppBarScreenContainer
+import com.okrama.recipesbook.ui.core.components.button.ButtonAdd
 import com.okrama.recipesbook.ui.core.components.inputfields.RecipeTextField
 import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
 import com.okrama.recipesbook.ui.core.theme.primaryLight
@@ -99,9 +99,10 @@ fun AddShoppingListScreen(
     }
 }
 
+
 @DevicePreviews
 @Composable
-private fun AddCategoryScreenPreview(
+private fun AddShoppingListScreenPreview(
     @PreviewParameter(AddShoppingListStateProvider::class)
     screenState: AddShoppingListScreenState
 ) {
@@ -109,7 +110,7 @@ private fun AddCategoryScreenPreview(
         AddShoppingListScreen(
             state = screenState,
             onListNameChange = {},
-            onProductChange = {_, _ -> },
+            onProductChange = { _, _ -> },
             onDeleteProduct = {},
             onAddNewProduct = {},
             onSaveList = {},

@@ -1,6 +1,5 @@
-package com.okrama.recipesbook.ui.details.screen
+package com.okrama.recipesbook.ui.recipe.details.screen
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -14,18 +13,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material.icons.rounded.ShoppingCart
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -34,9 +29,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -51,13 +43,11 @@ import com.okrama.recipesbook.ui.core.components.inputfields.SpinnerComponent
 import com.okrama.recipesbook.ui.core.components.inputfields.model.DropdownField
 import com.okrama.recipesbook.ui.core.components.inputfields.model.SpinnerItem
 import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
-import com.okrama.recipesbook.ui.core.theme.outlineLight
-import com.okrama.recipesbook.ui.core.theme.outlineVariantLight
 import com.okrama.recipesbook.ui.core.theme.primaryContainerLight
 import com.okrama.recipesbook.ui.core.theme.primaryLight
 import com.okrama.recipesbook.ui.core.theme.radioButtonColors
-import com.okrama.recipesbook.ui.details.Dialog
-import com.okrama.recipesbook.ui.details.RecipeDetailsScreenState
+import com.okrama.recipesbook.ui.recipe.details.Dialog
+import com.okrama.recipesbook.ui.recipe.details.RecipeDetailsScreenState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -297,7 +287,7 @@ private fun ListSpinner(
 
 @DevicePreviews
 @Composable
-private fun HomeScreenPreview(
+private fun RecipeDetailsScreenPreview(
     @PreviewParameter(RecipeDetailsScreenStateProvider::class)
     screenState: RecipeDetailsScreenState
 ) {

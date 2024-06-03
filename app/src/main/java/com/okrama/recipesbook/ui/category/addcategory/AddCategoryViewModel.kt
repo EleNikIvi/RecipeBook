@@ -1,4 +1,4 @@
-package com.okrama.recipesbook.ui.addcategory
+package com.okrama.recipesbook.ui.category.addcategory
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -7,9 +7,13 @@ import com.okrama.recipesbook.domain.category.CategoryInteractor
 import com.okrama.recipesbook.model.EMPTY_CATEGORY_ID
 import com.okrama.recipesbook.ui.core.flow.SaveableStateFlow.Companion.saveableStateFlow
 import com.okrama.recipesbook.ui.core.navigation.RouteKey.CATEGORY_ID_KEY
+import com.okrama.recipesbook.ui.recipe.recipes.RecipesSideEffect
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -32,24 +36,23 @@ class AddCategoryViewModel @Inject constructor(
         initialValue = EMPTY_CATEGORY_ID,
     )
 
+    private val _sideEffect = MutableSharedFlow<AddCategorySideEffect>()
+    val sideEffect: SharedFlow<AddCategorySideEffect> = _sideEffect.asSharedFlow()
+
     val screenState: StateFlow<AddCategoryScreenState> = combine(
         _categoryName.asStateFlow(),
         _savedCategoryId.asStateFlow(),
     ) { categoryName, savedCategoryId ->
         val canSave = categoryName.isNotBlank()
 
-        if (savedCategoryId == EMPTY_CATEGORY_ID) {
-            AddCategoryScreenState.Initial(
-                title = categoryName,
-                canSave = canSave,
-            )
-        } else {
-            AddCategoryScreenState.Saved(categoryId = savedCategoryId)
-        }
+        AddCategoryScreenState(
+            title = categoryName,
+            canSave = canSave,
+        )
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = AddCategoryScreenState.Initial()
+        initialValue = AddCategoryScreenState()
     )
 
     fun onCategoryNameChange(categoryName: String) {
@@ -70,7 +73,9 @@ class AddCategoryViewModel @Inject constructor(
 
             }
             if (categoryId > 0) {
-                _savedCategoryId.value = categoryId
+                _sideEffect.emit(
+                    AddCategorySideEffect.OnCategorySaved(categoryId = categoryId)
+                )
             }
         }
     }

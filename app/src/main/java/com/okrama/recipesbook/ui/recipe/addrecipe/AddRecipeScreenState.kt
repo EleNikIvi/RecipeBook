@@ -1,4 +1,4 @@
-package com.okrama.recipesbook.ui.addrecipe
+package com.okrama.recipesbook.ui.recipe.addrecipe
 
 import android.os.Parcelable
 import android.util.Log

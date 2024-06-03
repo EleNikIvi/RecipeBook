@@ -1,4 +1,4 @@
-package com.okrama.recipesbook.ui.details
+package com.okrama.recipesbook.ui.recipe.details
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel

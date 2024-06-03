@@ -15,8 +15,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import com.okrama.recipesbook.ui.addrecipe.AddRecipeScreenState
-import com.okrama.recipesbook.ui.addrecipe.screen.AddRecipeScreenStateProvider
+import com.okrama.recipesbook.ui.recipe.addrecipe.AddRecipeScreenState
+import com.okrama.recipesbook.ui.recipe.addrecipe.screen.AddRecipeScreenStateProvider
 import com.okrama.recipesbook.ui.core.DevicePreviews
 import com.okrama.recipesbook.ui.core.components.topappbar.SmallTopAppBarWithAction
 import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme

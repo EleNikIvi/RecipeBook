@@ -47,7 +47,6 @@ fun ShoppingListsScreen(
             LargeTopAppBar(
                 search = screenState.search,
                 title = stringResource(id = R.string.shopping_list_title),
-                isCollapsed = false,
                 searchPlaceholder = stringResource(id = R.string.search_shopping_list_hint),
                 onAction = onAddShoppingList,
                 onSearchTermChange = onSearchTermChange,

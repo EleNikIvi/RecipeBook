@@ -104,6 +104,7 @@ private fun Title(
             color = onPrimaryContainerLight,
             fontSize = if (isCollapsed) 20.sp else 40.sp,
             fontFamily = FontFamily.Cursive,
+            lineHeight = if (isCollapsed) 20.sp else 40.sp,
             fontWeight = FontWeight.Bold,
         )
         Spacer(modifier = Modifier.width(8.dp))

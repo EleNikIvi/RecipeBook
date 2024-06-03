@@ -1,4 +1,4 @@
-package com.okrama.recipesbook.ui.recipes.screen
+package com.okrama.recipesbook.ui.recipe.recipes.screen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -7,18 +7,21 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.okrama.recipesbook.R
 import com.okrama.recipesbook.model.Category
 import com.okrama.recipesbook.ui.core.components.filterrail.FilterRail
 import com.okrama.recipesbook.ui.core.components.topappbar.LargeTopAppBar
-import com.okrama.recipesbook.ui.recipes.RecipesScreenState
+import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
+import com.okrama.recipesbook.ui.recipe.recipes.RecipesScreenState
 
 
 @Composable
 fun RecipesToolbar(
     contentState: RecipesScreenState,
-    isCollapsed: Boolean,
+    isCollapsed: Boolean = false,
     onAddNewRecipe: () -> Unit = {},
     onSearchTermChange: (String) -> Unit = {},
     onSearchFieldClear: () -> Unit = {},
@@ -62,6 +65,17 @@ private fun FilterRail(
             ),
             scrollState = filterRailScrollState,
         )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun RecipesToolbarPreview(
+    @PreviewParameter(RecipeScreenStateProvider::class)
+    screenState: RecipesScreenState
+) {
+    RecipesBookTheme {
+        RecipesToolbar(screenState)
     }
 }
 

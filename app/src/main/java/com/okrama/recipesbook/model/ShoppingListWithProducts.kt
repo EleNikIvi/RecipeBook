@@ -12,3 +12,4 @@ data class ShoppingListWithProducts(
     )
     val products: List<Product>
 )
+

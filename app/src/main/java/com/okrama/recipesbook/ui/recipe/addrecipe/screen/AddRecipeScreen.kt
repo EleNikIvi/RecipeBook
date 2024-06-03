@@ -1,4 +1,4 @@
-package com.okrama.recipesbook.ui.addrecipe.screen
+package com.okrama.recipesbook.ui.recipe.addrecipe.screen
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -13,7 +13,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.okrama.recipesbook.R
-import com.okrama.recipesbook.ui.addrecipe.AddRecipeScreenState
+import com.okrama.recipesbook.ui.recipe.addrecipe.AddRecipeScreenState
 import com.okrama.recipesbook.ui.core.DevicePreviews
 import com.okrama.recipesbook.ui.core.bringIntoView
 import com.okrama.recipesbook.ui.core.components.SmallTopAppBarScreenContainer

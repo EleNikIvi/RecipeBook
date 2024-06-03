@@ -1,4 +1,4 @@
-package com.okrama.recipesbook.ui.recipes
+package com.okrama.recipesbook.ui.recipe.recipes
 
 import android.os.Parcelable
 import com.okrama.recipesbook.model.Category

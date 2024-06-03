@@ -1,4 +1,4 @@
-package com.okrama.recipesbook.base
+package com.okrama.recipesbook.data.local
 
 import android.database.sqlite.SQLiteConstraintException
 import timber.log.Timber
