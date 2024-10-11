@@ -68,6 +68,15 @@ class AddShoppingListViewModel @Inject constructor(
                 launch {
                     recipeInteractor.getRecipeWithIngredients(_recipeId)
                         .collect { recipeWithIngredients ->
+                            if(_listId == EMPTY_LIST_ID) {
+                                _initialTitle.value = recipeWithIngredients.recipe.title
+                                _persistedState.update { state ->
+                                    state.copy(
+                                        title = recipeWithIngredients.recipe.title
+                                    )
+                                }
+                            }
+
                             if(recipeWithIngredients.ingredients.isNotEmpty()) {
                                 val products =
                                     recipeWithIngredients.ingredients.map { NewProduct(it.ingredient) }

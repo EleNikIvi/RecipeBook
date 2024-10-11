@@ -94,7 +94,7 @@ class RecipeDetailsViewModel @Inject constructor(
                 categoryInteractor.getCategoryForRecipe(_recipeId).collect { category ->
                     _persistedState.update {
                         it.copy(
-                            category = category.title ?: ""
+                            category = checkAndGetCategory(category)
                         )
                     }
                 }

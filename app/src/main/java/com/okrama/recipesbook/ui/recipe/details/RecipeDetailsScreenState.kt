@@ -1,10 +1,14 @@
 package com.okrama.recipesbook.ui.recipe.details
 
 import android.os.Parcelable
+import androidx.annotation.StringRes
+import com.okrama.recipesbook.model.Category
 import com.okrama.recipesbook.model.EMPTY_RECIPE_ID
 import com.okrama.recipesbook.model.ShoppingList
 import com.okrama.recipesbook.ui.core.components.inputfields.model.DropdownField
 import com.okrama.recipesbook.ui.core.components.inputfields.model.SpinnerItem
+import com.okrama.recipesbook.ui.core.model.CategoryListProvider
+import com.okrama.recipesbook.ui.core.model.CategoryListProvider.CATEGORY_ALL
 import kotlinx.parcelize.Parcelize
 
 
@@ -12,7 +16,7 @@ data class RecipeDetailsScreenState(
     val id: Long = EMPTY_RECIPE_ID,
     val imageUrl: String = "",
     val title: String = "",
-    val category: String = "",
+    val category: Category = CATEGORY_ALL,
     val description: String = "",
     val ingredients: String = "",
     val shoppingListDropdown: DropdownField = DropdownField(),
@@ -28,10 +32,12 @@ sealed interface Dialog {
 data class RecipeDetailsPersistedState(
     val imageUrl: String = "",
     val title: String = "",
-    val category: String = "",
+    val category: Category = CATEGORY_ALL,
     val description: String = "",
     val ingredients: String = "",
 ) : Parcelable
+
+fun checkAndGetCategory(category: Category): Category = if(category.categoryId == CATEGORY_ALL.categoryId) CATEGORY_ALL else category
 
 object ShoppingLists {
     fun getShoppingListsDropdown(

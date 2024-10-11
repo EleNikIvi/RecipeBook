@@ -40,6 +40,7 @@ import com.okrama.recipesbook.ui.core.components.ImageComponent
 import com.okrama.recipesbook.ui.core.components.button.ActionButton
 import com.okrama.recipesbook.ui.core.components.dialog.AlertDialogComponent
 import com.okrama.recipesbook.ui.core.components.inputfields.SpinnerComponent
+import com.okrama.recipesbook.ui.core.components.inputfields.getStringValue
 import com.okrama.recipesbook.ui.core.components.inputfields.model.DropdownField
 import com.okrama.recipesbook.ui.core.components.inputfields.model.SpinnerItem
 import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
@@ -99,7 +100,7 @@ fun RecipeDetailsScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(8.dp),
-                    text = state.category,
+                    text = getStringValue(state.category.titleResId, state.category.title),
                     textAlign = TextAlign.Center,
                     style = RecipesBookTheme.typography.headingSmall,
                 )

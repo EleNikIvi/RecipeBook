@@ -3,8 +3,11 @@ package com.okrama.recipesbook.ui.main
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
@@ -82,26 +85,29 @@ private fun NavGraphBuilder.recipesNavGraph(
             val viewModel: RecipesViewModel = hiltViewModel()
             val screenState by viewModel.screenState.collectAsStateWithLifecycle()
 
-            LaunchedEffect(key1 = true) {
-                viewModel.sideEffect.collect { sideEffect ->
-                    when (sideEffect) {
-                        is RecipesSideEffect.NavigateToAddRecipeScreen -> onAddNewRecipeSelected(
-                            backStackEntry
-                        )
+            val lifecycleOwner = LocalLifecycleOwner.current
+            LaunchedEffect(lifecycleOwner.lifecycle) {
+                lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.sideEffect.collect { sideEffect ->
+                        when (sideEffect) {
+                            is RecipesSideEffect.NavigateToAddRecipeScreen -> onAddNewRecipeSelected(
+                                backStackEntry
+                            )
 
-                        is RecipesSideEffect.NavigateToEditRecipeScreen -> onEditRecipe(
-                            sideEffect.recipeId,
-                            backStackEntry
-                        )
+                            is RecipesSideEffect.NavigateToEditRecipeScreen -> onEditRecipe(
+                                sideEffect.recipeId,
+                                backStackEntry
+                            )
 
-                        is RecipesSideEffect.NavigateToRecipeDetailsScreen -> onRecipeSelected(
-                            sideEffect.recipeId,
-                            backStackEntry
-                        )
+                            is RecipesSideEffect.NavigateToRecipeDetailsScreen -> onRecipeSelected(
+                                sideEffect.recipeId,
+                                backStackEntry
+                            )
 
-                        is RecipesSideEffect.NavigateToAddCategoryScreen -> onAddCategorySelected(
-                            backStackEntry
-                        )
+                            is RecipesSideEffect.NavigateToAddCategoryScreen -> onAddCategorySelected(
+                                backStackEntry
+                            )
+                        }
                     }
                 }
             }
