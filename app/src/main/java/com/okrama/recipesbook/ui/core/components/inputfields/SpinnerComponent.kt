@@ -34,6 +34,8 @@ import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
 import com.okrama.recipesbook.ui.core.theme.backgroundLight
 import com.okrama.recipesbook.ui.core.theme.onSurfaceLight
 import com.okrama.recipesbook.ui.core.theme.primaryLight
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -41,7 +43,7 @@ fun SpinnerComponent(
     label: String,
     modifier: Modifier = Modifier,
     selectedItem: String,
-    spinnerItems: List<SpinnerItem>,
+    spinnerItems: ImmutableList<SpinnerItem>,
     onSelectionChanged: (Long) -> Unit,
     actionIcon: @Composable (RowScope.() -> Unit) = {},
 ) {
@@ -236,7 +238,7 @@ private fun SpinnerWithLongTextPreview() {
     }
 }
 
-private val OPTIONS = listOf(
+private val OPTIONS = persistentListOf(
     SpinnerItem(0L, ""),
     SpinnerItem(1L, "second"),
     SpinnerItem(2L, "third"),

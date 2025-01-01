@@ -7,7 +7,6 @@ import com.okrama.recipesbook.domain.category.CategoryInteractor
 import com.okrama.recipesbook.model.EMPTY_CATEGORY_ID
 import com.okrama.recipesbook.ui.core.flow.SaveableStateFlow.Companion.saveableStateFlow
 import com.okrama.recipesbook.ui.core.navigation.RouteKey.CATEGORY_ID_KEY
-import com.okrama.recipesbook.ui.recipe.recipes.RecipesSideEffect
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow

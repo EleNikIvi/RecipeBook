@@ -10,6 +10,7 @@ import com.okrama.recipesbook.ui.core.flow.SaveableStateFlow.Companion.saveableS
 import com.okrama.recipesbook.ui.core.navigation.RouteKey
 import com.okrama.recipesbook.ui.shoppinglist.list.ShoppingListsSideEffect
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -69,13 +70,12 @@ class ShoppingListDetailsViewModel @Inject constructor(
 
         ShoppingListDetailsScreenState(
             listTitle = title,
-            products = products
+            products = products.toImmutableList()
         )
-
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = ShoppingListDetailsScreenState()
+        initialValue = ShoppingListDetailsScreenState("")
     )
 
     fun updateProductIsDone(productId: Long, isDone: Boolean) {
@@ -91,14 +91,6 @@ class ShoppingListDetailsViewModel @Inject constructor(
         viewModelScope.launch {
             _sideEffect.emit(
                 ShoppingListDetailsSideEffect.NavigateToEditShoppingListScreen(listId = _listId)
-            )
-        }
-    }
-
-    fun onNavigateUp(){
-        viewModelScope.launch {
-            _sideEffect.emit(
-                ShoppingListDetailsSideEffect.NavigateUp
             )
         }
     }

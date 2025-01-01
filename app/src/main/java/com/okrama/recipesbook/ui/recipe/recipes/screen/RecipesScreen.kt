@@ -15,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import com.okrama.recipesbook.model.Category
 import com.okrama.recipesbook.ui.core.DevicePreviews
 import com.okrama.recipesbook.ui.core.components.topappbar.isToolBarCollapsed
 import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
@@ -33,7 +32,7 @@ fun RecipesScreen(
     onSearchFieldClear: () -> Unit,
     onSearchTermChange: (String) -> Unit,
     onDeleteRecipe: (Long) -> Unit,
-    onRecipeCategoryChange: (Category) -> Unit,
+    onRecipeCategoryChange: (Long) -> Unit,
     onAddNewCategory: () -> Unit,
 ) {
     val listState = rememberLazyGridState()
@@ -44,7 +43,7 @@ fun RecipesScreen(
         containerColor = backgroundLight,
         topBar = {
             RecipesToolbar(
-                screenState,
+                contentState = screenState,
                 isCollapsed = isCollapsed,
                 onAddNewRecipe = onAddNewRecipe,
                 onSearchTermChange = onSearchTermChange,

@@ -10,12 +10,16 @@ import com.okrama.recipesbook.model.Category
 import com.okrama.recipesbook.model.EMPTY_RECIPE_ID
 import com.okrama.recipesbook.ui.recipe.addrecipe.Categories.getCategoriesDropdown
 import com.okrama.recipesbook.ui.core.flow.SaveableStateFlow.Companion.saveableStateFlow
-import com.okrama.recipesbook.ui.core.model.CategoryListProvider
+import com.okrama.recipesbook.ui.core.model.CategoryUtil
 import com.okrama.recipesbook.ui.core.navigation.RouteKey.RECIPE_ID_KEY
+import com.okrama.recipesbook.ui.recipe.recipes.RecipesSideEffect
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -38,7 +42,7 @@ class AddRecipeViewModel @Inject constructor(
     private val _initialImageUri = MutableStateFlow<String?>(null)
     private val _initialTitle = MutableStateFlow("")
     private val _initialDescription = MutableStateFlow("")
-    private val _initialCategory = MutableStateFlow(CategoryListProvider.CATEGORY_ALL)
+    private val _initialCategory = MutableStateFlow(CategoryUtil.CATEGORY_ALL)
     private val _initialIngredients = MutableStateFlow(emptyList<Ingredient>())
     private var _initialIngredientsStr = ""
     private val _categories = savedStateHandle.saveableStateFlow(
@@ -47,6 +51,9 @@ class AddRecipeViewModel @Inject constructor(
     )
 
     private val _isSaved = MutableStateFlow(false)
+
+    private val _sideEffect = MutableSharedFlow<AddRecipeSideEffect>()
+    val sideEffect: SharedFlow<AddRecipeSideEffect> = _sideEffect.asSharedFlow()
 
     val screenState: StateFlow<AddRecipeScreenState> = combine(
         _persistedState.asStateFlow(),
@@ -109,9 +116,17 @@ class AddRecipeViewModel @Inject constructor(
             launch {
                 categoryInteractor.getCategories()
                     .collect { values ->
-                        _categories.value = CategoryListProvider.getCategories(values)
+                        _categories.value = values
                     }
             }
+        }
+    }
+
+    fun onAddCategorySelected() {
+        viewModelScope.launch {
+            _sideEffect.emit(
+                AddRecipeSideEffect.NavigateToAddCategoryScreen
+            )
         }
     }
 

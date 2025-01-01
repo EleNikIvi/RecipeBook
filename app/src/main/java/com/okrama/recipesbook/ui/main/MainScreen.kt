@@ -36,7 +36,7 @@ fun MainScreen() {
                 .fillMaxSize()
                 .padding(it)
         ) {
-            AppNavGraph(navController = recipesBookNavController)
+            AppNavGraph(appState = recipesBookNavController)
         }
     }
 }

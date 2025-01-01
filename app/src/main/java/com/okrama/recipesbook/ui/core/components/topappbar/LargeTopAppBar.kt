@@ -45,7 +45,6 @@ fun LargeTopAppBar(
     onSearchFieldClear: () -> Unit = {},
     content: @Composable () -> Unit = {},
 ) {
-
     Column(
         modifier = Modifier
             .background(Brush.horizontalGradient(listOf(inversePrimaryLight, primaryLight)))

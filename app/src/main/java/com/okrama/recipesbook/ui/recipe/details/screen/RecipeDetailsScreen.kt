@@ -49,6 +49,7 @@ import com.okrama.recipesbook.ui.core.theme.primaryLight
 import com.okrama.recipesbook.ui.core.theme.radioButtonColors
 import com.okrama.recipesbook.ui.recipe.details.Dialog
 import com.okrama.recipesbook.ui.recipe.details.RecipeDetailsScreenState
+import kotlinx.collections.immutable.ImmutableList
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -267,7 +268,7 @@ private fun ListRadioButton(
 @Composable
 private fun ListSpinner(
     selectedShoppingList: Long,
-    spinnerItems: List<SpinnerItem>,
+    spinnerItems: ImmutableList<SpinnerItem>,
     onListChosen: (Long) -> Unit,
 ) {
     CardComponent(

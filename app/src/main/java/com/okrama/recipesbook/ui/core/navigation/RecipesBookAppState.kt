@@ -71,20 +71,20 @@ object RouteKey {
 }
 
 /**
- * Remembers and creates an instance of [RecipesBookNavController]
+ * Remembers and creates an instance of [RecipesBookAppState]
  */
 @Composable
 fun rememberRecipesBookNavController(
     navController: NavHostController = rememberNavController()
-): RecipesBookNavController = remember(navController) {
-    RecipesBookNavController(navController)
+): RecipesBookAppState = remember(navController) {
+    RecipesBookAppState(navController)
 }
 
 /**
  * Responsible for holding UI Navigation logic.
  */
 @Stable
-class RecipesBookNavController(
+class RecipesBookAppState(
     val navController: NavHostController,
 ) {
 

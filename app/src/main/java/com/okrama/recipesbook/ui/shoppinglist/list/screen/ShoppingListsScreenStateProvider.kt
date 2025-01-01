@@ -4,6 +4,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.okrama.recipesbook.ui.core.LoremIpsum
 import com.okrama.recipesbook.ui.shoppinglist.list.ShoppingListModel
 import com.okrama.recipesbook.ui.shoppinglist.list.ShoppingListScreenState
+import kotlinx.collections.immutable.persistentListOf
 
 class ShoppingListsScreenStateProvider : PreviewParameterProvider<ShoppingListScreenState> {
     override val values: Sequence<ShoppingListScreenState> = sequenceOf(
@@ -19,7 +20,7 @@ class ShoppingListsScreenStateProvider : PreviewParameterProvider<ShoppingListSc
     )
 }
 
-private fun getPreviewList() = listOf(
+private fun getPreviewList() = persistentListOf(
     ShoppingListModel(
         listId = 1,
         listTitle = "First shopping list",

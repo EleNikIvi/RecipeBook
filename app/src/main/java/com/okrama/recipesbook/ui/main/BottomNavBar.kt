@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.stringResource
 import com.okrama.recipesbook.ui.core.navigation.BottomDest
-import com.okrama.recipesbook.ui.core.navigation.RecipesBookNavController
+import com.okrama.recipesbook.ui.core.navigation.RecipesBookAppState
 import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
 import com.okrama.recipesbook.ui.core.theme.onPrimaryLight
 import com.okrama.recipesbook.ui.core.theme.primaryLight
@@ -21,7 +21,7 @@ import com.okrama.recipesbook.ui.core.theme.tertiaryContainerLight
 
 @Composable
 fun BottomNavBar(
-    navController: RecipesBookNavController,
+    navController: RecipesBookAppState,
     currentSelectedScreen: BottomDest,
 ) {
     NavigationBar(
@@ -47,7 +47,7 @@ fun BottomNavBar(
 
 @Composable
 private fun RowScope.RecipeNavigationBarItem(
-    navController: RecipesBookNavController,
+    navController: RecipesBookAppState,
     selectedScreen: BottomDest,
     bottomDest: BottomDest,
 ) {

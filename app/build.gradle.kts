@@ -40,6 +40,13 @@ android {
     }
     kotlinOptions {
         jvmTarget = "18"
+        //comment following lines (freeCompilerArgs) to disable compose-metrics
+        freeCompilerArgs += listOf(
+            "-P",
+            "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=" + project.buildDir.absolutePath + "/compose_metrics")
+        freeCompilerArgs += listOf(
+            "-P",
+            "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination="  + project.buildDir.absolutePath + "/compose_metrics")
     }
     buildFeatures {
         compose = true
@@ -82,6 +89,8 @@ dependencies {
 
     implementation ("io.coil-kt:coil-compose:2.2.2")
     implementation("androidx.navigation:navigation-runtime-ktx:2.7.2")
+
+    implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.8")
 
     // Logging
     implementation("com.jakewharton.timber:timber:5.0.1")

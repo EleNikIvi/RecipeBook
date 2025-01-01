@@ -61,10 +61,7 @@ fun SmallTopAppBarScreenContainer(
 
 @DevicePreviews
 @Composable
-private fun EditScreenContainerPreview(
-    @PreviewParameter(AddRecipeScreenStateProvider::class)
-    screenState: AddRecipeScreenState
-) {
+private fun EditScreenContainerPreview() {
     RecipesBookTheme {
         SmallTopAppBarScreenContainer(
             title = "New Category",

@@ -24,21 +24,22 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import com.okrama.recipesbook.model.Category
 import com.okrama.recipesbook.ui.core.components.CardComponent
+import com.okrama.recipesbook.ui.core.components.filterrail.model.FilterRailItem
 import com.okrama.recipesbook.ui.core.components.inputfields.getStringValue
 import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
 import com.okrama.recipesbook.ui.core.theme.inversePrimaryContainerLight
 import com.okrama.recipesbook.ui.core.theme.onPrimaryContainerLight
 import com.okrama.recipesbook.ui.core.theme.onPrimaryLight
 import com.okrama.recipesbook.ui.core.theme.primaryContainerLight
+import kotlinx.collections.immutable.ImmutableList
 
 @Composable
 fun FilterRail(
-    onFilterCategorySelected: (Category) -> Unit,
+    filterItems: ImmutableList<FilterRailItem>,
+    selectedItem: FilterRailItem,
+    onFilterCategorySelected: (Long) -> Unit,
     onAddNewCategory: () -> Unit,
-    filterCategories: List<Category>,
-    selectedCategory: Category,
     contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp, vertical = 12.dp),
     scrollState: ScrollState = rememberScrollState(),
 ) {
@@ -48,18 +49,18 @@ fun FilterRail(
             .padding(contentPadding),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        filterCategories.forEach { category ->
+        filterItems.forEach { item ->
             FilterChip(
-                title = getStringValue(category.titleResId, category.title),
-                isSelected = category == selectedCategory,
+                title = getStringValue(item.valueResId, item.value),
+                isSelected = item == selectedItem,
                 onClick = {
-                    onFilterCategorySelected(category)
+                    onFilterCategorySelected(item.id)
                 },
             )
         }
         Spacer(modifier = Modifier.width(8.dp))
         AddNewFilterChip(
-            onClick = { onAddNewCategory() },
+            onClick = onAddNewCategory,
         )
     }
 }
@@ -67,8 +68,8 @@ fun FilterRail(
 @Composable
 private fun FilterChip(
     title: String,
-    onClick: () -> Unit,
     isSelected: Boolean,
+    onClick: () -> Unit,
 ) {
     CardComponent(
         onClick = onClick,
@@ -123,15 +124,15 @@ private fun AddNewFilterChip(
 @Preview(group = "appearance compact", showBackground = true)
 @Composable
 private fun FilterRailCompactSizePreview(
-    @PreviewParameter(FilterRailDataProvider::class)
-    categories: List<Category>
+    @PreviewParameter(FilterRailPreviewDataProvider::class)
+    items: ImmutableList<FilterRailItem>
 ) {
     RecipesBookTheme {
         FilterRail(
             onFilterCategorySelected = {},
             onAddNewCategory = {},
-            filterCategories = categories,
-            selectedCategory = categories.first(),
+            filterItems = items,
+            selectedItem = items.first(),
         )
     }
 }
@@ -139,15 +140,15 @@ private fun FilterRailCompactSizePreview(
 @Preview(group = "appearance large", showBackground = true)
 @Composable
 private fun FilterRailLargeSizePreview(
-    @PreviewParameter(FilterRailDataProvider::class)
-    categories: List<Category>
+    @PreviewParameter(FilterRailPreviewDataProvider::class)
+    items: ImmutableList<FilterRailItem>
 ) {
     RecipesBookTheme {
         FilterRail(
             onFilterCategorySelected = {},
             onAddNewCategory = {},
-            filterCategories = categories,
-            selectedCategory = categories.first(),
+            filterItems = items,
+            selectedItem = items.first(),
         )
     }
 }
@@ -155,18 +156,18 @@ private fun FilterRailLargeSizePreview(
 @Preview(group = "appearance compact", showBackground = true)
 @Composable
 private fun FilterChipCompactSizePreview(
-    @PreviewParameter(FilterRailDataProvider::class)
-    categories: List<Category>
+    @PreviewParameter(FilterRailPreviewDataProvider::class)
+    items: List<FilterRailItem>
 ) {
     RecipesBookTheme {
         Column(Modifier.padding(horizontal = 16.dp)) {
             FilterChip(
-                title = categories[0].title ?: "",
+                title = items[0].value ?: "",
                 onClick = { },
                 isSelected = true,
             )
             FilterChip(
-                title = categories[1].title ?: "",
+                title = items[1].value ?: "",
                 onClick = { },
                 isSelected = false,
             )
@@ -177,18 +178,18 @@ private fun FilterChipCompactSizePreview(
 @Preview(group = "appearance large", showBackground = true)
 @Composable
 private fun FilterChipLargeSizePreview(
-    @PreviewParameter(FilterRailDataProvider::class)
-    categories: List<Category>
+    @PreviewParameter(FilterRailPreviewDataProvider::class)
+    items: List<FilterRailItem>
 ) {
     RecipesBookTheme {
         Column(Modifier.padding(horizontal = 16.dp)) {
             FilterChip(
-                title = categories[0].title ?: "",
+                title = items[0].value ?: "",
                 onClick = { },
                 isSelected = true,
             )
             FilterChip(
-                title = categories[1].title ?: "",
+                title = items[1].value ?: "",
                 onClick = { },
                 isSelected = false,
             )

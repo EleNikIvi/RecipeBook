@@ -3,7 +3,6 @@ package com.okrama.recipesbook.ui.recipe.recipes.screen
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -11,7 +10,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.okrama.recipesbook.R
-import com.okrama.recipesbook.model.Category
 import com.okrama.recipesbook.ui.core.components.filterrail.FilterRail
 import com.okrama.recipesbook.ui.core.components.topappbar.LargeTopAppBar
 import com.okrama.recipesbook.ui.core.theme.RecipesBookTheme
@@ -25,7 +23,7 @@ fun RecipesToolbar(
     onAddNewRecipe: () -> Unit = {},
     onSearchTermChange: (String) -> Unit = {},
     onSearchFieldClear: () -> Unit = {},
-    onFilterCategorySelected: (Category) -> Unit = {},
+    onFilterCategorySelected: (Long) -> Unit = {},
     onAddNewCategory: () -> Unit = {},
 ) {
     LargeTopAppBar(
@@ -37,34 +35,18 @@ fun RecipesToolbar(
         onSearchTermChange = onSearchTermChange,
         onSearchFieldClear = onSearchFieldClear,
     ) {
-        FilterRail(
-            contentState = contentState,
-            onFilterCategorySelected = onFilterCategorySelected,
-            onAddNewCategory = onAddNewCategory,
-        )
-    }
-}
-
-@Composable
-private fun FilterRail(
-    contentState: RecipesScreenState,
-    onFilterCategorySelected: (Category) -> Unit,
-    onAddNewCategory: () -> Unit,
-) {
-    val filterRailScrollState = rememberScrollState()
-
-    Column(modifier = Modifier.heightIn(min = 16.dp)) {
-        FilterRail(
-            filterCategories = contentState.categories,
-            selectedCategory = contentState.selectedCategory,
-            onFilterCategorySelected = onFilterCategorySelected,
-            onAddNewCategory = onAddNewCategory,
-            contentPadding = PaddingValues(
-                start = 16.dp, end = 16.dp,
-                top = 12.dp
-            ),
-            scrollState = filterRailScrollState,
-        )
+        Column(modifier = Modifier.heightIn(min = 16.dp)) {
+            FilterRail(
+                filterItems = contentState.categories,
+                selectedItem = contentState.selectedCategory,
+                onFilterCategorySelected = onFilterCategorySelected,
+                onAddNewCategory = onAddNewCategory,
+                contentPadding = PaddingValues(
+                    start = 16.dp, end = 16.dp,
+                    top = 12.dp
+                ),
+            )
+        }
     }
 }
 

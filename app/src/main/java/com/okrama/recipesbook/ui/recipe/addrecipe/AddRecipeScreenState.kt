@@ -1,13 +1,12 @@
 package com.okrama.recipesbook.ui.recipe.addrecipe
 
 import android.os.Parcelable
-import android.util.Log
-import androidx.annotation.StringRes
-import androidx.compose.runtime.Immutable
 import com.okrama.recipesbook.model.Category
 import com.okrama.recipesbook.ui.core.components.inputfields.model.DropdownField
 import com.okrama.recipesbook.ui.core.components.inputfields.model.SpinnerItem
-import com.okrama.recipesbook.ui.core.model.CategoryListProvider
+import com.okrama.recipesbook.ui.core.model.CategoryUtil
+import com.okrama.recipesbook.ui.core.model.CategoryUtil.getCategoryTitleResId
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.parcelize.Parcelize
 
 sealed interface AddRecipeScreenState {
@@ -28,7 +27,7 @@ data class AddRecipePersistedState(
     val imageUrl: String? = null,
     val title: String = "",
     val description: String = "",
-    val selectedCategory: Category = CategoryListProvider.CATEGORY_ALL,
+    val selectedCategory: Category = CategoryUtil.CATEGORY_ALL,
     val ingredients: String = "",
     val isChanged: Boolean = false,
 ) : Parcelable
@@ -38,18 +37,20 @@ object Categories {
         categories: List<Category>,
         selectedCategory: Category? = null
     ): DropdownField {
-        val spinnerItems = categories.map {
+        val spinnerItems = categories.map { category ->
             SpinnerItem(
-                id = it.categoryId,
-                value = it.title ?: "",
-                valueResId = it.titleResId,
+                id = category.categoryId,
+                value = category.title,
+                valueResId = getCategoryTitleResId(category)
             )
         }
 
         return DropdownField(
             value = selectedCategory?.title ?: "",
-            valueResId = selectedCategory?.titleResId,
-            spinnerItems = spinnerItems,
+            valueResId = selectedCategory?.let {
+                getCategoryTitleResId(selectedCategory)
+            },
+            spinnerItems = spinnerItems.toImmutableList(),
         )
     }
 }

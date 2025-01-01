@@ -7,10 +7,14 @@ import com.okrama.recipesbook.domain.category.CategoryInteractor
 import com.okrama.recipesbook.domain.recipe.RecipeInteractor
 import com.okrama.recipesbook.model.Category
 import com.okrama.recipesbook.model.Recipe
+import com.okrama.recipesbook.ui.core.components.filterrail.model.FILTER_ALL
+import com.okrama.recipesbook.ui.core.components.filterrail.model.FilterRailItem
 import com.okrama.recipesbook.ui.core.flow.SaveableStateFlow.Companion.saveableStateFlow
-import com.okrama.recipesbook.ui.core.model.CategoryListProvider
-import com.okrama.recipesbook.ui.recipe.details.RecipeDetailsSideEffect
+import com.okrama.recipesbook.ui.core.model.CategoryUtil
+import com.okrama.recipesbook.ui.recipe.recipes.CategoriesFilterRail.getCategoriesFilterRail
+import com.okrama.recipesbook.ui.recipe.recipes.CategoriesFilterRail.getCategoryFilterRail
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -36,7 +40,7 @@ class RecipesViewModel @Inject constructor(
         initialValue = emptyList<Recipe>(),
     )
     private val _recipesForCategory = savedStateHandle.saveableStateFlow(
-        key = "recipes_category-view-model-list-key",
+        key = "recipes_view-model-recipes-category-list-key",
         initialValue = emptyList<Recipe>(),
     )
     private val _searchTerm = savedStateHandle.saveableStateFlow(
@@ -57,7 +61,7 @@ class RecipesViewModel @Inject constructor(
                     .collect { values ->
                         _persistedState.update {
                             it.copy(
-                                filterCategories = CategoryListProvider.getCategories(values)
+                                filterCategories = getCategoriesFilterRail(values)
                             )
                         }
                     }
@@ -77,15 +81,20 @@ class RecipesViewModel @Inject constructor(
     ) { recipes, recipesForCategory, persistedState, searchTerm ->
 
         val currentRecipes =
-            if (persistedState.selectedCategory == CategoryListProvider.CATEGORY_ALL) recipes
+            if (persistedState.selectedCategory == FILTER_ALL) recipes
             else recipesForCategory
 
         val filteredRecipes =
-            currentRecipes.filter { it.title.contains(other = searchTerm, ignoreCase = true) }
+            currentRecipes.filter {
+                it.title.contains(
+                    other = searchTerm.trim(),
+                    ignoreCase = true
+                )
+            }
 
         RecipesScreenState(
             recipes = filteredRecipes,
-            categories = persistedState.filterCategories,
+            categories = persistedState.filterCategories.toImmutableList(),
             search = searchTerm,
             selectedCategory = persistedState.selectedCategory,
         )
@@ -96,7 +105,7 @@ class RecipesViewModel @Inject constructor(
     )
 
     fun onSearchTermChange(searchTerm: String) {
-        _searchTerm.value = searchTerm.trim()
+        _searchTerm.value = searchTerm
     }
 
     fun onSearchFieldClear() {
@@ -111,9 +120,15 @@ class RecipesViewModel @Inject constructor(
         }
     }
 
-    fun onRecipeCategoryChange(category: Category) {
+    fun onRecipeCategoryChange(categoryId: Long) {
         viewModelScope.launch {
-            loadRecipes(category)
+            _persistedState.value.filterCategories.find { it.id == categoryId }
+                ?.let { selectedCategory ->
+                    _persistedState.update {
+                        it.copy(selectedCategory = selectedCategory)
+                    }
+                    loadRecipes(selectedCategory)
+                }
         }
     }
 
@@ -125,6 +140,30 @@ class RecipesViewModel @Inject constructor(
         }
     }
 
+    fun onEditRecipeSelected(recipeId: Long) {
+        viewModelScope.launch {
+            _sideEffect.emit(
+                RecipesSideEffect.NavigateToEditRecipeScreen(recipeId)
+            )
+        }
+    }
+
+    fun onRecipeSelected(recipeId: Long) {
+        viewModelScope.launch {
+            _sideEffect.emit(
+                RecipesSideEffect.NavigateToRecipeDetailsScreen(recipeId)
+            )
+        }
+    }
+
+    fun onAddCategorySelected() {
+        viewModelScope.launch {
+            _sideEffect.emit(
+                RecipesSideEffect.NavigateToAddCategoryScreen
+            )
+        }
+    }
+
     private fun loadRecipesData() {
         viewModelScope.launch {
             val initialVaultCategory = _persistedState.value.selectedCategory
@@ -132,14 +171,13 @@ class RecipesViewModel @Inject constructor(
         }
     }
 
-    private suspend fun loadRecipes(category: Category) {
+    private suspend fun loadRecipes(category: FilterRailItem) {
         viewModelScope.launch {
-            val recipesForCategory = recipeInteractor.getRecipesBy(category.categoryId)
+            val recipesForCategory = recipeInteractor.getRecipesBy(category.id)
             _recipesForCategory.update { recipesForCategory?.recipes ?: emptyList() }
             _persistedState.update {
                 it.copy(
                     searchFieldEnabled = !recipesForCategory?.recipes.isNullOrEmpty(),
-                    selectedCategory = category,
                 )
             }
         }

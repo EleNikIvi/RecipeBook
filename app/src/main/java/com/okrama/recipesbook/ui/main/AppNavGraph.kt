@@ -19,11 +19,12 @@ import com.okrama.recipesbook.ui.category.addcategory.AddCategorySideEffect
 import com.okrama.recipesbook.ui.category.addcategory.AddCategoryViewModel
 import com.okrama.recipesbook.ui.category.addcategory.screen.AddCategoryScreen
 import com.okrama.recipesbook.ui.core.navigation.BottomDest
-import com.okrama.recipesbook.ui.core.navigation.RecipesBookNavController
+import com.okrama.recipesbook.ui.core.navigation.RecipesBookAppState
 import com.okrama.recipesbook.ui.core.navigation.RecipesDest
 import com.okrama.recipesbook.ui.core.navigation.RouteKey.CATEGORY_ID_KEY
 import com.okrama.recipesbook.ui.core.navigation.RouteKey.RECIPE_ID_KEY
 import com.okrama.recipesbook.ui.core.navigation.RouteKey.SHOPPING_LIST_ID_KEY
+import com.okrama.recipesbook.ui.recipe.addrecipe.AddRecipeSideEffect
 import com.okrama.recipesbook.ui.recipe.addrecipe.AddRecipeViewModel
 import com.okrama.recipesbook.ui.recipe.addrecipe.screen.AddRecipeScreen
 import com.okrama.recipesbook.ui.recipe.details.RecipeDetailsSideEffect
@@ -42,26 +43,26 @@ import com.okrama.recipesbook.ui.shoppinglist.list.ShoppingListsViewModel
 import com.okrama.recipesbook.ui.shoppinglist.list.screen.ShoppingListsScreen
 
 @Composable
-fun AppNavGraph(navController: RecipesBookNavController) {
+fun AppNavGraph(appState: RecipesBookAppState) {
     NavHost(
-        navController = navController.navController,
+        navController = appState.navController,
         startDestination = BottomDest.Recipes.route
     ) {
         recipesNavGraph(
-            onAddNewRecipeSelected = navController::navigateToAddNewRecipe,
-            onRecipeSelected = navController::navigateToRecipeDetails,
-            onEditRecipe = navController::navigateToEditRecipe,
-            onAddCategorySelected = navController::navigateToAddNewCategory,
-            onCreateShoppingList = navController::navigateToCreateShoppingListForRecipe,
-            onEditShoppingList = navController::navigateToEditShoppingListForRecipe,
-            upPress = navController::upPress,
-            upPressWithResult = navController::upPressWithResult,
+            onAddNewRecipeSelected = appState::navigateToAddNewRecipe,
+            onRecipeSelected = appState::navigateToRecipeDetails,
+            onEditRecipe = appState::navigateToEditRecipe,
+            onAddCategorySelected = appState::navigateToAddNewCategory,
+            onCreateShoppingList = appState::navigateToCreateShoppingListForRecipe,
+            onEditShoppingList = appState::navigateToEditShoppingListForRecipe,
+            upPress = appState::upPress,
+            upPressWithResult = appState::upPressWithResult,
         )
         shoppingListNavGraph(
-            onCreateShoppingList = navController::navigateToCreateShoppingList,
-            onShoppingListDetails = navController::navigateToShoppingListDetails,
-            onEditShoppingList = navController::navigateToEditShoppingList,
-            upPress = navController::upPress,
+            onCreateShoppingList = appState::navigateToCreateShoppingList,
+            onShoppingListDetails = appState::navigateToShoppingListDetails,
+            onEditShoppingList = appState::navigateToEditShoppingList,
+            upPress = appState::upPress,
         )
         settingsNavGraph()
     }
@@ -115,13 +116,13 @@ private fun NavGraphBuilder.recipesNavGraph(
             RecipesScreen(
                 screenState = screenState,
                 onAddNewRecipe = viewModel::onAddRecipeSelected,
-                onEditRecipe = { recipeId -> onEditRecipe(recipeId, backStackEntry) },
-                onRecipeSelected = { recipeId -> onRecipeSelected(recipeId, backStackEntry) },
+                onEditRecipe = viewModel::onEditRecipeSelected,
+                onRecipeSelected = viewModel::onRecipeSelected,
                 onSearchTermChange = viewModel::onSearchTermChange,
                 onSearchFieldClear = viewModel::onSearchFieldClear,
                 onDeleteRecipe = viewModel::onDeleteRecipe,
                 onRecipeCategoryChange = viewModel::onRecipeCategoryChange,
-                onAddNewCategory = { onAddCategorySelected(backStackEntry) }
+                onAddNewCategory = viewModel::onAddCategorySelected,
             )
         }
         composable(
@@ -149,7 +150,7 @@ private fun NavGraphBuilder.recipesNavGraph(
 
             RecipeDetailsScreen(
                 state = screenState,
-                upPress = { upPress() },
+                upPress = upPress,
                 onEditRecipe = { recipeId -> onEditRecipe(recipeId, backStackEntry) },
                 onShowShoppingList = viewModel::onShowShoppingList,
                 onCreateShoppingList = viewModel::onCreateShoppingListScreen,
@@ -163,6 +164,19 @@ private fun NavGraphBuilder.recipesNavGraph(
         ) { backStackEntry ->
             val viewModel: AddRecipeViewModel = hiltViewModel()
             val screenState by viewModel.screenState.collectAsStateWithLifecycle()
+
+            LaunchedEffect(key1 = true) {
+                backStackEntry.savedStateHandle.get<Long>(CATEGORY_ID_KEY)?.let { newCategoryId ->
+                    viewModel.onCategoryChange(newCategoryId)
+                }
+                viewModel.sideEffect.collect { sideEffect ->
+                    when (sideEffect) {
+                        is AddRecipeSideEffect.NavigateToAddCategoryScreen ->
+                            onAddCategorySelected(backStackEntry)
+                    }
+                }
+            }
+
             AddRecipeScreen(
                 state = screenState,
                 onImageAdded = viewModel::onImageAdded,
@@ -171,7 +185,7 @@ private fun NavGraphBuilder.recipesNavGraph(
                 onCategoryChange = viewModel::onCategoryChange,
                 onIngredientsChange = viewModel::onIngredientsChange,
                 onSaveRecipe = viewModel::saveRecipe,
-                onAddNewCategory = { onAddCategorySelected(backStackEntry) },
+                onAddNewCategory = viewModel::onAddCategorySelected,
                 upPress = upPress,
             )
         }
@@ -183,6 +197,12 @@ private fun NavGraphBuilder.recipesNavGraph(
                 backStackEntry.savedStateHandle.get<Long>(CATEGORY_ID_KEY)?.let { newCategoryId ->
                     viewModel.onCategoryChange(newCategoryId)
                 }
+                viewModel.sideEffect.collect { sideEffect ->
+                    when (sideEffect) {
+                        is AddRecipeSideEffect.NavigateToAddCategoryScreen ->
+                            onAddCategorySelected(backStackEntry)
+                    }
+                }
             }
             AddRecipeScreen(
                 state = screenState,
@@ -192,7 +212,7 @@ private fun NavGraphBuilder.recipesNavGraph(
                 onCategoryChange = viewModel::onCategoryChange,
                 onIngredientsChange = viewModel::onIngredientsChange,
                 onSaveRecipe = viewModel::saveRecipe,
-                onAddNewCategory = { onAddCategorySelected(backStackEntry) },
+                onAddNewCategory = viewModel::onAddCategorySelected,
                 upPress = upPress,
             )
         }
@@ -304,15 +324,13 @@ private fun NavGraphBuilder.shoppingListNavGraph(
                     when (sideEffect) {
                         is ShoppingListDetailsSideEffect.NavigateToEditShoppingListScreen ->
                             onEditShoppingList(sideEffect.listId, backStackEntry)
-
-                        is ShoppingListDetailsSideEffect.NavigateUp -> upPress()
                     }
                 }
             }
 
             ShoppingListDetailsScreen(
                 state = screenState,
-                upPress = viewModel::onNavigateUp,
+                upPress = upPress,
                 onEditShoppingList = viewModel::onEditShoppingList,
                 onIsDone = viewModel::updateProductIsDone,
             )

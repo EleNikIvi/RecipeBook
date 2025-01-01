@@ -54,8 +54,7 @@ fun RecipeItem(
             containerColor = tertiaryContainerLight
         )
     ) {
-        Column(
-        ) {
+        Column{
             ImageComponent(
                 imageUri = recipe.imageUrl,
                 modifier = Modifier

@@ -9,6 +9,7 @@ import com.okrama.recipesbook.domain.shoppinglist.ShoppingListInteractor
 import com.okrama.recipesbook.model.EMPTY_RECIPE_ID
 import com.okrama.recipesbook.model.ShoppingList
 import com.okrama.recipesbook.ui.core.flow.SaveableStateFlow.Companion.saveableStateFlow
+import com.okrama.recipesbook.ui.core.model.CategoryUtil.getCategoryModel
 import com.okrama.recipesbook.ui.core.navigation.RouteKey.RECIPE_ID_KEY
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -60,7 +61,7 @@ class RecipeDetailsViewModel @Inject constructor(
             id = _recipeId,
             imageUrl = persistedState.imageUrl,
             title = persistedState.title,
-            category = persistedState.category,
+            category = getCategoryModel(persistedState.category),
             description = persistedState.description,
             ingredients = persistedState.ingredients,
             shoppingListDropdown = dropdown,

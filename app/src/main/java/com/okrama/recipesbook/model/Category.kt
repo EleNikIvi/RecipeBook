@@ -1,7 +1,6 @@
 package com.okrama.recipesbook.model
 
 import android.os.Parcelable
-import androidx.annotation.StringRes
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
@@ -14,6 +13,5 @@ typealias CategoryId = Long
 data class Category(
     @PrimaryKey(autoGenerate = true)
     val categoryId: CategoryId = 0,
-    val title: String? = "",
-    @StringRes var titleResId: Int? = null,
+    val title: String,
 ) : Parcelable
